@@ -1,0 +1,10 @@
+classTweaker v1 official
+
+# BlockModelRenderState
+accessible field net/minecraft/client/renderer/block/BlockModelRenderState renderType Lnet/minecraft/client/renderer/rendertype/RenderType;
+# DynamicUniforms
+accessible field net/minecraft/client/renderer/DynamicUniforms NO_OFFSET Lorg/joml/Vector3fc;
+# Minecraft
+accessible field net/minecraft/client/Minecraft rightClickDelay I
+# RenderSetup
+accessible field net/minecraft/client/renderer/rendertype/RenderSetup textureTransform Lnet/minecraft/client/renderer/rendertype/TextureTransform;

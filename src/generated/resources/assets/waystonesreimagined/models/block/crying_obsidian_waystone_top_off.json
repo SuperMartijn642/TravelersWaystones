@@ -1,0 +1,7 @@
+{
+  "parent": "waystonesreimagined:block/waystone_top_off",
+  "textures": {
+    "waystone": "waystonesreimagined:block/crying_obsidian_waystone_top",
+    "particle": "#waystone"
+  }
+}

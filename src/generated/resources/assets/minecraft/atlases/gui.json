@@ -1,0 +1,84 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:single",
+      "resource": "waystonesreimagined:gui/owner_icon"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "waystonesreimagined:gui/checkbox"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "waystonesreimagined:gui/card_button_tab"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "waystonesreimagined:gui/cancel_button"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "waystonesreimagined:gui/biome_icon"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "waystonesreimagined:gui/entry"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "waystonesreimagined:gui/card_standalone"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "waystonesreimagined:gui/warning_background"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "waystonesreimagined:gui/star_icon"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "waystonesreimagined:gui/card_attached"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "waystonesreimagined:gui/position_icon"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "waystonesreimagined:gui/relocate_icon"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "waystonesreimagined:gui/dimension_icon"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "waystonesreimagined:gui/category"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "waystonesreimagined:gui/scroller"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "waystonesreimagined:gui/edit_icon"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "waystonesreimagined:gui/name_field"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "waystonesreimagined:gui/search_background"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "waystonesreimagined:gui/recents_icon"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "waystonesreimagined:gui/dangerous_icon"
+    }
+  ]
+}

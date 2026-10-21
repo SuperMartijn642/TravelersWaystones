@@ -1,0 +1,24 @@
+{
+  "replace": false,
+  "values": [
+    "waystonesreimagined:andesite_waystone",
+    "waystonesreimagined:blackstone_waystone",
+    "waystonesreimagined:cobbled_deepslate_waystone",
+    "waystonesreimagined:cobblestone_waystone",
+    "waystonesreimagined:crying_obsidian_waystone",
+    "waystonesreimagined:deepslate_brick_waystone",
+    "waystonesreimagined:diorite_waystone",
+    "waystonesreimagined:end_stone_waystone",
+    "waystonesreimagined:granite_waystone",
+    "waystonesreimagined:mud_brick_waystone",
+    "waystonesreimagined:nether_brick_waystone",
+    "waystonesreimagined:netherrack_waystone",
+    "waystonesreimagined:obsidian_waystone",
+    "waystonesreimagined:purpur_waystone",
+    "waystonesreimagined:red_nether_brick_waystone",
+    "waystonesreimagined:red_sandstone_waystone",
+    "waystonesreimagined:sandstone_waystone",
+    "waystonesreimagined:stone_waystone",
+    "waystonesreimagined:tuff_waystone"
+  ]
+}

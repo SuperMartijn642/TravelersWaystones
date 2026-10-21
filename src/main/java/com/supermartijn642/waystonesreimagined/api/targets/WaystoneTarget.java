@@ -1,0 +1,93 @@
+package com.supermartijn642.waystonesreimagined.api.targets;
+
+import com.supermartijn642.waystonesreimagined.api.WaystoneEvents;
+import com.supermartijn642.waystonesreimagined.api.WaystoneType;
+import com.supermartijn642.waystonesreimagined.api.targets.personal.DiscoveredWaystoneTarget;
+import com.supermartijn642.waystonesreimagined.api.targets.personal.PersonalWaystoneManager;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.ApiStatus;
+
+import java.util.Set;
+import java.util.UUID;
+
+/**
+ * Represent a waystone destination owner by a player.
+ * <p>
+ * Created 21/08/2026 by SuperMartijn642
+ */
+@ApiStatus.NonExtendable
+public interface WaystoneTarget {
+
+    int MIN_NAME_LENGTH = 3, MAX_NAME_LENGTH = 20;
+
+    /**
+     * Unique id for this target.
+     */
+    int id();
+
+    /**
+     * Name of this target.
+     * <p>
+     * Targets can be renamed, see {@link WaystoneEvents.Rename}.
+     */
+    String name();
+
+    /**
+     * Owner of this target.
+     */
+    UUID owner();
+
+    /**
+     * Dimension that this target is in.
+     * <p>
+     * May change when a target is moved, see {@link WaystoneEvents.Move}.
+     */
+    Identifier dimension();
+
+    /**
+     * Biome that this target is in. This may not always be up to date.
+     * <p>
+     * May change when a target is moved, see {@link WaystoneEvents.Move}.
+     */
+    Identifier biome();
+
+    /**
+     * Position that this target is at.
+     * <p>
+     * May change when a target is moved, see {@link WaystoneEvents.Move}.
+     */
+    BlockPos pos();
+
+    /**
+     * Block used for this target. Block will always have a registered {@link WaystoneType}.
+     * <p>
+     * May change when a target is moved, see {@link WaystoneEvents.Move}.
+     */
+    BlockState block();
+
+    /**
+     * Gets the {@link WaystoneType} associated with this target's block.
+     */
+    default WaystoneType waystoneType(){
+        //noinspection DataFlowIssue
+        return WaystoneType.get(this.block().getBlock());
+    }
+
+    /**
+     * Players that have discovered this target. Not available on the client.
+     * @throws IllegalStateException when called on the client
+     */
+    Set<UUID> discoverers();
+
+    /**
+     * Discovers this target for the given player, including associated affects like overlay message and particles.
+     * @param player player to discover the target
+     * @return the discovered target for the given player
+     */
+    default DiscoveredWaystoneTarget discover(Player player){
+        return PersonalWaystoneManager.get(player).discover(this);
+    }
+}

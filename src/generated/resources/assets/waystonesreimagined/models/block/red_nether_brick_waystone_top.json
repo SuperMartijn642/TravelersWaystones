@@ -1,0 +1,7 @@
+{
+  "parent": "waystonesreimagined:block/waystone_top",
+  "textures": {
+    "waystone": "waystonesreimagined:block/red_nether_brick_waystone_top",
+    "particle": "#waystone"
+  }
+}
