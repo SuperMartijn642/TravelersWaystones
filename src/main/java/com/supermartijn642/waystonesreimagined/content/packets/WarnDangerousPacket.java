@@ -11,9 +11,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 
-/**
- * Created 11/10/2026 by SuperMartijn642
- */
 public class WarnDangerousPacket implements BasePacket {
 
     private int id;

@@ -10,9 +10,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.LightCoordsUtil;
 import org.joml.Quaternionf;
 
-/**
- * Created 29/08/2026 by SuperMartijn642
- */
 public class ScanParticle extends SingleQuadParticle {
 
     private static final double SPEED = 0.2;

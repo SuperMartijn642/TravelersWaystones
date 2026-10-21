@@ -20,8 +20,6 @@ import java.util.UUID;
 /**
  * Manages all waystone data. Importantly, this class may only be interacted with from the server.<br>
  * For data for a specific player, see {@link PersonalWaystoneManager}.
- * <p>
- * Created 21/08/2026 by SuperMartijn642
  */
 public final class GlobalWaystoneManager {
 

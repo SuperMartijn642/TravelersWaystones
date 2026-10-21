@@ -18,8 +18,6 @@ import java.util.UUID;
 
 /**
  * Represents a {@link WaystoneTarget} discovered by a player.
- * <p>
- * Created 21/08/2026 by SuperMartijn642
  */
 @ApiStatus.NonExtendable
 public interface DiscoveredWaystoneTarget {

@@ -12,9 +12,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Locale;
 import java.util.function.Supplier;
 
-/**
- * Created 04/09/2026 by SuperMartijn642
- */
 public enum WaystoneMaterial {
 
     ANDESITE("Andesite Waystone", SoundType.STONE, 1.5f, 6, true, MapColor.STONE, 0, () -> Items.ANDESITE, BlockTags.MINEABLE_WITH_PICKAXE),

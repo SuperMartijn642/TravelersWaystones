@@ -25,9 +25,6 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
-/**
- * Created 18/8/2026 by SuperMartijn642
- */
 public class WaystonesReimaginedClient implements ClientModInitializer {
 
     public static KeyMapping PENDANT_KEYBIND;

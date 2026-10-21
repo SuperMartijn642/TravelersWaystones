@@ -7,9 +7,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
 
-/**
- * Created 04/09/2026 by SuperMartijn642
- */
 public class WaystoneItem extends BaseBlockItem {
 
     public WaystoneItem(Block block, ItemProperties properties){

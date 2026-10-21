@@ -10,9 +10,6 @@ import net.minecraft.resources.Identifier;
 
 import java.util.function.Consumer;
 
-/**
- * Created 11/10/2026 by SuperMartijn642
- */
 public class SuppressCheckbox extends AbstractButtonWidget {
 
     public static final Identifier ICONS = WaystonesReimagined.identifier("gui/checkbox");

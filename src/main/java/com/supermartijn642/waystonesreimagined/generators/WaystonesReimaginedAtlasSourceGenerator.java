@@ -13,9 +13,6 @@ import com.supermartijn642.waystonesreimagined.content.screen.components.warning
 import com.supermartijn642.waystonesreimagined.content.screen.components.warning.DangerousWarningWidget;
 import com.supermartijn642.waystonesreimagined.content.screen.components.warning.SuppressCheckbox;
 
-/**
- * Created 18/08/2026 by SuperMartijn642
- */
 public class WaystonesReimaginedAtlasSourceGenerator extends AtlasSourceGenerator {
 
     public WaystonesReimaginedAtlasSourceGenerator(ResourceCache cache){

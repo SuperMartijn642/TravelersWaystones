@@ -13,9 +13,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/**
- * Created 22/08/2026 by SuperMartijn642
- */
 @Mixin(PlayerList.class)
 public class PlayerListMixin {
 

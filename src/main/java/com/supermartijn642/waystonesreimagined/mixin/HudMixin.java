@@ -9,9 +9,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/**
- * Created 07/09/2026 by SuperMartijn642
- */
 @Mixin(Hud.class)
 public class HudMixin {
 

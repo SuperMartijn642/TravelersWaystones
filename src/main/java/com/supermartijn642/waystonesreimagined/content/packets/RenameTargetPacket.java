@@ -9,9 +9,6 @@ import com.supermartijn642.waystonesreimagined.content.targets.GlobalWaystoneMan
 import com.supermartijn642.waystonesreimagined.content.targets.WaystoneTargetImpl;
 import net.minecraft.network.FriendlyByteBuf;
 
-/**
- * Created 01/09/2026 by SuperMartijn642
- */
 public class RenameTargetPacket implements BasePacket {
 
     private int id;

@@ -15,9 +15,6 @@ import org.joml.Matrix3x2fStack;
 
 import java.util.*;
 
-/**
- * Created 22/08/2026 by SuperMartijn642
- */
 public abstract class CategoryWidget extends AbstractButtonWidget {
 
     public static final Identifier BACKGROUND = WaystonesReimagined.identifier("gui/category");

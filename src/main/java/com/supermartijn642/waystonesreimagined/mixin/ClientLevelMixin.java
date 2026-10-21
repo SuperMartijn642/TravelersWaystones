@@ -11,9 +11,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-/**
- * Created 01/09/2026 by SuperMartijn642
- */
 @Mixin(ClientLevel.class)
 public class ClientLevelMixin {
 

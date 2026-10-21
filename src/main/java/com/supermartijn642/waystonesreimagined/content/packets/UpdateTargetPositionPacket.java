@@ -13,9 +13,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-/**
- * Created 28/09/2026 by SuperMartijn642
- */
 public class UpdateTargetPositionPacket implements BasePacket {
 
     private int id;

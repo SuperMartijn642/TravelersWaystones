@@ -15,9 +15,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Optional;
 
-/**
- * Created 21/08/2026 by SuperMartijn642
- */
 @Mixin(Player.class)
 public class PlayerMixin implements WaystonesReimaginedPlayer {
 

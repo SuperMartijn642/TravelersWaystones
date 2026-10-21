@@ -15,9 +15,6 @@ import net.minecraft.world.level.Level;
 
 import java.util.function.Consumer;
 
-/**
- * Created 30/08/2026 by SuperMartijn642
- */
 public class WarpPendant extends BaseItem {
 
     public WarpPendant(){

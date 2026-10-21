@@ -19,9 +19,6 @@ import org.joml.Vector3dc;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-/**
- * Created 30/08/2026 by SuperMartijn642
- */
 public class WaystoneEventsImpl {
 
     private static boolean frozen = false;

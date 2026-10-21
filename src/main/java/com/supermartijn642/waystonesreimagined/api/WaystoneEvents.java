@@ -20,8 +20,6 @@ import java.util.function.Function;
 
 /**
  * Holds events related to waystones.
- * <p>
- * Created 30/08/2026 by SuperMartijn642
  */
 public final class WaystoneEvents {
 

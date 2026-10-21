@@ -11,9 +11,6 @@ import net.minecraft.util.ARGB;
 
 import java.util.function.Consumer;
 
-/**
- * Created 01/09/2026 by SuperMartijn642
- */
 public class EditNameTextField extends TextFieldWidget {
 
     public static final Identifier BACKGROUND = WaystonesReimagined.identifier("gui/name_field");

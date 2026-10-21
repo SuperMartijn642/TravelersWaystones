@@ -7,9 +7,6 @@ import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-/**
- * Created 17/09/2026 by SuperMartijn642
- */
 @Mixin(KeyboardHandler.class)
 public class KeyboardHandlerMixin {
 

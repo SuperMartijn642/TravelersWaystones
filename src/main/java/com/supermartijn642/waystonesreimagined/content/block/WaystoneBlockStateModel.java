@@ -22,9 +22,6 @@ import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
-/**
- * Created 28/08/2026 by SuperMartijn642
- */
 public class WaystoneBlockStateModel implements BlockStateModel {
 
     private static final ThreadLocal<Boolean> BYPASS = new ThreadLocal<>();

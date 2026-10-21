@@ -35,9 +35,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-/**
- * Created 21/08/2026 by SuperMartijn642
- */
 public class WaystonePreviewWidget extends BaseWidget {
 
     private static final Matrix4fc IDENTITY = new Matrix4f().identity();

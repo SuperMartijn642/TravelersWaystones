@@ -13,9 +13,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
-/**
- * Created 11/10/2026 by SuperMartijn642
- */
 public class DangerousWarningWidget extends BaseWidget {
 
     public static final Identifier DANGEROUS_ICON = WaystonesReimagined.identifier("gui/dangerous_icon");

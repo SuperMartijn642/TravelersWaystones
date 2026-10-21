@@ -7,9 +7,6 @@ import net.minecraft.world.level.block.Block;
 
 import java.util.Map;
 
-/**
- * Created 17/09/2026 by SuperMartijn642
- */
 public class WaystoneTypeRegistry {
 
     private static final Map<Block,WaystoneType> WAYSTONES = new Reference2ReferenceOpenHashMap<>();

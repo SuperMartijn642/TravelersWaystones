@@ -9,9 +9,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/**
- * Created 14/09/2026 by SuperMartijn642
- */
 @Mixin(LevelExtractor.class)
 public class LevelExtractorMixin {
 

@@ -34,9 +34,6 @@ import org.joml.Vector3f;
 
 import java.util.UUID;
 
-/**
- * Created 21/08/2026 by SuperMartijn642
- */
 public class DiscoveredWaystoneTargetImpl implements DiscoveredWaystoneTarget {
 
     public static void write(DiscoveredWaystoneTarget target, ValueOutput output){

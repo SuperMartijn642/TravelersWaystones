@@ -4,9 +4,6 @@ import com.supermartijn642.core.gui.widget.premade.TextFieldWidget;
 
 import java.util.function.Consumer;
 
-/**
- * Created 22/08/2026 by SuperMartijn642
- */
 public class SearchBarWidget extends TextFieldWidget {
 
     // TODO keep track of and show recent searches

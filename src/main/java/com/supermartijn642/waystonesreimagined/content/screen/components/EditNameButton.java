@@ -7,9 +7,6 @@ import com.supermartijn642.waystonesreimagined.WaystonesReimagined;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 
-/**
- * Created 30/08/2026 by SuperMartijn642
- */
 public class EditNameButton extends AbstractButtonWidget {
 
     public static final Identifier EDIT_ICON = WaystonesReimagined.identifier("gui/edit_icon");

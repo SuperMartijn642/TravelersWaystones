@@ -6,9 +6,6 @@ import com.supermartijn642.waystonesreimagined.api.targets.personal.DiscoveredWa
 import com.supermartijn642.waystonesreimagined.api.targets.personal.PersonalWaystoneManager;
 import net.minecraft.network.FriendlyByteBuf;
 
-/**
- * Created 22/08/2026 by SuperMartijn642
- */
 public class SetTargetSuppressDangerousPacket implements BasePacket {
 
     private int id;

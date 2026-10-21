@@ -8,9 +8,6 @@ import com.supermartijn642.waystonesreimagined.content.block.WaystoneBlock;
 import com.supermartijn642.waystonesreimagined.content.block.WaystoneMaterial;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 
-/**
- * Created 24/08/2026 by SuperMartijn642
- */
 public class WaystonesReimaginedBlockStateGenerator extends BlockStateGenerator {
 
     public WaystonesReimaginedBlockStateGenerator(ResourceCache cache){

@@ -16,9 +16,6 @@ import net.minecraft.resources.Identifier;
 
 import java.util.*;
 
-/**
- * Created 21/08/2026 by SuperMartijn642
- */
 public class SearchWidget extends BaseWidget {
 
     public static final Identifier BACKGROUND = WaystonesReimagined.identifier("gui/search_background");

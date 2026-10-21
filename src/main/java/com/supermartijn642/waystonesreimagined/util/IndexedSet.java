@@ -7,9 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-/**
- * Created 23/08/2026 by SuperMartijn642
- */
 public class IndexedSet<K, V> {
 
     private final Map<K,V> map = new HashMap<>();

@@ -7,9 +7,6 @@ import com.supermartijn642.waystonesreimagined.content.block.WaystoneMaterial;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 
-/**
- * Created 30/08/2026 by SuperMartijn642
- */
 public class WaystonesReimaginedTagGenerator extends TagGenerator {
 
     public WaystonesReimaginedTagGenerator(ResourceCache cache){

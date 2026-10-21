@@ -17,9 +17,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-/**
- * Created 14/09/2026 by SuperMartijn642
- */
 @Mixin(RenderType.class)
 public class RenderTypeMixin implements WaystonesReimaginedRenderType {
 

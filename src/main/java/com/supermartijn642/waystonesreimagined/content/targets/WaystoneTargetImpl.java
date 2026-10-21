@@ -20,9 +20,6 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.UUID;
 
-/**
- * Created 21/08/2026 by SuperMartijn642
- */
 public final class WaystoneTargetImpl implements WaystoneTarget {
 
     public static JsonObject serialize(WaystoneTarget target, RegistryAccess registryAccess){

@@ -7,9 +7,6 @@ import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.Nullable;
 
-/**
- * Created 29/08/2026 by SuperMartijn642
- */
 public class ScanParticleProvider implements ParticleProvider<ScanParticleType.Options> {
 
     private final SpriteSet spriteSet;

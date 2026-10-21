@@ -17,8 +17,6 @@ import java.util.UUID;
 
 /**
  * Manages waystone data for a specific player.
- * <p>
- * Created 21/08/2026 by SuperMartijn642
  */
 @ApiStatus.NonExtendable
 public interface PersonalWaystoneManager {

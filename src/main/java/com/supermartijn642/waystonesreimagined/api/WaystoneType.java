@@ -24,8 +24,6 @@ import java.util.Map;
 
 /**
  * Provides waystone functionality for blocks.
- * <p>
- * Created 30/08/2026 by SuperMartijn642
  */
 public interface WaystoneType {
 

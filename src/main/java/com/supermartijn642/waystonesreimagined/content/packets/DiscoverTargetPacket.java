@@ -8,9 +8,6 @@ import com.supermartijn642.waystonesreimagined.content.targets.WaystoneTargetImp
 import com.supermartijn642.waystonesreimagined.content.targets.personal.PersonalWaystoneManagerImpl;
 import net.minecraft.network.FriendlyByteBuf;
 
-/**
- * Created 22/08/2026 by SuperMartijn642
- */
 public class DiscoverTargetPacket implements BasePacket {
 
     private WaystoneTarget target;

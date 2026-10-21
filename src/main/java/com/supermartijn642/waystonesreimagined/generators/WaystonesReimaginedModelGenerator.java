@@ -5,9 +5,6 @@ import com.supermartijn642.core.generator.ResourceCache;
 import com.supermartijn642.waystonesreimagined.WaystonesReimagined;
 import com.supermartijn642.waystonesreimagined.content.block.WaystoneMaterial;
 
-/**
- * Created 30/08/2026 by SuperMartijn642
- */
 public class WaystonesReimaginedModelGenerator extends ModelGenerator {
 
     public WaystonesReimaginedModelGenerator(ResourceCache cache){

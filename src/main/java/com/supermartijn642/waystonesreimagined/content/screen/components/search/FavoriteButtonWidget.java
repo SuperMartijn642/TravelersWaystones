@@ -10,9 +10,6 @@ import net.minecraft.resources.Identifier;
 
 import java.util.function.BooleanSupplier;
 
-/**
- * Created 22/08/2026 by SuperMartijn642
- */
 public class FavoriteButtonWidget extends AbstractButtonWidget {
 
     public static final Identifier STAR = WaystonesReimagined.identifier("gui/star_icon");

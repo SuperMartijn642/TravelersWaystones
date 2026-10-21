@@ -11,9 +11,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import org.jetbrains.annotations.Nullable;
 
-/**
- * Created 04/09/2026 by SuperMartijn642
- */
 public class OpenClaimScreenPacket implements BasePacket {
 
     private BlockPos pos;

@@ -27,9 +27,6 @@ import org.joml.Quaternionf;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
-/**
- * Created 21/08/2026 by SuperMartijn642
- */
 public class InfoCardWidget extends BaseWidget {
 
     public static final Identifier BACKGROUND_STANDALONE = WaystonesReimagined.identifier("gui/card_standalone");

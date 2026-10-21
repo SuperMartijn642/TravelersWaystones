@@ -8,9 +8,6 @@ import com.supermartijn642.waystonesreimagined.content.block.WaystoneMaterial;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
-/**
- * Created 24/08/2026 by SuperMartijn642
- */
 public class WaystonesReimaginedItemInfoGenerator extends ItemInfoGenerator {
 
     public WaystonesReimaginedItemInfoGenerator(ResourceCache cache){

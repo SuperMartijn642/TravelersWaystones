@@ -6,9 +6,6 @@ import com.supermartijn642.waystonesreimagined.WaystonesReimagined;
 import com.supermartijn642.waystonesreimagined.content.block.WaystoneMaterial;
 import net.minecraft.world.level.Level;
 
-/**
- * Created 21/08/2026 by SuperMartijn642
- */
 public class WaystonesReimaginedLanguageGenerator extends LanguageGenerator {
 
     public WaystonesReimaginedLanguageGenerator(ResourceCache cache){

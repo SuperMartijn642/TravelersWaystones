@@ -10,9 +10,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
-/**
- * Created 28/08/2026 by SuperMartijn642
- */
 public class ScanParticleType extends ParticleType<ScanParticleType.Options> {
 
     private final MapCodec<Options> codec = RecordCodecBuilder.mapCodec(i -> i.group(

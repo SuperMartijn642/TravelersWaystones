@@ -44,9 +44,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created 06/09/2026 by SuperMartijn642
- */
 public class WaystoneMovingHandlerClient {
 
     private static final Matrix4fc IDENTITY_MATRIX = new Matrix4f().identity();

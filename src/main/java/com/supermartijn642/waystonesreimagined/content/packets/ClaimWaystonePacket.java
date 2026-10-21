@@ -10,9 +10,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
-/**
- * Created 04/09/2026 by SuperMartijn642
- */
 public class ClaimWaystonePacket implements BasePacket {
 
     private BlockPos pos;

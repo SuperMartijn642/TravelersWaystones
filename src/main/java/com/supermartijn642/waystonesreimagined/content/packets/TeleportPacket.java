@@ -12,9 +12,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.Nullable;
 
-/**
- * Created 26/08/2026 by SuperMartijn642
- */
 public class TeleportPacket implements BasePacket {
 
     private Integer fromId;

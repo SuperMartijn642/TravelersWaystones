@@ -15,8 +15,6 @@ import java.util.UUID;
 
 /**
  * Represent a waystone destination owner by a player.
- * <p>
- * Created 21/08/2026 by SuperMartijn642
  */
 @ApiStatus.NonExtendable
 public interface WaystoneTarget {

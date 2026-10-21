@@ -11,9 +11,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created 22/08/2026 by SuperMartijn642
- */
 public class PersonalTargetsPacket implements BasePacket {
 
     private List<DiscoveredWaystoneTarget> targets;

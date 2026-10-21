@@ -19,9 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-/**
- * Created 17/09/2026 by SuperMartijn642
- */
 public class WaystoneTypeImpl {
 
     private static final List<Vector3ic> TELEPORT_POSITION_CHECK_ORDER;

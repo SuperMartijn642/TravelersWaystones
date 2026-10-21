@@ -4,9 +4,6 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-/**
- * Created 23/08/2026 by SuperMartijn642
- */
 public class PartitionedSet<K, V> {
 
     private final Map<K,Set<V>> map = new HashMap<>();

@@ -12,9 +12,6 @@ import net.minecraft.network.chat.contents.objects.PlayerSprite;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.component.ResolvableProfile;
 
-/**
- * Created 30/08/2026 by SuperMartijn642
- */
 public class ClientDiscoveryEffects {
 
     public static void showEffects(Player player, DiscoveredWaystoneTarget target){

@@ -13,9 +13,6 @@ import org.joml.Matrix3x2fStack;
 
 import java.util.function.Consumer;
 
-/**
- * Created 03/10/2026 by SuperMartijn642
- */
 public class RelocateButton extends AbstractButtonWidget {
 
     public static final Identifier RELOCATE_ICON = WaystonesReimagined.identifier("gui/relocate_icon");

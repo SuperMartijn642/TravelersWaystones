@@ -13,9 +13,6 @@ import net.minecraft.resources.Identifier;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-/**
- * Created 11/10/2026 by SuperMartijn642
- */
 public class WarningsSuppressedIndicator extends AbstractButtonWidget {
 
     public static final Identifier DANGEROUS_ICON = WaystonesReimagined.identifier("gui/dangerous_icon");

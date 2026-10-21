@@ -6,9 +6,6 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.saveddata.SavedData;
 
-/**
- * Created 22/08/2026 by SuperMartijn642
- */
 public class WaystoneManagerSavedData extends SavedData {
 
     public static final WaystoneManagerSavedData INSTANCE = new WaystoneManagerSavedData();

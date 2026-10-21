@@ -23,9 +23,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
-/**
- * Created 30/08/2026 by SuperMartijn642
- */
 public class ClaimWaystoneScreen extends BaseWidget {
 
     public static Screen create(UUID owner, Identifier dimension, Identifier biome, BlockPos pos, BlockState state, boolean isNewlyPlaced, @Nullable String nameSuggestion) {

@@ -35,9 +35,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-/**
- * Created 21/08/2026 by SuperMartijn642
- */
 public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
 
     @Nullable

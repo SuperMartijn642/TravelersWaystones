@@ -7,9 +7,6 @@ import com.supermartijn642.waystonesreimagined.api.targets.personal.PersonalWays
 import com.supermartijn642.waystonesreimagined.content.targets.personal.PersonalWaystoneManagerImpl;
 import net.minecraft.network.FriendlyByteBuf;
 
-/**
- * Created 22/08/2026 by SuperMartijn642
- */
 public class UndiscoverTargetPacket implements BasePacket {
 
     private int id;

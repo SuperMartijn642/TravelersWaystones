@@ -24,9 +24,6 @@ import org.slf4j.Logger;
 
 import java.util.Random;
 
-/**
- * Created 18/8/2026 by SuperMartijn642
- */
 public class WaystonesReimagined implements ModInitializer {
 
     public static final String MODID = "waystonesreimagined";

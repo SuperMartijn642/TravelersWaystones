@@ -28,9 +28,6 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-/**
- * Created 18/08/2026 by SuperMartijn642
- */
 public class WaystoneBlock extends BaseBlock {
 
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;

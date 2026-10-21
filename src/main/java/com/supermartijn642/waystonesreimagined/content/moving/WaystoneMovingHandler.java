@@ -19,9 +19,6 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.Map;
 
-/**
- * Created 17/09/2026 by SuperMartijn642
- */
 public class WaystoneMovingHandler {
 
     public static final int MAX_DISTANCE = 10;

@@ -41,9 +41,6 @@ import java.util.stream.Collectors;
 
 import static com.supermartijn642.waystonesreimagined.api.targets.GlobalWaystoneManager.Dimensional;
 
-/**
- * Created 21/08/2026 by SuperMartijn642
- */
 public class GlobalWaystoneManagerImpl {
 
     private static final Set<WaystoneTarget> ALL = new ObjectOpenHashSet<>(), ALL_VIEW = Collections.unmodifiableSet(ALL);

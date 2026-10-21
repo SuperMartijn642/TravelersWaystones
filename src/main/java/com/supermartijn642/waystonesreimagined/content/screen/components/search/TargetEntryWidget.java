@@ -13,9 +13,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import org.joml.Matrix3x2fStack;
 
-/**
- * Created 22/08/2026 by SuperMartijn642
- */
 public class TargetEntryWidget extends AbstractButtonWidget {
 
     public static final Identifier BACKGROUND = WaystonesReimagined.identifier("gui/entry");

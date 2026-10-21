@@ -21,9 +21,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.BiConsumer;
 
-/**
- * Created 18/08/2026 by SuperMartijn642
- */
 public class WaystoneTeleportScreen extends BaseWidget {
 
     public static Screen create(@Nullable DiscoveredWaystoneTarget current, PersonalWaystoneManager waystones){

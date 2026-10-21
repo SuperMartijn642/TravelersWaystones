@@ -26,9 +26,6 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-/**
- * Created 07/09/2026 by SuperMartijn642
- */
 @Mixin(Minecraft.class)
 public class MinecraftMixin {
 

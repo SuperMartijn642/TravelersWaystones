@@ -33,9 +33,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 import java.util.function.UnaryOperator;
 
-/**
- * Created 24/08/2026 by SuperMartijn642
- */
 public class TallWaystoneBlock extends WaystoneBlock implements WaystoneType, SimpleWaterloggedBlock {
 
     public static final BooleanProperty FLIPPED = BooleanProperty.create("flipped");
