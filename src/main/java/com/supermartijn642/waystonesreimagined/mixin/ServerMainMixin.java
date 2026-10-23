@@ -15,10 +15,10 @@ public class ServerMainMixin {
         method = "main",
         at = @At(
             value = "INVOKE",
-            target = ""
+            target = "Lnet/minecraft/server/notifications/NotificationManager;<init>()V"
         )
     )
-    private void freezeWaystoneRegistry(CallbackInfo ci){
+    private static void freezeWaystoneRegistry(CallbackInfo ci){
         WaystoneTypeRegistry.freeze();
         WaystoneEventsImpl.freeze();
     }
