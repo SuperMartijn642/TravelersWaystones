@@ -13,33 +13,43 @@ import com.supermartijn642.waystonesreimagined.content.particle.ScanParticleProv
 import com.supermartijn642.waystonesreimagined.content.screen.ClaimWaystoneScreen;
 import com.supermartijn642.waystonesreimagined.content.screen.WaystoneTeleportScreen;
 import com.supermartijn642.waystonesreimagined.content.screen.components.warning.DangerousWarningWidget;
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
-import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
-public class WaystonesReimaginedClient implements ClientModInitializer {
+import java.util.function.Consumer;
+
+@Mod(value = WaystonesReimagined.MODID, dist = Dist.CLIENT)
+public class WaystonesReimaginedClient {
 
     public static KeyMapping PENDANT_KEYBIND;
 
-    @Override
-    public void onInitializeClient(){
+    public WaystonesReimaginedClient(IEventBus eventBus){
         ClientRegistrationHandler handler = ClientRegistrationHandler.get(WaystonesReimagined.MODID);
         for(WaystoneMaterial material : WaystoneMaterial.values())
             handler.registerBlockStateModelOverwrite(material::block, WaystoneBlockStateModel::new);
-        ParticleProviderRegistry.getInstance().register(WaystonesReimagined.discoverParticle, ScanParticleProvider::new);
-        ParticleProviderRegistry.getInstance().register(WaystonesReimagined.teleportParticle, ScanParticleProvider::new);
+        eventBus.addListener((Consumer<RegisterParticleProvidersEvent>)e -> {
+            e.registerSpriteSet(WaystonesReimagined.discoverParticle, ScanParticleProvider::new);
+            e.registerSpriteSet(WaystonesReimagined.teleportParticle, ScanParticleProvider::new);
+        });
 
-        PENDANT_KEYBIND = new KeyMapping("waystonesreimagined.keys.pendant", GLFW.GLFW_KEY_G, KeyMapping.Category.register(WaystonesReimagined.identifier("keys")));
-        KeyMappingHelper.registerKeyMapping(PENDANT_KEYBIND);
-        ClientTickEvents.END_CLIENT_TICK.register(_ -> {
+        eventBus.addListener((Consumer<RegisterKeyMappingsEvent>)e -> {
+            KeyMapping.Category category = new KeyMapping.Category(WaystonesReimagined.identifier("keys"));
+            e.registerCategory(category);
+            e.register(PENDANT_KEYBIND = new KeyMapping("waystonesreimagined.keys.pendant", GLFW.GLFW_KEY_G, category));
+        });
+        NeoForge.EVENT_BUS.addListener((Consumer<ClientTickEvent.Post>)_ -> {
             if(PENDANT_KEYBIND.consumeClick()){
                 Player player = ClientUtils.getPlayer();
                 if(ClientUtils.getWorld() == null || player == null

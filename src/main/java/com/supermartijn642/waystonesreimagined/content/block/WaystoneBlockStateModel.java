@@ -3,14 +3,12 @@ package com.supermartijn642.waystonesreimagined.content.block;
 import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.waystonesreimagined.api.targets.personal.PersonalWaystoneManager;
 import com.supermartijn642.waystonesreimagined.content.targets.personal.PersonalWaystoneManagerImpl;
-import net.fabricmc.fabric.api.client.renderer.v1.mesh.QuadEmitter;
 import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.resources.model.geometry.BakedQuad;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
@@ -20,7 +18,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.BiFunction;
-import java.util.function.Predicate;
 
 public class WaystoneBlockStateModel implements BlockStateModel {
 
@@ -67,11 +64,11 @@ public class WaystoneBlockStateModel implements BlockStateModel {
     }
 
     @Override
-    public void emitQuads(QuadEmitter emitter, BlockAndTintGetter level, BlockPos pos, BlockState state, RandomSource random, Predicate<@Nullable Direction> cullTest){
+    public void collectParts(BlockAndTintGetter level, BlockPos pos, BlockState state, RandomSource random, List<BlockStateModelPart> parts){
         this.forProperModel(
             level, pos, state,
             (model, properState) -> {
-                model.emitQuads(emitter, level, pos, properState, random, cullTest);
+                model.collectParts(level, pos, properState, random, parts);
                 return null;
             }
         );
@@ -91,10 +88,10 @@ public class WaystoneBlockStateModel implements BlockStateModel {
     }
 
     @Override
-    public @BakedQuad.MaterialFlags int materialFlags(BlockAndTintGetter level, BlockPos pos, BlockState state, RandomSource random){
+    public @BakedQuad.MaterialFlags int materialFlags(BlockAndTintGetter level, BlockPos pos, BlockState state){
         return this.forProperModel(
             level, pos, state,
-            (model, properState) -> model.materialFlags(level, pos, properState, random)
+            (model, properState) -> model.materialFlags(level, pos, properState)
         );
     }
 
@@ -104,10 +101,10 @@ public class WaystoneBlockStateModel implements BlockStateModel {
     }
 
     @Override
-    public boolean hasMaterialFlag(BlockAndTintGetter level, BlockPos pos, BlockState state, RandomSource random, @BakedQuad.MaterialFlags int flag){
+    public boolean hasMaterialFlag(BlockAndTintGetter level, BlockPos pos, BlockState state, @BakedQuad.MaterialFlags int flag){
         return this.forProperModel(
             level, pos, state,
-            (model, properState) -> model.hasMaterialFlag(level, pos, properState, random, flag)
+            (model, properState) -> model.hasMaterialFlag(level, pos, properState, flag)
         );
     }
 

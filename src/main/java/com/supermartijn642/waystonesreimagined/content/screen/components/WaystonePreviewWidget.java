@@ -9,12 +9,12 @@ import com.supermartijn642.core.gui.widget.Widget;
 import com.supermartijn642.core.gui.widget.WidgetRenderContext;
 import com.supermartijn642.waystonesreimagined.api.targets.personal.DiscoveredWaystoneTarget;
 import it.unimi.dsi.fastutil.ints.IntList;
-import net.fabricmc.fabric.api.client.renderer.v1.mesh.QuadEmitter;
 import net.minecraft.client.color.block.BlockTintSource;
 import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.client.renderer.block.BlockModelRenderState;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.geometry.BakedQuad;
 import net.minecraft.core.BlockPos;
@@ -146,10 +146,9 @@ public class WaystonePreviewWidget extends BaseWidget {
     public static void updateBlockRenderState(BlockModelRenderState renderState, BlockState blockState, BlockPos pos){
         long seed = blockState.getSeed(pos);
         BlockStateModel model = ClientUtils.getMinecraft().getModelManager().getBlockStateModelSet().get(blockState);
+        List<BlockStateModelPart> parts = renderState.setupModel(IDENTITY, model.hasMaterialFlag(BlockAndTintGetter.EMPTY, pos, blockState, BakedQuad.FLAG_TRANSLUCENT));
         RANDOM_SOURCE.setSeed(seed);
-        QuadEmitter emitter = renderState.setupMesh(IDENTITY, model.hasMaterialFlag(BlockAndTintGetter.EMPTY, pos, blockState, RANDOM_SOURCE, BakedQuad.FLAG_TRANSLUCENT));
-        RANDOM_SOURCE.setSeed(seed);
-        model.emitQuads(emitter, BlockAndTintGetter.EMPTY, pos, blockState, RANDOM_SOURCE, _ -> false);
+        model.collectParts(BlockAndTintGetter.EMPTY, pos, blockState, RANDOM_SOURCE, parts);
         IntList tints = renderState.tintLayers();
         for(BlockTintSource tintSource : ClientUtils.getMinecraft().getBlockColors().getTintSources(blockState))
             tints.add(tintSource.color(blockState));

@@ -9,7 +9,6 @@ import com.supermartijn642.waystonesreimagined.api.targets.WaystoneTarget;
 import com.supermartijn642.waystonesreimagined.content.packets.MoveWaystonePacket;
 import com.supermartijn642.waystonesreimagined.extension.WaystonesReimaginedRenderType;
 import it.unimi.dsi.fastutil.ints.IntList;
-import net.fabricmc.fabric.api.client.renderer.v1.mesh.QuadEmitter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Options;
 import net.minecraft.client.color.block.BlockTintSource;
@@ -21,6 +20,7 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.BlockModelRenderState;
 import net.minecraft.client.renderer.block.BlockStateModelSet;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.rendertype.OutputTarget;
 import net.minecraft.client.renderer.rendertype.RenderSetup;
 import net.minecraft.client.renderer.rendertype.RenderType;
@@ -193,10 +193,10 @@ public class WaystoneMovingHandlerClient {
             BlockStateModel model = blockStateModels.get(state);
             BlockModelRenderState blockRenderState = RENDER_STATE.blockRenderStates.get(index);
             blockRenderState.clear();
-            QuadEmitter emitter = blockRenderState.setupMesh(IDENTITY_MATRIX, true);
+            List<BlockStateModelPart> parts = blockRenderState.setupModel(IDENTITY_MATRIX, true);
             long seed = state.getSeed(pos);
             RANDOM_SOURCE.setSeed(seed);
-            model.emitQuads(emitter, level, pos, state, RANDOM_SOURCE, _ -> false);
+            model.collectParts(level, pos, state, RANDOM_SOURCE, parts);
             IntList tintLayers = blockRenderState.tintLayers();
             for(BlockTintSource tintSource : ClientUtils.getMinecraft().getBlockColors().getTintSources(state))
                 tintLayers.add(tintSource.colorInWorld(state, level, pos));

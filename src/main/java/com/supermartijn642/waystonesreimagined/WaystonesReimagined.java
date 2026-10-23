@@ -18,13 +18,14 @@ import com.supermartijn642.waystonesreimagined.content.block.WaystoneMaterial;
 import com.supermartijn642.waystonesreimagined.content.packets.*;
 import com.supermartijn642.waystonesreimagined.content.particle.ScanParticleType;
 import com.supermartijn642.waystonesreimagined.generators.*;
-import net.fabricmc.api.ModInitializer;
 import net.minecraft.resources.Identifier;
+import net.neoforged.fml.common.Mod;
 import org.slf4j.Logger;
 
 import java.util.Random;
 
-public class WaystonesReimagined implements ModInitializer {
+@Mod(WaystonesReimagined.MODID)
+public class WaystonesReimagined {
 
     public static final String MODID = "waystonesreimagined";
 
@@ -46,8 +47,7 @@ public class WaystonesReimagined implements ModInitializer {
 
     public static final CreativeItemGroup CREATIVE_GROUP = CreativeItemGroup.create(MODID, () -> WaystoneMaterial.values()[new Random().nextInt(WaystoneMaterial.values().length)].item());
 
-    @Override
-    public void onInitialize(){
+    public WaystonesReimagined() {
         CHANNEL.registerMessage(ClaimWaystonePacket.class, ClaimWaystonePacket::new, PacketDirection.CLIENT_TO_SERVER, true);
         CHANNEL.registerMessage(DiscoverTargetPacket.class, DiscoverTargetPacket::new, PacketDirection.SERVER_TO_CLIENT, true);
         CHANNEL.registerMessage(FavoriteTargetPacket.class, FavoriteTargetPacket::new, PacketDirection.BOTH_WAYS, true);
