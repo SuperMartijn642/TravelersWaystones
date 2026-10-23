@@ -1,6 +1,5 @@
 package com.supermartijn642.waystonesreimagined.content.targets.personal;
 
-import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.CommonUtils;
 import com.supermartijn642.waystonesreimagined.WaystonesReimagined;
 import com.supermartijn642.waystonesreimagined.api.WaystoneEvents;
@@ -18,6 +17,7 @@ import com.supermartijn642.waystonesreimagined.util.PartitionedSet;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
@@ -40,7 +40,7 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
     @Nullable
     @Contract("_,true -> !null")
     public static PersonalWaystoneManager get(Player player, boolean createIfAbsent){
-        if(player.level().isClientSide() && player != ClientUtils.getPlayer())
+        if(player.level().isClientSide() && !(player instanceof LocalPlayer))
             throw new IllegalStateException("Waystone data is only available for the client's own player!");
         return ((WaystonesReimaginedPlayer)player).waystonesreimagined_getWaystoneManager(createIfAbsent);
     }
