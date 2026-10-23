@@ -63,7 +63,8 @@ public class WaystonesReimagined implements ModInitializer {
         CHANNEL.registerMessage(WarnDangerousPacket.class, WarnDangerousPacket::new, PacketDirection.SERVER_TO_CLIENT, true);
 
         register();
-        registerGenerators();
+        if(CommonUtils.getEnvironmentSide().isClient())
+            registerGenerators();
     }
 
     private static void register(){

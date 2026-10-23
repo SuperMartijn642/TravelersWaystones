@@ -13,6 +13,7 @@ import com.supermartijn642.waystonesreimagined.content.particle.ScanParticleProv
 import com.supermartijn642.waystonesreimagined.content.screen.ClaimWaystoneScreen;
 import com.supermartijn642.waystonesreimagined.content.screen.WaystoneTeleportScreen;
 import com.supermartijn642.waystonesreimagined.content.screen.components.warning.DangerousWarningWidget;
+import com.supermartijn642.waystonesreimagined.util.TwoBlockItemModel;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
@@ -34,6 +35,7 @@ public class WaystonesReimaginedClient implements ClientModInitializer {
         ClientRegistrationHandler handler = ClientRegistrationHandler.get(WaystonesReimagined.MODID);
         for(WaystoneMaterial material : WaystoneMaterial.values())
             handler.registerBlockStateModelOverwrite(material::block, WaystoneBlockStateModel::new);
+        handler.registerItemModelType("two_block", TwoBlockItemModel.CODEC);
         ParticleProviderRegistry.getInstance().register(WaystonesReimagined.discoverParticle, ScanParticleProvider::new);
         ParticleProviderRegistry.getInstance().register(WaystonesReimagined.teleportParticle, ScanParticleProvider::new);
 
