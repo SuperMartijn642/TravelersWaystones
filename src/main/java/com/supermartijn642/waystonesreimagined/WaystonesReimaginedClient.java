@@ -13,6 +13,7 @@ import com.supermartijn642.waystonesreimagined.content.particle.ScanParticleProv
 import com.supermartijn642.waystonesreimagined.content.screen.ClaimWaystoneScreen;
 import com.supermartijn642.waystonesreimagined.content.screen.WaystoneTeleportScreen;
 import com.supermartijn642.waystonesreimagined.content.screen.components.warning.DangerousWarningWidget;
+import com.supermartijn642.waystonesreimagined.util.TwoBlockItemModel;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -39,6 +40,7 @@ public class WaystonesReimaginedClient {
         ClientRegistrationHandler handler = ClientRegistrationHandler.get(WaystonesReimagined.MODID);
         for(WaystoneMaterial material : WaystoneMaterial.values())
             handler.registerBlockStateModelOverwrite(material::block, WaystoneBlockStateModel::new);
+        handler.registerItemModelType("two_block", TwoBlockItemModel.CODEC);
         eventBus.addListener((Consumer<RegisterParticleProvidersEvent>)e -> {
             e.registerSpriteSet(WaystonesReimagined.discoverParticle, ScanParticleProvider::new);
             e.registerSpriteSet(WaystonesReimagined.teleportParticle, ScanParticleProvider::new);

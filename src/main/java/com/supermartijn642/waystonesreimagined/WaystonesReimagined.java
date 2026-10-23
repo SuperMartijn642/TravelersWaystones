@@ -47,7 +47,7 @@ public class WaystonesReimagined {
 
     public static final CreativeItemGroup CREATIVE_GROUP = CreativeItemGroup.create(MODID, () -> WaystoneMaterial.values()[new Random().nextInt(WaystoneMaterial.values().length)].item());
 
-    public WaystonesReimagined() {
+    public WaystonesReimagined(){
         CHANNEL.registerMessage(ClaimWaystonePacket.class, ClaimWaystonePacket::new, PacketDirection.CLIENT_TO_SERVER, true);
         CHANNEL.registerMessage(DiscoverTargetPacket.class, DiscoverTargetPacket::new, PacketDirection.SERVER_TO_CLIENT, true);
         CHANNEL.registerMessage(FavoriteTargetPacket.class, FavoriteTargetPacket::new, PacketDirection.BOTH_WAYS, true);
@@ -63,7 +63,8 @@ public class WaystonesReimagined {
         CHANNEL.registerMessage(WarnDangerousPacket.class, WarnDangerousPacket::new, PacketDirection.SERVER_TO_CLIENT, true);
 
         register();
-        registerGenerators();
+        if(CommonUtils.getEnvironmentSide().isClient())
+            registerGenerators();
     }
 
     private static void register(){
