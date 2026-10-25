@@ -138,7 +138,7 @@ public class SearchWidget extends BaseWidget {
             boolean isASelf = ownerA.equals(self), isBSelf = ownerB.equals(self);
             if(isASelf || isBSelf)
                 return Boolean.compare(isBSelf, isASelf);
-            String usernameA = PlayerProfileCache.getUsername(ownerA), usernameB = PlayerProfileCache.getUsername(ownerB);
+            String usernameA = PlayerProfileCache.get(true).getUsername(ownerA), usernameB = PlayerProfileCache.get(true).getUsername(ownerB);
             if(usernameA == null){
                 if(usernameB == null)
                     return ownerA.compareTo(ownerB);
