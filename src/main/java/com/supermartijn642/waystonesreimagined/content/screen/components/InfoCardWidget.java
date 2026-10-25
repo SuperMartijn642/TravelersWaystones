@@ -149,7 +149,7 @@ public class InfoCardWidget extends BaseWidget {
         poseStack.pushMatrix();
         poseStack.translate(0, 0.5f);
         DiscoveredWaystoneTarget waystone = this.target.get();
-        String username = PlayerProfileCache.getUsername(waystone.owner());
+        String username = PlayerProfileCache.get(true).getUsername(waystone.owner());
         Component owner = username == null ?
             TextComponents.translation("waystonesreimagined.screen.teleport.owner.unknown").get() :
             TextComponents.string(username).get();
@@ -179,7 +179,7 @@ public class InfoCardWidget extends BaseWidget {
         mouseY -= this.y;
         DiscoveredWaystoneTarget waystone = this.target.get();
         if(mouseX >= 41 && mouseX < 41 + 94 && mouseY >= 32 && mouseY < 32 + 10){
-            if(PlayerProfileCache.getUsername(waystone.owner()) == null)
+            if(PlayerProfileCache.get(true).getUsername(waystone.owner()) == null)
                 graphics.submitTooltipForTopStratum(t -> t.literal(waystone.owner().toString()), mouseX + this.x, mouseY + this.y);
         }else if(mouseX >= 41 && mouseX < 41 + 94 && mouseY >= 43 && mouseY < 43 + 10)
             graphics.submitTooltipForTopStratum(t -> t.literal(waystone.dimension().toString()), mouseX + this.x, mouseY + this.y);

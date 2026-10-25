@@ -231,7 +231,7 @@ public abstract class CategoryWidget extends AbstractButtonWidget {
         @Override
         public boolean updateFilter(String filter){
             boolean match = super.updateFilter(filter);
-            String username = PlayerProfileCache.getUsername(this.owner);
+            String username = PlayerProfileCache.get(true).getUsername(this.owner);
             if(username != null)
                 match |= username.contains(filter);
             return match;
@@ -261,7 +261,7 @@ public abstract class CategoryWidget extends AbstractButtonWidget {
             poseStack.scale(10 / 8f, 10 / 8f);
             graphics.submitPlayerHead(this.owner, 0, 0, 8, 8, true);
             poseStack.popMatrix();
-            String username = PlayerProfileCache.getUsername(this.owner);
+            String username = PlayerProfileCache.get(true).getUsername(this.owner);
             Component owner = username == null ?
                 TextComponents.translation("waystonesreimagined.screen.teleport.owner.unknown").get() :
                 TextComponents.string(username).get();
@@ -280,7 +280,7 @@ public abstract class CategoryWidget extends AbstractButtonWidget {
             if(!this.isFocused() || this.focusedWidget != null)
                 return;
             if(mouseX >= this.x && mouseX < this.x + this.width && mouseY >= this.y && mouseY < this.y + this.height
-                && PlayerProfileCache.getUsername(this.owner) == null)
+                && PlayerProfileCache.get(true).getUsername(this.owner) == null)
                 graphics.submitTooltipForTopStratum(t -> t.literal(this.owner.toString()), mouseX, mouseY);
         }
     }

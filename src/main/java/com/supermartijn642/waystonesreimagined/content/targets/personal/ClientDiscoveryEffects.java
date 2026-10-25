@@ -20,7 +20,7 @@ public class ClientDiscoveryEffects {
             "waystonesreimagined.discovery.name",
             TextComponents.string(target.name()).get()
         ).get());
-        String owner = PlayerProfileCache.getUsername(target.owner());
+        String owner = PlayerProfileCache.get(true).getUsername(target.owner());
         Component ownerText = owner == null ?
             TextComponents.translation("waystonesreimagined.screen.teleport.owner.unknown").color(ChatFormatting.GRAY).get() :
             TextComponents.string(owner).color(ChatFormatting.GRAY).get();
