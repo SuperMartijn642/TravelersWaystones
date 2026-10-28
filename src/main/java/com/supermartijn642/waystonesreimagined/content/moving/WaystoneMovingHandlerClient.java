@@ -112,7 +112,7 @@ public class WaystoneMovingHandlerClient {
         }
         if(!player.isAlive()
             || !player.level().dimension().identifier().equals(movingTarget.dimension())
-            || ClientUtils.getMinecraft().gui.screen() != null){
+            || ClientUtils.getMinecraft().screen != null){
             stopMoving(TextComponents.translation("waystonesreimagined.moving.cancelled").color(ChatFormatting.WHITE).get());
             return;
         }
