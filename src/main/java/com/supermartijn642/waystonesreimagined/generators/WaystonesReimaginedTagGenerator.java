@@ -24,5 +24,7 @@ public class WaystonesReimaginedTagGenerator extends TagGenerator {
 
         // Trinkets Updated slot
         this.itemTag("trinkets", "chest/necklace").add(WaystonesReimagined.warpPendant);
+        // Curios API slot
+        this.itemTag("curios", "necklace").add(WaystonesReimagined.warpPendant);
     }
 }

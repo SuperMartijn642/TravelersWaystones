@@ -1,4 +1,4 @@
-// 26.2	2026-10-28T22:33:22.745972	Core Lib Generators
+// 26.2	2026-10-28T22:34:56.229118	Core Lib Generators
 2b4a531c22d8878a7c4bcf41044a11b615a90d42 assets/minecraft/atlases/blocks.json
 19e09123cf741c6e5f4607206df9e823cef87dd4 assets/minecraft/atlases/gui.json
 16e28faa4bc41d149c2fc7d25239074b178f4402 assets/waystonesreimagined/blockstates/andesite_waystone.json
@@ -120,6 +120,7 @@ c67211960c4083c89de8e08be328484da314291c assets/waystonesreimagined/models/block
 5225eb69d4b4ad012450e93899f12bd2239fb591 assets/waystonesreimagined/models/block/tuff_waystone_top_off.json
 e26789935bc092bc51e2fac2d6ec719e28ac185a assets/waystonesreimagined/models/item/dimensional_pearl.json
 3ffecda9d06b5a3f014b4bfeb4ff1d05438bb6d7 assets/waystonesreimagined/models/item/warp_pendant.json
+f29c288ea7ea7adb44bd93588da8ab889133abf8 data/curios/tags/item/necklace.json
 02a41b70db39c130d6786cc9653f8879127c8437 data/minecraft/tags/block/mineable/pickaxe.json
 f29c288ea7ea7adb44bd93588da8ab889133abf8 data/trinkets/tags/item/chest/necklace.json
 39502d1ae223e47de1c15d66cf45e933b03a62f5 data/waystonesreimagined/advancement/recipes/andesite_waystone.json
