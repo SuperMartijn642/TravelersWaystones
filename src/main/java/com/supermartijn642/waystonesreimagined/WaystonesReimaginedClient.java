@@ -46,7 +46,7 @@ public class WaystonesReimaginedClient {
             if(PENDANT_KEYBIND.consumeClick()){
                 Player player = ClientUtils.getPlayer();
                 if(ClientUtils.getWorld() == null || player == null
-                    || ClientUtils.getMinecraft().gui.screen() != null)
+                    || ClientUtils.getMinecraft().screen != null)
                     return;
                 if(!player.getInventory().contains(s -> s.is(WaystonesReimagined.warpPendant)))
                     return;
@@ -80,7 +80,7 @@ public class WaystonesReimaginedClient {
     }
 
     public static void showDangerousWarning(DiscoveredWaystoneTarget target, Component warning){
-        if(!(ClientUtils.getMinecraft().gui.screen() instanceof WidgetScreen<?> screen))
+        if(!(ClientUtils.getMinecraft().screen instanceof WidgetScreen<?> screen))
             return;
         if(!(screen.getWidget() instanceof StackedWidget stack))
             return;

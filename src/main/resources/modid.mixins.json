@@ -12,9 +12,8 @@
   "client": [
     "ClientLevelMixin",
     "ClientPacketListenerMixin",
-    "HudMixin",
+    "GuiMixin",
     "KeyboardHandlerMixin",
-    "LevelExtractorMixin",
     "LevelRendererMixin",
     "MinecraftMixin",
     "RenderTypeMixin",
