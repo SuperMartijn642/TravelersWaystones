@@ -87,7 +87,7 @@ public class TallWaystoneBlock extends WaystoneBlock implements WaystoneType, Si
     }
 
     public TallWaystoneBlock(BlockProperties properties){
-        super(properties.pushReaction(PushReaction.BLOCK));
+        super(properties.pushReaction(PushReaction.IMMOVEABLE));
         this.registerDefaultState(
             this.defaultBlockState()
                 .setValue(FLIPPED, false)

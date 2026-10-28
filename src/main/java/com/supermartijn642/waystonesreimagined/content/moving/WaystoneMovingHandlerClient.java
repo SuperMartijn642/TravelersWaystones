@@ -21,7 +21,6 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.BlockModelRenderState;
 import net.minecraft.client.renderer.block.BlockStateModelSet;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
-import net.minecraft.client.renderer.rendertype.OutputTarget;
 import net.minecraft.client.renderer.rendertype.RenderSetup;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -54,7 +53,7 @@ public class WaystoneMovingHandlerClient {
         "waystonesreimagined_valid_placement",
         RenderSetup.builder(RenderPipelines.ITEM_TRANSLUCENT)
             .withTexture("Sampler0", TextureAtlas.LOCATION_BLOCKS)
-            .setOutputTarget(OutputTarget.ITEM_ENTITY_TARGET)
+            .setOitPipelines(RenderPipelines.OIT_ITEM)
             .useLightmap()
             .useOverlay()
             .affectsCrumbling()
@@ -69,7 +68,7 @@ public class WaystoneMovingHandlerClient {
         "waystonesreimagined_invalid_placement",
         RenderSetup.builder(RenderPipelines.ITEM_TRANSLUCENT)
             .withTexture("Sampler0", TextureAtlas.LOCATION_BLOCKS)
-            .setOutputTarget(OutputTarget.ITEM_ENTITY_TARGET)
+            .setOitPipelines(RenderPipelines.OIT_ITEM)
             .useLightmap()
             .useOverlay()
             .affectsCrumbling()

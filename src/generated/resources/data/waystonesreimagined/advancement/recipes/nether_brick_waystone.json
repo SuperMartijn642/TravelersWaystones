@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "waystonesreimagined:nether_brick_waystone"
+        "recipes": "waystonesreimagined:nether_brick_waystone"
       }
     },
     "recipe_condition": {

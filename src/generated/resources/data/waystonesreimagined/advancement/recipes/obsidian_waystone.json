@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "waystonesreimagined:obsidian_waystone"
+        "recipes": "waystonesreimagined:obsidian_waystone"
       }
     },
     "recipe_condition": {

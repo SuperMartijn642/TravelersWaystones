@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "waystonesreimagined:end_stone_waystone"
+        "recipes": "waystonesreimagined:end_stone_waystone"
       }
     },
     "recipe_condition": {

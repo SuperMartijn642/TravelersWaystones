@@ -6,7 +6,7 @@ accessible field net/minecraft/client/renderer/block/BlockModelRenderState rende
 accessible method net/minecraft/client/renderer/item/CuboidItemModelWrapper <init> (Ljava/util/List;Lnet/minecraft/client/resources/model/geometry/QuadCollection;Lnet/minecraft/client/renderer/item/ModelRenderProperties;Lorg/joml/Matrix4fc;)V
 accessible method net/minecraft/client/renderer/item/CuboidItemModelWrapper validateAtlasUsage (Ljava/util/List;)V
 # DynamicUniforms
-accessible field net/minecraft/client/renderer/DynamicUniforms NO_OFFSET Lorg/joml/Vector3fc;
+accessible field net/minecraft/client/renderer/DynamicGpuData NO_OFFSET Lorg/joml/Vector3fc;
 # Minecraft
 accessible field net/minecraft/client/Minecraft rightClickDelay I
 # RenderSetup

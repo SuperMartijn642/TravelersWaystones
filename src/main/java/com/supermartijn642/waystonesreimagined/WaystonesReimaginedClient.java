@@ -1,5 +1,6 @@
 package com.supermartijn642.waystonesreimagined;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.core.gui.WidgetScreen;
@@ -24,7 +25,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
 
 public class WaystonesReimaginedClient implements ClientModInitializer {
 
@@ -39,7 +39,7 @@ public class WaystonesReimaginedClient implements ClientModInitializer {
         ParticleProviderRegistry.getInstance().register(WaystonesReimagined.discoverParticle, ScanParticleProvider::new);
         ParticleProviderRegistry.getInstance().register(WaystonesReimagined.teleportParticle, ScanParticleProvider::new);
 
-        PENDANT_KEYBIND = new KeyMapping("waystonesreimagined.keys.pendant", GLFW.GLFW_KEY_G, KeyMapping.Category.register(WaystonesReimagined.identifier("keys")));
+        PENDANT_KEYBIND = new KeyMapping("waystonesreimagined.keys.pendant", InputConstants.KEY_G, KeyMapping.Category.register(WaystonesReimagined.identifier("keys")));
         KeyMappingHelper.registerKeyMapping(PENDANT_KEYBIND);
         ClientTickEvents.END_CLIENT_TICK.register(_ -> {
             if(PENDANT_KEYBIND.consumeClick()){

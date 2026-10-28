@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "waystonesreimagined:cobbled_deepslate_waystone"
+        "recipes": "waystonesreimagined:cobbled_deepslate_waystone"
       }
     },
     "recipe_condition": {

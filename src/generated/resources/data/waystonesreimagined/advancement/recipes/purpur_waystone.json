@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "waystonesreimagined:purpur_waystone"
+        "recipes": "waystonesreimagined:purpur_waystone"
       }
     },
     "recipe_condition": {
