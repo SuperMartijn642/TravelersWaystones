@@ -1,26 +1,27 @@
 package com.supermartijn642.waystonesreimagined.content.block;
 
 import com.supermartijn642.core.ClientUtils;
+import com.supermartijn642.core.util.Pair;
 import com.supermartijn642.waystonesreimagined.api.targets.personal.PersonalWaystoneManager;
 import com.supermartijn642.waystonesreimagined.content.targets.personal.PersonalWaystoneManagerImpl;
-import net.fabricmc.fabric.api.client.renderer.v1.mesh.QuadEmitter;
 import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.resources.model.geometry.BakedQuad;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
+import net.minecraftforge.client.extensions.IForgeBlockStateModel;
+import net.minecraftforge.client.model.data.ModelData;
+import net.minecraftforge.client.model.data.ModelProperty;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.BiFunction;
-import java.util.function.Predicate;
 
 public class WaystoneBlockStateModel implements BlockStateModel {
 
@@ -41,21 +42,43 @@ public class WaystoneBlockStateModel implements BlockStateModel {
         return manager.getTargetAt(dimension, waystone.getBasePos(pos, state)) != null;
     }
 
+    private static final ModelProperty<Pair<BlockStateModel,ModelData>> PROPER_MODEL = new ModelProperty<>();
+
     private final BlockStateModel original;
 
     public WaystoneBlockStateModel(BlockStateModel original){
         this.original = original;
     }
 
-    private <T> T forProperModel(BlockAndTintGetter level, BlockPos pos, BlockState state, BiFunction<BlockStateModel,BlockState,T> function){
+    @Override
+    public @NotNull ModelData getModelData(@NotNull BlockAndTintGetter level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull ModelData entityData){
         if(BYPASS.get() != null)
-            return function.apply(this.original, state);
+            return ModelData.EMPTY;
         if(state.getBlock() instanceof WaystoneBlock)
             state = state.setValue(WaystoneBlock.DISCOVERED, isDiscovered(level, pos, state));
         BlockStateModel model = ClientUtils.getMinecraft().getModelManager().getBlockStateModelSet().get(state);
         BYPASS.set(true);
         try{
-            return function.apply(model, state);
+            return ModelData.builder()
+                .with(PROPER_MODEL, Pair.of(model, model.getModelData(level, pos, state, entityData)))
+                .build();
+        }finally{
+            BYPASS.remove();
+        }
+    }
+
+    private <T> T forProperModel(ModelData modelData, BiFunction<BlockStateModel,ModelData,T> function){
+        if(BYPASS.get() != null)
+            return function.apply(this.original, ModelData.EMPTY);
+        Pair<BlockStateModel,ModelData> properModel = modelData.get(PROPER_MODEL);
+        BlockStateModel model = this;
+        if(properModel != null){
+            model = properModel.left();
+            modelData = properModel.right();
+        }
+        BYPASS.set(true);
+        try{
+            return function.apply(model, modelData);
         }finally{
             BYPASS.remove();
         }
@@ -67,21 +90,13 @@ public class WaystoneBlockStateModel implements BlockStateModel {
     }
 
     @Override
-    public void emitQuads(QuadEmitter emitter, BlockAndTintGetter level, BlockPos pos, BlockState state, RandomSource random, Predicate<@Nullable Direction> cullTest){
+    public void collectParts(RandomSource random, List<BlockStateModelPart> output, ModelData data){
         this.forProperModel(
-            level, pos, state,
-            (model, properState) -> {
-                model.emitQuads(emitter, level, pos, properState, random, cullTest);
+            data,
+            (model, properData) -> {
+                model.collectParts(random, output, properData);
                 return null;
             }
-        );
-    }
-
-    @Override
-    public @Nullable Object createGeometryKey(BlockAndTintGetter level, BlockPos pos, BlockState state, RandomSource random){
-        return this.forProperModel(
-            level, pos, state,
-            (model, properState) -> model.createGeometryKey(level, pos, properState, random)
         );
     }
 
@@ -91,24 +106,8 @@ public class WaystoneBlockStateModel implements BlockStateModel {
     }
 
     @Override
-    public @BakedQuad.MaterialFlags int materialFlags(BlockAndTintGetter level, BlockPos pos, BlockState state, RandomSource random){
-        return this.forProperModel(
-            level, pos, state,
-            (model, properState) -> model.materialFlags(level, pos, properState, random)
-        );
-    }
-
-    @Override
     public boolean hasMaterialFlag(@BakedQuad.MaterialFlags int flag){
         return this.original.hasMaterialFlag(flag);
-    }
-
-    @Override
-    public boolean hasMaterialFlag(BlockAndTintGetter level, BlockPos pos, BlockState state, RandomSource random, @BakedQuad.MaterialFlags int flag){
-        return this.forProperModel(
-            level, pos, state,
-            (model, properState) -> model.hasMaterialFlag(level, pos, properState, random, flag)
-        );
     }
 
     @Override
@@ -117,10 +116,10 @@ public class WaystoneBlockStateModel implements BlockStateModel {
     }
 
     @Override
-    public Material.Baked particleMaterial(BlockAndTintGetter level, BlockPos pos, BlockState state){
+    public Material.Baked particleMaterial(@NotNull ModelData data){
         return this.forProperModel(
-            level, pos, state,
-            (model, properState) -> model.particleMaterial(level, pos, properState)
+            data,
+            IForgeBlockStateModel::particleMaterial
         );
     }
 }

@@ -4,7 +4,7 @@ import com.supermartijn642.core.generator.RecipeGenerator;
 import com.supermartijn642.core.generator.ResourceCache;
 import com.supermartijn642.waystonesreimagined.WaystonesReimagined;
 import com.supermartijn642.waystonesreimagined.content.block.WaystoneMaterial;
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import net.minecraftforge.common.Tags;
 
 public class WaystonesReimaginedRecipeGenerator extends RecipeGenerator {
 
@@ -18,15 +18,15 @@ public class WaystonesReimaginedRecipeGenerator extends RecipeGenerator {
             .pattern(" D ")
             .pattern("DED")
             .pattern(" D ")
-            .input('D', ConventionalItemTags.DIAMOND_GEMS)
-            .input('E', ConventionalItemTags.ENDER_PEARLS)
-            .unlockedBy(ConventionalItemTags.ENDER_PEARLS);
+            .input('D', Tags.Items.GEMS_DIAMOND)
+            .input('E', Tags.Items.ENDER_PEARLS)
+            .unlockedBy(Tags.Items.ENDER_PEARLS);
         this.shaped(WaystonesReimagined.warpPendant)
             .pattern("GGG")
             .pattern("GSG")
             .pattern(" D ")
-            .input('G', ConventionalItemTags.GOLD_INGOTS)
-            .input('S', ConventionalItemTags.NETHER_STARS)
+            .input('G', Tags.Items.INGOTS_GOLD)
+            .input('S', Tags.Items.NETHER_STARS)
             .input('D', WaystonesReimagined.dimensionalPearl)
             .unlockedBy(WaystonesReimagined.dimensionalPearl);
 

@@ -14,34 +14,35 @@ import com.supermartijn642.waystonesreimagined.content.screen.ClaimWaystoneScree
 import com.supermartijn642.waystonesreimagined.content.screen.WaystoneTeleportScreen;
 import com.supermartijn642.waystonesreimagined.content.screen.components.warning.DangerousWarningWidget;
 import com.supermartijn642.waystonesreimagined.util.TwoBlockItemModel;
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
-import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
+import net.minecraftforge.event.TickEvent;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
-public class WaystonesReimaginedClient implements ClientModInitializer {
+public class WaystonesReimaginedClient {
 
     public static KeyMapping PENDANT_KEYBIND;
 
-    @Override
-    public void onInitializeClient(){
+    public static void init(){
         ClientRegistrationHandler handler = ClientRegistrationHandler.get(WaystonesReimagined.MODID);
         for(WaystoneMaterial material : WaystoneMaterial.values())
             handler.registerBlockStateModelOverwrite(material::block, WaystoneBlockStateModel::new);
         handler.registerItemModelType("two_block", TwoBlockItemModel.CODEC);
-        ParticleProviderRegistry.getInstance().register(WaystonesReimagined.discoverParticle, ScanParticleProvider::new);
-        ParticleProviderRegistry.getInstance().register(WaystonesReimagined.teleportParticle, ScanParticleProvider::new);
+        RegisterParticleProvidersEvent.BUS.addListener(e -> {
+            e.registerSpriteSet(WaystonesReimagined.discoverParticle, ScanParticleProvider::new);
+            e.registerSpriteSet(WaystonesReimagined.teleportParticle, ScanParticleProvider::new);
+        });
 
-        PENDANT_KEYBIND = new KeyMapping("waystonesreimagined.keys.pendant", GLFW.GLFW_KEY_G, KeyMapping.Category.register(WaystonesReimagined.identifier("keys")));
-        KeyMappingHelper.registerKeyMapping(PENDANT_KEYBIND);
-        ClientTickEvents.END_CLIENT_TICK.register(_ -> {
+        RegisterKeyMappingsEvent.BUS.addListener(e -> {
+            e.register(PENDANT_KEYBIND = new KeyMapping("waystonesreimagined.keys.pendant", GLFW.GLFW_KEY_G, KeyMapping.Category.register(WaystonesReimagined.identifier("keys"))));
+        });
+        TickEvent.ClientTickEvent.Post.BUS.addListener(_ -> {
             if(PENDANT_KEYBIND.consumeClick()){
                 Player player = ClientUtils.getPlayer();
                 if(ClientUtils.getWorld() == null || player == null

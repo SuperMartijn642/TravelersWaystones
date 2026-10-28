@@ -17,7 +17,8 @@
     "LevelExtractorMixin",
     "LevelRendererMixin",
     "MinecraftMixin",
-    "RenderTypeMixin"
+    "RenderTypeMixin",
+    "ClientModLoaderMixin"
   ],
   "server": [
     "ServerMainMixin"

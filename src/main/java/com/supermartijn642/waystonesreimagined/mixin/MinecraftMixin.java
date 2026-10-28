@@ -4,8 +4,6 @@ import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.waystonesreimagined.api.targets.personal.DiscoveredWaystoneTarget;
 import com.supermartijn642.waystonesreimagined.api.targets.personal.PersonalWaystoneManager;
-import com.supermartijn642.waystonesreimagined.content.WaystoneEventsImpl;
-import com.supermartijn642.waystonesreimagined.content.WaystoneTypeRegistry;
 import com.supermartijn642.waystonesreimagined.content.block.WaystoneBlock;
 import com.supermartijn642.waystonesreimagined.content.moving.WaystoneMovingHandler;
 import com.supermartijn642.waystonesreimagined.content.moving.WaystoneMovingHandlerClient;
@@ -33,18 +31,6 @@ public class MinecraftMixin {
     private int waystoneMineWarningDelay = 0;
     @Shadow
     private int missTime;
-
-    @Inject(
-        method = "<init>",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/client/tutorial/Tutorial;<init>(Lnet/minecraft/client/Minecraft;Lnet/minecraft/client/Options;)V"
-        )
-    )
-    private void freezeWaystoneRegistry(CallbackInfo ci){
-        WaystoneTypeRegistry.freeze();
-        WaystoneEventsImpl.freeze();
-    }
 
     @Inject(
         method = "runTick",
