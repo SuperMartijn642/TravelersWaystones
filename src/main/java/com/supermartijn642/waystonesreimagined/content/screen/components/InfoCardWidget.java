@@ -1,5 +1,6 @@
 package com.supermartijn642.waystonesreimagined.content.screen.components;
 
+import com.mojang.math.Axis;
 import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.core.gui.GuiGraphicsHelper;
@@ -22,7 +23,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import org.joml.Matrix3x2fStack;
-import org.joml.Quaternionf;
 
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
@@ -210,8 +210,8 @@ public class InfoCardWidget extends BaseWidget {
             poseStack.pushPose();
             poseStack.translate(size / 2f, size / 2f, 0);
             poseStack.scale(scale, -scale, -scale);
-            poseStack.mulPose(new Quaternionf().rotateX((float)Math.toRadians(30)));
-            poseStack.mulPose(new Quaternionf().rotateY((float)Math.toRadians(45)));
+            poseStack.rotate(Axis.XP, (float)Math.toRadians(30));
+            poseStack.rotate(Axis.YP, (float)Math.toRadians(45));
             poseStack.translate(-0.5f, -0.5f, -0.5f);
             blockRenderState.submit(poseStack, output, LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0);
             poseStack.popPose();

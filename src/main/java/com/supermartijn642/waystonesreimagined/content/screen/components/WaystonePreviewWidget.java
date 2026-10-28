@@ -1,6 +1,7 @@
 package com.supermartijn642.waystonesreimagined.content.screen.components;
 
 import com.mojang.blaze3d.platform.cursor.CursorType;
+import com.mojang.math.Axis;
 import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.gui.CursorTypes;
 import com.supermartijn642.core.gui.GuiGraphicsHelper;
@@ -28,7 +29,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
-import org.joml.Quaternionf;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,8 +110,8 @@ public class WaystonePreviewWidget extends BaseWidget {
             poseStack.pushPose();
             poseStack.translate(this.width / 2f, this.height / 2f, 0);
             poseStack.scale(scale, -scale, -scale);
-            poseStack.mulPose(new Quaternionf().rotateX(this.pitch));
-            poseStack.mulPose(new Quaternionf().rotateY(this.yaw));
+            poseStack.rotate(Axis.XP, this.pitch);
+            poseStack.rotate(Axis.YP, this.yaw);
             Vec3 center = finalBounds.getCenter();
             poseStack.translate(-center.x, -center.y, -center.z);
             for(int i = 0; i < blocks; i++){

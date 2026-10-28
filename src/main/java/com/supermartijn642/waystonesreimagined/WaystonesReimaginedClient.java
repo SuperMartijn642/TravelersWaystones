@@ -1,5 +1,6 @@
 package com.supermartijn642.waystonesreimagined;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.core.gui.WidgetScreen;
@@ -27,7 +28,6 @@ import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.function.Consumer;
 
@@ -49,7 +49,7 @@ public class WaystonesReimaginedClient {
         eventBus.addListener((Consumer<RegisterKeyMappingsEvent>)e -> {
             KeyMapping.Category category = new KeyMapping.Category(WaystonesReimagined.identifier("keys"));
             e.registerCategory(category);
-            e.register(PENDANT_KEYBIND = new KeyMapping("waystonesreimagined.keys.pendant", GLFW.GLFW_KEY_G, category));
+            e.register(PENDANT_KEYBIND = new KeyMapping("waystonesreimagined.keys.pendant", InputConstants.KEY_G, category));
         });
         NeoForge.EVENT_BUS.addListener((Consumer<ClientTickEvent.Post>)_ -> {
             if(PENDANT_KEYBIND.consumeClick()){

@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "waystonesreimagined:crying_obsidian_waystone"
+        "recipes": "waystonesreimagined:crying_obsidian_waystone"
       }
     },
     "recipe_condition": {

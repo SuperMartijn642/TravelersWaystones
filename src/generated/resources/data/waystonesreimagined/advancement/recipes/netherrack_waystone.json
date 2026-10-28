@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "waystonesreimagined:netherrack_waystone"
+        "recipes": "waystonesreimagined:netherrack_waystone"
       }
     },
     "recipe_condition": {

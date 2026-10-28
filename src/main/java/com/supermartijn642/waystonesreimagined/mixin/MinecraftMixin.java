@@ -15,6 +15,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.component.SwingAnimation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.spongepowered.asm.mixin.Mixin;
@@ -115,7 +116,7 @@ public class MinecraftMixin {
                     "waystonesreimagined.break.warning.bypass",
                     TextComponents.translation("key.keyboard.left.shift").color(ChatFormatting.GOLD).get()
                 ).color(ChatFormatting.GRAY).italic().get());
-                player.swing(InteractionHand.MAIN_HAND);
+                player.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT, false);
                 this.waystoneMineWarningDelay = 40;
             }
             this.missTime = 40;

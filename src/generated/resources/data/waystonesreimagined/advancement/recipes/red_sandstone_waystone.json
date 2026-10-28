@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "waystonesreimagined:red_sandstone_waystone"
+        "recipes": "waystonesreimagined:red_sandstone_waystone"
       }
     },
     "recipe_condition": {
