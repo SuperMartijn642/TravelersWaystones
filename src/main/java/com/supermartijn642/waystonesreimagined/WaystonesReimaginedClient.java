@@ -13,6 +13,7 @@ import com.supermartijn642.waystonesreimagined.content.particle.ScanParticleProv
 import com.supermartijn642.waystonesreimagined.content.screen.ClaimWaystoneScreen;
 import com.supermartijn642.waystonesreimagined.content.screen.WaystoneTeleportScreen;
 import com.supermartijn642.waystonesreimagined.content.screen.components.warning.DangerousWarningWidget;
+import com.supermartijn642.waystonesreimagined.integration.CuriosApiIntegration;
 import com.supermartijn642.waystonesreimagined.integration.Integration;
 import com.supermartijn642.waystonesreimagined.integration.TrinketsUpdatedIntegration;
 import com.supermartijn642.waystonesreimagined.util.TwoBlockItemModel;
@@ -60,7 +61,8 @@ public class WaystonesReimaginedClient {
                     || ClientUtils.getMinecraft().screen != null)
                     return;
                 boolean hasPendant = player.getInventory().contains(s -> s.is(WaystonesReimagined.warpPendant))
-                    || (Integration.isTrinketsUpdatedLoaded && TrinketsUpdatedIntegration.hasPendantInTrinketsSlot(player));
+                    || (Integration.isTrinketsUpdatedLoaded && TrinketsUpdatedIntegration.hasPendantInTrinketsSlot(player))
+                    || (Integration.isCuriosAPILoaded && CuriosApiIntegration.hasPendantInCuriosSlot(player));
                 if(!hasPendant)
                     return;
                 PersonalWaystoneManager manager = PersonalWaystoneManager.get(player);

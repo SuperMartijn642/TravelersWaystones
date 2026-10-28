@@ -36,6 +36,8 @@ dependencies {
 
     // Trinkets Updated
     implementation "curse.maven:trinkets-updated-1509777:${trinkets_updated_file}"
+    // Curios API
+    implementation "curse.maven:curios-309927:${curios_api_file}"
 
     // Just Enough Items
 //    runtimeOnly "curse.maven:jei-238222:${just_enough_items_file}"
