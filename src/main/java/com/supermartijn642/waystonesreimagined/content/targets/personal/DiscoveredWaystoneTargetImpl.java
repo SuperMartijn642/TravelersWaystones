@@ -209,7 +209,7 @@ public class DiscoveredWaystoneTargetImpl implements DiscoveredWaystoneTarget {
             this.manager.pushRecent(from);
         oldLevel.playSound(null, oldPosition.x, oldPosition.y, oldPosition.z, SoundEvents.PLAYER_TELEPORT, SoundSource.PLAYERS);
         targetLevel.playSound(null, player, oldLevel == targetLevel ? SoundEvents.PLAYER_TELEPORT : SoundEvents.PORTAL_TRAVEL, SoundSource.PLAYERS, 0.5f, 1);
-        float playerWidth = player.getBbWidth(), playerHeight = player.getBbHeight() + 0.2f;
+        float playerWidth = player.getBbWidth() + 0.2f, playerHeight = player.getBbHeight() + 0.2f;
         oldLevel.sendParticles(
             WaystonesReimagined.teleportParticle.create(playerWidth + 0.05, -playerHeight),
             oldPosition.x, oldPosition.y + playerHeight, oldPosition.z,
