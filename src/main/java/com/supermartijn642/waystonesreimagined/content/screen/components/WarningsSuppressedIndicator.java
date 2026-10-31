@@ -42,13 +42,13 @@ public class WarningsSuppressedIndicator extends AbstractButtonWidget {
 
     @Override
     public Component getNarrationMessage(){
-        return null;
+        return TextComponents.translation("waystonesreimagined.screen.teleport.warning_icon.narrate").get();
     }
 
     @Override
     protected void getTooltips(Consumer<Component> tooltips){
-        tooltips.accept(TextComponents.translation("waystonesreimagined.screen.teleport.warning.hint").get());
-        tooltips.accept(TextComponents.translation("waystonesreimagined.screen.teleport.warning.hint.reenable").color(ChatFormatting.GRAY).get());
+        tooltips.accept(TextComponents.translation("waystonesreimagined.screen.teleport.warning_icon.hint").get());
+        tooltips.accept(TextComponents.translation("waystonesreimagined.screen.teleport.warning_icon.hint.reenable").color(ChatFormatting.GRAY).get());
     }
 
     @Override

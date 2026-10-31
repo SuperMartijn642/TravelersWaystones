@@ -2,6 +2,7 @@ package com.supermartijn642.waystonesreimagined.content.screen.components;
 
 import com.mojang.blaze3d.platform.cursor.CursorType;
 import com.supermartijn642.core.ClientUtils;
+import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.core.gui.CursorTypes;
 import com.supermartijn642.core.gui.GuiGraphicsHelper;
 import com.supermartijn642.core.gui.widget.BaseWidget;
@@ -60,7 +61,7 @@ public class WaystonePreviewWidget extends BaseWidget {
 
     @Override
     public Component getNarrationMessage(){
-        return null;
+        return TextComponents.translation("waystonesreimagined.screen.teleport.preview.narrate").get();
     }
 
     @Override
