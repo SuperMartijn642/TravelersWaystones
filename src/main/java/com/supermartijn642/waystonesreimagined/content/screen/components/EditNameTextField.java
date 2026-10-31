@@ -1,11 +1,13 @@
 package com.supermartijn642.waystonesreimagined.content.screen.components;
 
+import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.core.gui.GuiGraphicsHelper;
 import com.supermartijn642.core.gui.widget.WidgetRenderContext;
 import com.supermartijn642.core.gui.widget.premade.TextFieldWidget;
 import com.supermartijn642.waystonesreimagined.WaystonesReimagined;
 import com.supermartijn642.waystonesreimagined.api.targets.WaystoneTarget;
 import net.minecraft.client.input.MouseButtonInfo;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 
@@ -25,6 +27,11 @@ public class EditNameTextField extends TextFieldWidget {
         this.properHeight = height;
         this.setTextColors(-1, -1, ARGB.color(200, 200, 200));
         this.textShadow = true;
+    }
+
+    @Override
+    public Component getNarrationMessage(){
+        return TextComponents.translation("waystonesreimagined.screen.info_card.name_field.narrate").get();
     }
 
     public void setEnabled(boolean enabled){

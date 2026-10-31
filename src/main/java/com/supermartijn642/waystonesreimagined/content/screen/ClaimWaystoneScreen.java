@@ -43,7 +43,7 @@ public class ClaimWaystoneScreen extends BaseWidget {
 
     @Override
     public Component getNarrationMessage(){
-        return null;
+        return TextComponents.translation("waystonesreimagined.screen.claim.narrate").get();
     }
 
     @Override

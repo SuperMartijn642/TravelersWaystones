@@ -61,7 +61,7 @@ public class InfoCardWidget extends BaseWidget {
 
     @Override
     public Component getNarrationMessage(){
-        return null;
+        return TextComponents.translation("waystonesreimagined.screen.info_card.narrate", this.title).get();
     }
 
     public void selectNameField(){
