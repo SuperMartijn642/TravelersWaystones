@@ -60,7 +60,7 @@ public class TargetEntryWidget extends AbstractButtonWidget {
 
     @Override
     public Component getNarrationMessage(){
-        return null;
+        return TextComponents.translation("waystonesreimagined.screen.teleport.target_entry.narrate", this.target.name()).get();
     }
 
     @Override

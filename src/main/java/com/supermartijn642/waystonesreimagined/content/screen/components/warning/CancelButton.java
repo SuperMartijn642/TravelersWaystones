@@ -20,7 +20,7 @@ public class CancelButton extends AbstractButtonWidget {
 
     @Override
     public Component getNarrationMessage(){
-        return null;
+        return TextComponents.translation("waystonesreimagined.screen.teleport.warning.cancel.narrate").get();
     }
 
     @Override

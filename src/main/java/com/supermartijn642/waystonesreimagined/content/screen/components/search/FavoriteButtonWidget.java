@@ -1,5 +1,6 @@
 package com.supermartijn642.waystonesreimagined.content.screen.components.search;
 
+import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.core.gui.GuiGraphicsHelper;
 import com.supermartijn642.core.gui.widget.WidgetRenderContext;
 import com.supermartijn642.core.gui.widget.premade.AbstractButtonWidget;
@@ -36,7 +37,7 @@ public class FavoriteButtonWidget extends AbstractButtonWidget {
 
     @Override
     public Component getNarrationMessage(){
-        return null;
+        return TextComponents.translation("waystonesreimagined.screen.teleport.favorite.narrate").get();
     }
 
     @Override
