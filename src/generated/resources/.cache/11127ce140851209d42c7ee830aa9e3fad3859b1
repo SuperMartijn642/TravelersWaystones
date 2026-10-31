@@ -1,4 +1,4 @@
-// 26.1.2	2026-10-28T18:39:14.3937266	Core Lib Generators
+// 26.1.2	2026-10-31T14:25:54.4029404	Core Lib Generators
 2b4a531c22d8878a7c4bcf41044a11b615a90d42 assets/minecraft/atlases/blocks.json
 19e09123cf741c6e5f4607206df9e823cef87dd4 assets/minecraft/atlases/gui.json
 16e28faa4bc41d149c2fc7d25239074b178f4402 assets/waystonesreimagined/blockstates/andesite_waystone.json
@@ -41,7 +41,7 @@ bdd59677ffb75409b3cbff40e5aa07b01e18ab40 assets/waystonesreimagined/items/sandst
 d3fcc79e9c1dde3b2fdf49e35b7df1aecbead3c3 assets/waystonesreimagined/items/stone_waystone.json
 2b5b9b7d83e1a90cec5fb68ebe292e631bbb04ef assets/waystonesreimagined/items/tuff_waystone.json
 3f5d68be4136636c882996ceb87fec3cfca43a00 assets/waystonesreimagined/items/warp_pendant.json
-4098be80d8d6c5904c8883155e40f6ec5e6a508d assets/waystonesreimagined/lang/en_us.json
+35a6189b23a21c36680f3f912b2e5633a9484c1f assets/waystonesreimagined/lang/en_us.json
 93dc7c70aeb10fa28e8689ad1ee841d6d5c94664 assets/waystonesreimagined/models/block/andesite_waystone_bottom.json
 7c501b2b4346400c604ef30bd11993df1ee2b28c assets/waystonesreimagined/models/block/andesite_waystone_bottom_off.json
 0ede6cc6f74a83c3592991914097b3f2381c73dc assets/waystonesreimagined/models/block/andesite_waystone_top.json
