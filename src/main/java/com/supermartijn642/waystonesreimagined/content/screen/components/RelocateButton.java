@@ -23,7 +23,7 @@ public class RelocateButton extends AbstractButtonWidget {
 
     @Override
     public Component getNarrationMessage(){
-        return null;
+        return TextComponents.translation("waystonesreimagined.screen.teleport.relocate.narrate").get();
     }
 
     @Override

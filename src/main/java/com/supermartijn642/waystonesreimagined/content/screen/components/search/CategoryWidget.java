@@ -108,11 +108,6 @@ public abstract class CategoryWidget extends AbstractButtonWidget {
     protected abstract boolean getManuallyExpanded();
 
     @Override
-    public Component getNarrationMessage(){
-        return null;
-    }
-
-    @Override
     public int height(){
         if(!this.enabled)
             return 0;
@@ -283,6 +278,22 @@ public abstract class CategoryWidget extends AbstractButtonWidget {
                 && PlayerProfileCache.get(true).getUsername(this.owner) == null)
                 graphics.submitTooltipForTopStratum(t -> t.literal(this.owner.toString()), mouseX, mouseY);
         }
+
+        @Override
+        public Component getNarrationMessage(){
+            String username = PlayerProfileCache.get(true).getUsername(this.owner);
+            Component owner = username == null ?
+                TextComponents.translation("waystonesreimagined.screen.teleport.owner.unknown").get() :
+                TextComponents.string(username).get();
+            Component expanded = this.expanded ?
+                TextComponents.translation("waystonesreimagined.screen.teleport.category.narrate.expanded").get() :
+                TextComponents.translation("waystonesreimagined.screen.teleport.category.narrate.collapsed").get();
+            return TextComponents.translation(
+                "waystonesreimagined.screen.teleport.category.player.narrate",
+                owner,
+                expanded
+            ).get();
+        }
     }
 
     public static class Recents extends CategoryWidget {
@@ -316,6 +327,17 @@ public abstract class CategoryWidget extends AbstractButtonWidget {
             int textBrightness = this.isActive() ? 255 : 180;
             graphics.submitText(TextComponents.translation("waystonesreimagined.screen.teleport.category.recents").get(), this.x + 24, this.y + 5, p -> p.shadow().color(textBrightness, textBrightness, textBrightness));
             poseStack.popMatrix();
+        }
+
+        @Override
+        public Component getNarrationMessage(){
+            Component expanded = this.expanded ?
+                TextComponents.translation("waystonesreimagined.screen.teleport.category.narrate.expanded").get() :
+                TextComponents.translation("waystonesreimagined.screen.teleport.category.narrate.collapsed").get();
+            return TextComponents.translation(
+                "waystonesreimagined.screen.teleport.category.recents.narrate",
+                expanded
+            ).get();
         }
     }
 
@@ -406,6 +428,17 @@ public abstract class CategoryWidget extends AbstractButtonWidget {
             int textBrightness = (int)(this.activeTransition * 255 + (1 - this.activeTransition) * 180);
             graphics.submitText(TextComponents.translation("waystonesreimagined.screen.teleport.category.favorites").get(), this.x + 24, this.y + 5, p -> p.shadow().color(textBrightness, textBrightness, textBrightness));
             poseStack.popMatrix();
+        }
+
+        @Override
+        public Component getNarrationMessage(){
+            Component expanded = this.expanded ?
+                TextComponents.translation("waystonesreimagined.screen.teleport.category.narrate.expanded").get() :
+                TextComponents.translation("waystonesreimagined.screen.teleport.category.narrate.collapsed").get();
+            return TextComponents.translation(
+                "waystonesreimagined.screen.teleport.category.favorites.narrate",
+                expanded
+            ).get();
         }
     }
 }
