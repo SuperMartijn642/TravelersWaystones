@@ -56,7 +56,7 @@ public class DangerousWarningWidget extends BaseWidget {
 
     @Override
     public Component getNarrationMessage(){
-        return null;
+        return TextComponents.translation("waystonesreimagined.screen.teleport.warning.narrate", this.warning).get();
     }
 
     @Override
