@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "GSG",
+    " D "
+  ],
+  "key": {
+    "S": "#c:nether_stars",
+    "D": "travelerswaystones:dimensional_pearl",
+    "G": "#c:ingots/gold"
+  },
+  "result": {
+    "id": "travelerswaystones:warp_pendant"
+  }
+}
