@@ -2,83 +2,83 @@
   "sources": [
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:gui/owner_icon"
+      "resource": "travelerswaystones:gui/owner_icon"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:gui/checkbox"
+      "resource": "travelerswaystones:gui/star_icon"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:gui/card_button_tab"
+      "resource": "travelerswaystones:gui/biome_icon"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:gui/cancel_button"
+      "resource": "travelerswaystones:gui/scroller"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:gui/biome_icon"
+      "resource": "travelerswaystones:gui/category"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:gui/entry"
+      "resource": "travelerswaystones:gui/checkbox"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:gui/card_standalone"
+      "resource": "travelerswaystones:gui/warning_background"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:gui/warning_background"
+      "resource": "travelerswaystones:gui/card_attached"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:gui/star_icon"
+      "resource": "travelerswaystones:gui/position_icon"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:gui/card_attached"
+      "resource": "travelerswaystones:gui/recents_icon"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:gui/position_icon"
+      "resource": "travelerswaystones:gui/relocate_icon"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:gui/relocate_icon"
+      "resource": "travelerswaystones:gui/card_standalone"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:gui/dimension_icon"
+      "resource": "travelerswaystones:gui/entry"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:gui/category"
+      "resource": "travelerswaystones:gui/edit_icon"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:gui/scroller"
+      "resource": "travelerswaystones:gui/dangerous_icon"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:gui/edit_icon"
+      "resource": "travelerswaystones:gui/search_background"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:gui/name_field"
+      "resource": "travelerswaystones:gui/name_field"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:gui/search_background"
+      "resource": "travelerswaystones:gui/card_button_tab"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:gui/recents_icon"
+      "resource": "travelerswaystones:gui/cancel_button"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:gui/dangerous_icon"
+      "resource": "travelerswaystones:gui/dimension_icon"
     }
   ]
 }
