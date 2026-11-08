@@ -1,7 +1,0 @@
-{
-  "parent": "waystonesreimagined:block/waystone_bottom",
-  "textures": {
-    "waystone": "waystonesreimagined:block/mud_brick_waystone_bottom",
-    "particle": "#waystone"
-  }
-}

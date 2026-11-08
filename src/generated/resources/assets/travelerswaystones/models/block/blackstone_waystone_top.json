@@ -1,0 +1,7 @@
+{
+  "parent": "travelerswaystones:block/waystone_top",
+  "textures": {
+    "waystone": "travelerswaystones:block/blackstone_waystone_top",
+    "particle": "#waystone"
+  }
+}
