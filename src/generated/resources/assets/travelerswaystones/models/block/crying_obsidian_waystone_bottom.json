@@ -1,0 +1,7 @@
+{
+  "parent": "travelerswaystones:block/waystone_bottom",
+  "textures": {
+    "waystone": "travelerswaystones:block/crying_obsidian_waystone_bottom",
+    "particle": "#waystone"
+  }
+}
