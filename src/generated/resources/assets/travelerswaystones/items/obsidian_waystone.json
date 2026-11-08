@@ -1,0 +1,8 @@
+{
+  "model": {
+    "top": "travelerswaystones:block/obsidian_waystone_top",
+    "bottom": "travelerswaystones:block/obsidian_waystone_bottom",
+    "scale": 0.75,
+    "type": "travelerswaystones:two_block"
+  }
+}
