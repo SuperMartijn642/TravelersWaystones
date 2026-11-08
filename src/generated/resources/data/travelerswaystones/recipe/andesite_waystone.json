@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    " D ",
+    "SSS"
+  ],
+  "key": {
+    "S": "minecraft:andesite",
+    "D": "travelerswaystones:dimensional_pearl"
+  },
+  "result": {
+    "id": "travelerswaystones:andesite_waystone"
+  }
+}

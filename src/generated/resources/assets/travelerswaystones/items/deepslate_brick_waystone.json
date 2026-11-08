@@ -1,0 +1,8 @@
+{
+  "model": {
+    "top": "travelerswaystones:block/deepslate_brick_waystone_top",
+    "bottom": "travelerswaystones:block/deepslate_brick_waystone_bottom",
+    "scale": 0.75,
+    "type": "travelerswaystones:two_block"
+  }
+}

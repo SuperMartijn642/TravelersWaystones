@@ -1,0 +1,7 @@
+{
+  "parent": "travelerswaystones:block/waystone_bottom_off",
+  "textures": {
+    "waystone": "travelerswaystones:block/andesite_waystone_bottom",
+    "particle": "#waystone"
+  }
+}
