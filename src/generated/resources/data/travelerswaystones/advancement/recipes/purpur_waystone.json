@@ -1,0 +1,47 @@
+{
+  "parent": "minecraft:recipes/root",
+  "display": {
+    "icon": {
+      "id": "travelerswaystones:purpur_waystone"
+    },
+    "title": {
+      "translate": "travelerswaystones.advancement.recipes/purpur_waystone.title"
+    },
+    "description": {
+      "translate": "travelerswaystones.advancement.recipes/purpur_waystone.description"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "travelerswaystones:purpur_waystone"
+      }
+    },
+    "recipe_condition": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "travelerswaystones:dimensional_pearl"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "recipe_condition"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "travelerswaystones:purpur_waystone"
+    ]
+  }
+}

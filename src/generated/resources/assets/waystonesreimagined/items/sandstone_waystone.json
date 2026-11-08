@@ -1,8 +1,0 @@
-{
-  "model": {
-    "top": "waystonesreimagined:block/sandstone_waystone_top",
-    "bottom": "waystonesreimagined:block/sandstone_waystone_bottom",
-    "scale": 0.75,
-    "type": "waystonesreimagined:two_block"
-  }
-}

@@ -1,0 +1,24 @@
+{
+  "replace": false,
+  "values": [
+    "travelerswaystones:andesite_waystone",
+    "travelerswaystones:blackstone_waystone",
+    "travelerswaystones:cobbled_deepslate_waystone",
+    "travelerswaystones:cobblestone_waystone",
+    "travelerswaystones:crying_obsidian_waystone",
+    "travelerswaystones:deepslate_brick_waystone",
+    "travelerswaystones:diorite_waystone",
+    "travelerswaystones:end_stone_waystone",
+    "travelerswaystones:granite_waystone",
+    "travelerswaystones:mud_brick_waystone",
+    "travelerswaystones:nether_brick_waystone",
+    "travelerswaystones:netherrack_waystone",
+    "travelerswaystones:obsidian_waystone",
+    "travelerswaystones:purpur_waystone",
+    "travelerswaystones:red_nether_brick_waystone",
+    "travelerswaystones:red_sandstone_waystone",
+    "travelerswaystones:sandstone_waystone",
+    "travelerswaystones:stone_waystone",
+    "travelerswaystones:tuff_waystone"
+  ]
+}

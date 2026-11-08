@@ -2,175 +2,175 @@
   "sources": [
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/cobblestone_waystone_top"
+      "resource": "travelerswaystones:block/tuff_waystone_top"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/crying_obsidian_waystone_bottom"
+      "resource": "travelerswaystones:item/warp_pendant"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/nether_brick_waystone_top"
+      "resource": "travelerswaystones:block/stone_waystone_bottom"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/cobbled_deepslate_waystone_top"
+      "resource": "travelerswaystones:block/sandstone_waystone_bottom"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/glyphs"
+      "resource": "travelerswaystones:block/blackstone_waystone_bottom"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/red_sandstone_waystone_bottom"
+      "resource": "travelerswaystones:block/diorite_waystone_top"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/mud_brick_waystone_bottom"
+      "resource": "travelerswaystones:block/red_nether_brick_waystone_top"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/mud_brick_waystone_top"
+      "resource": "travelerswaystones:block/end_stone_waystone_bottom"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/end_stone_waystone_top"
+      "resource": "travelerswaystones:item/dimensional_pearl"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/obsidian_waystone_bottom"
+      "resource": "travelerswaystones:block/purpur_waystone_top"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/granite_waystone_bottom"
+      "resource": "travelerswaystones:block/blackstone_waystone_top"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/obsidian_waystone_top"
+      "resource": "travelerswaystones:block/stone_waystone_top"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/tuff_waystone_bottom"
+      "resource": "travelerswaystones:block/cobbled_deepslate_waystone_bottom"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/deepslate_brick_waystone_top"
+      "resource": "travelerswaystones:block/obsidian_waystone_top"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/sandstone_waystone_top"
+      "resource": "travelerswaystones:block/purpur_waystone_bottom"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/andesite_waystone_bottom"
+      "resource": "travelerswaystones:block/mud_brick_waystone_top"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/stone_bricks_waystone_bottom"
+      "resource": "travelerswaystones:block/stone_bricks_waystone_bottom"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/netherrack_waystone_bottom"
+      "resource": "travelerswaystones:block/red_nether_brick_waystone_bottom"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/deepslate_brick_waystone_bottom"
+      "resource": "travelerswaystones:block/crying_obsidian_waystone_bottom"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/purpur_waystone_bottom"
+      "resource": "travelerswaystones:block/deepslate_brick_waystone_bottom"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/tuff_waystone_top"
+      "resource": "travelerswaystones:block/andesite_waystone_bottom"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/stone_waystone_top"
+      "resource": "travelerswaystones:block/sandstone_waystone_top"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/sandstone_waystone_bottom"
+      "resource": "travelerswaystones:block/nether_brick_waystone_top"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/purpur_waystone_top"
+      "resource": "travelerswaystones:block/mud_brick_waystone_bottom"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/red_nether_brick_waystone_bottom"
+      "resource": "travelerswaystones:block/glyphs"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:item/warp_pendant"
+      "resource": "travelerswaystones:block/red_sandstone_waystone_top"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/diorite_waystone_top"
+      "resource": "travelerswaystones:block/tuff_waystone_bottom"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/blackstone_waystone_bottom"
+      "resource": "travelerswaystones:block/cobblestone_waystone_top"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/red_nether_brick_waystone_top"
+      "resource": "travelerswaystones:block/red_sandstone_waystone_bottom"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/blackstone_waystone_top"
+      "resource": "travelerswaystones:block/netherrack_waystone_bottom"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/end_stone_waystone_bottom"
+      "resource": "travelerswaystones:block/granite_waystone_bottom"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:item/dimensional_pearl"
+      "resource": "travelerswaystones:block/obsidian_waystone_bottom"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/stone_waystone_bottom"
+      "resource": "travelerswaystones:block/end_stone_waystone_top"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/cobbled_deepslate_waystone_bottom"
+      "resource": "travelerswaystones:block/crying_obsidian_waystone_top"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/andesite_waystone_top"
+      "resource": "travelerswaystones:block/diorite_waystone_bottom"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/crying_obsidian_waystone_top"
+      "resource": "travelerswaystones:block/nether_brick_waystone_bottom"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/nether_brick_waystone_bottom"
+      "resource": "travelerswaystones:block/andesite_waystone_top"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/netherrack_waystone_top"
+      "resource": "travelerswaystones:block/deepslate_brick_waystone_top"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/stone_bricks_waystone_top"
+      "resource": "travelerswaystones:block/netherrack_waystone_top"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/cobblestone_waystone_bottom"
+      "resource": "travelerswaystones:block/stone_bricks_waystone_top"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/granite_waystone_top"
+      "resource": "travelerswaystones:block/cobblestone_waystone_bottom"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/red_sandstone_waystone_top"
+      "resource": "travelerswaystones:block/cobbled_deepslate_waystone_top"
     },
     {
       "type": "minecraft:single",
-      "resource": "waystonesreimagined:block/diorite_waystone_bottom"
+      "resource": "travelerswaystones:block/granite_waystone_top"
     }
   ]
 }
