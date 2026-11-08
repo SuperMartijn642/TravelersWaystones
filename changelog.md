@@ -1,2 +1,2 @@
-### Waystones Reimagined 1.0.0
-- Initial release of Waystones Reimagined
+### Traveler's Waystones 1.0.0
+- Initial release of Traveler's Waystones
