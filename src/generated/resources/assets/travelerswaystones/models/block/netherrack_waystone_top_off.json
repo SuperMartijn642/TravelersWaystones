@@ -1,0 +1,7 @@
+{
+  "parent": "travelerswaystones:block/waystone_top_off",
+  "textures": {
+    "waystone": "travelerswaystones:block/netherrack_waystone_top",
+    "particle": "#waystone"
+  }
+}

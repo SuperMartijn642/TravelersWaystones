@@ -1,0 +1,116 @@
+{
+  "variants": {
+    "discovered=false,facing=east,flipped=false,half=lower": {
+      "model": "travelerswaystones:block/diorite_waystone_bottom_off"
+    },
+    "discovered=false,facing=east,flipped=false,half=upper": {
+      "model": "travelerswaystones:block/diorite_waystone_top_off"
+    },
+    "discovered=false,facing=east,flipped=true,half=lower": {
+      "model": "travelerswaystones:block/diorite_waystone_bottom_off",
+      "x": 180
+    },
+    "discovered=false,facing=east,flipped=true,half=upper": {
+      "model": "travelerswaystones:block/diorite_waystone_top_off",
+      "x": 180
+    },
+    "discovered=false,facing=north,flipped=false,half=lower": {
+      "model": "travelerswaystones:block/diorite_waystone_bottom_off"
+    },
+    "discovered=false,facing=north,flipped=false,half=upper": {
+      "model": "travelerswaystones:block/diorite_waystone_top_off"
+    },
+    "discovered=false,facing=north,flipped=true,half=lower": {
+      "model": "travelerswaystones:block/diorite_waystone_bottom_off",
+      "x": 180
+    },
+    "discovered=false,facing=north,flipped=true,half=upper": {
+      "model": "travelerswaystones:block/diorite_waystone_top_off",
+      "x": 180
+    },
+    "discovered=false,facing=south,flipped=false,half=lower": {
+      "model": "travelerswaystones:block/diorite_waystone_bottom_off"
+    },
+    "discovered=false,facing=south,flipped=false,half=upper": {
+      "model": "travelerswaystones:block/diorite_waystone_top_off"
+    },
+    "discovered=false,facing=south,flipped=true,half=lower": {
+      "model": "travelerswaystones:block/diorite_waystone_bottom_off",
+      "x": 180
+    },
+    "discovered=false,facing=south,flipped=true,half=upper": {
+      "model": "travelerswaystones:block/diorite_waystone_top_off",
+      "x": 180
+    },
+    "discovered=false,facing=west,flipped=false,half=lower": {
+      "model": "travelerswaystones:block/diorite_waystone_bottom_off"
+    },
+    "discovered=false,facing=west,flipped=false,half=upper": {
+      "model": "travelerswaystones:block/diorite_waystone_top_off"
+    },
+    "discovered=false,facing=west,flipped=true,half=lower": {
+      "model": "travelerswaystones:block/diorite_waystone_bottom_off",
+      "x": 180
+    },
+    "discovered=false,facing=west,flipped=true,half=upper": {
+      "model": "travelerswaystones:block/diorite_waystone_top_off",
+      "x": 180
+    },
+    "discovered=true,facing=east,flipped=false,half=lower": {
+      "model": "travelerswaystones:block/diorite_waystone_bottom"
+    },
+    "discovered=true,facing=east,flipped=false,half=upper": {
+      "model": "travelerswaystones:block/diorite_waystone_top"
+    },
+    "discovered=true,facing=east,flipped=true,half=lower": {
+      "model": "travelerswaystones:block/diorite_waystone_bottom",
+      "x": 180
+    },
+    "discovered=true,facing=east,flipped=true,half=upper": {
+      "model": "travelerswaystones:block/diorite_waystone_top",
+      "x": 180
+    },
+    "discovered=true,facing=north,flipped=false,half=lower": {
+      "model": "travelerswaystones:block/diorite_waystone_bottom"
+    },
+    "discovered=true,facing=north,flipped=false,half=upper": {
+      "model": "travelerswaystones:block/diorite_waystone_top"
+    },
+    "discovered=true,facing=north,flipped=true,half=lower": {
+      "model": "travelerswaystones:block/diorite_waystone_bottom",
+      "x": 180
+    },
+    "discovered=true,facing=north,flipped=true,half=upper": {
+      "model": "travelerswaystones:block/diorite_waystone_top",
+      "x": 180
+    },
+    "discovered=true,facing=south,flipped=false,half=lower": {
+      "model": "travelerswaystones:block/diorite_waystone_bottom"
+    },
+    "discovered=true,facing=south,flipped=false,half=upper": {
+      "model": "travelerswaystones:block/diorite_waystone_top"
+    },
+    "discovered=true,facing=south,flipped=true,half=lower": {
+      "model": "travelerswaystones:block/diorite_waystone_bottom",
+      "x": 180
+    },
+    "discovered=true,facing=south,flipped=true,half=upper": {
+      "model": "travelerswaystones:block/diorite_waystone_top",
+      "x": 180
+    },
+    "discovered=true,facing=west,flipped=false,half=lower": {
+      "model": "travelerswaystones:block/diorite_waystone_bottom"
+    },
+    "discovered=true,facing=west,flipped=false,half=upper": {
+      "model": "travelerswaystones:block/diorite_waystone_top"
+    },
+    "discovered=true,facing=west,flipped=true,half=lower": {
+      "model": "travelerswaystones:block/diorite_waystone_bottom",
+      "x": 180
+    },
+    "discovered=true,facing=west,flipped=true,half=upper": {
+      "model": "travelerswaystones:block/diorite_waystone_top",
+      "x": 180
+    }
+  }
+}
