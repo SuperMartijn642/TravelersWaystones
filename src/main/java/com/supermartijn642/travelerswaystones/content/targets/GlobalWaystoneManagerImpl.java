@@ -139,6 +139,20 @@ public class GlobalWaystoneManagerImpl {
         WaystoneEvents.Remove.invoke(target);
     }
 
+    /**
+     * Removes the target of a waystone when one of its blocks is replaced by a different block.
+     */
+    public static void onBlockChanged(Level level, BlockPos pos, BlockState oldState, BlockState newState){
+        if(oldState.is(newState.getBlock()))
+            return;
+        WaystoneType type = WaystoneType.get(oldState.getBlock());
+        if(type == null)
+            return;
+        WaystoneTarget target = GlobalWaystoneManager.getTargetAt(level, type.getTargetPos(oldState, pos));
+        if(target != null && target.block().is(oldState.getBlock()))
+            remove(target);
+    }
+
     public static void rename(WaystoneTarget target, String name, Player player){
         String oldName = target.name();
         ((WaystoneTargetImpl)target).setName(name);
