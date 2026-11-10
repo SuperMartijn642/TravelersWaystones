@@ -11,14 +11,10 @@ import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWayst
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
@@ -29,8 +25,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.function.BiConsumer;
 
 public class WaystoneBlock extends BaseBlock implements WaystoneType {
 
@@ -67,30 +61,6 @@ public class WaystoneBlock extends BaseBlock implements WaystoneType {
     @Override
     public @Nullable BlockState getStateForPlacement(BlockPlaceContext context){
         return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
-    }
-
-    @Override
-    public void destroy(LevelAccessor level, BlockPos pos, BlockState state){
-        if(level.isClientSide() || !(level instanceof Level))
-            return;
-        BlockPos targetPos = this.getTargetPos(state, pos);
-        WaystoneTarget target = GlobalWaystoneManager.getTargetAt((Level)level, targetPos);
-        if(target != null)
-            GlobalWaystoneManager.remove(target);
-    }
-
-    @Override
-    protected void onExplosionHit(BlockState state, ServerLevel level, BlockPos pos, Explosion explosion, BiConsumer<ItemStack,BlockPos> onHit){
-        super.onExplosionHit(state, level, pos, explosion, onHit);
-        if(!level.getBlockState(pos).is(this))
-            this.destroy(level, pos, state);
-    }
-
-    @Override
-    public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player){
-        if(!level.isClientSide())
-            this.destroy(level, pos, state);
-        return super.playerWillDestroy(level, pos, state, player);
     }
 
     @Override
