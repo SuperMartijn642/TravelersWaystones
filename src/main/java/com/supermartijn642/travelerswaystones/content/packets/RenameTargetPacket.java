@@ -43,11 +43,11 @@ public class RenameTargetPacket implements BasePacket {
     @Override
     public void handle(PacketContext context){
         DiscoveredWaystoneTarget target = PersonalWaystoneManager.get(context.getPlayer()).getTargetForId(this.id);
-        if(target == null || !target.owner().equals(context.getPlayer().getUUID()))
+        if(target == null)
             return;
         if(context.getHandlingSide().isClient())
             ((WaystoneTargetImpl)target.target()).setName(this.name);
-        else
+        else if(target.owner().equals(context.getPlayer().getUUID()))
             GlobalWaystoneManagerImpl.rename(target.target(), this.name, context.getPlayer());
     }
 }
