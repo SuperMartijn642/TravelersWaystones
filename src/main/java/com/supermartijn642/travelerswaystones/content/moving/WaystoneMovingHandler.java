@@ -37,6 +37,14 @@ public class WaystoneMovingHandler {
             return;
         }
 
+        // Check the new location
+        Map<BlockPos,BlockState> placement = target.waystoneType().getPlacementPreview(target.block(), level, player, to);
+        if(!player.getAbilities().mayBuild || !isWithinMovingDistance(target, placement))
+            return;
+        for(BlockPos pos : placement.keySet()){
+            if(!player.mayInteract((ServerLevel)level, pos))
+                return;
+        }
         BlockPos oldPos = target.pos();
 
         // Mark target to prevent it from being removed while moving the waystone
