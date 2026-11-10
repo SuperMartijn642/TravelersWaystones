@@ -7,6 +7,7 @@ import com.supermartijn642.core.gui.widget.premade.StackedWidget;
 import com.supermartijn642.core.registry.ClientRegistrationHandler;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
+import com.supermartijn642.travelerswaystones.content.WarpPendant;
 import com.supermartijn642.travelerswaystones.content.block.WaystoneBlockStateModel;
 import com.supermartijn642.travelerswaystones.content.block.WaystoneMaterial;
 import com.supermartijn642.travelerswaystones.content.particle.ScanParticleProvider;
@@ -48,7 +49,8 @@ public class TravelersWaystonesClient {
                 if(ClientUtils.getWorld() == null || player == null
                     || ClientUtils.getMinecraft().screen != null)
                     return;
-                if(!player.getInventory().contains(s -> s.is(TravelersWaystones.warpPendant)))
+                boolean hasPendant = WarpPendant.hasPendant(player);
+                if(!hasPendant)
                     return;
                 PersonalWaystoneManager manager = PersonalWaystoneManager.get(player);
                 if(manager.all().isEmpty())
