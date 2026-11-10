@@ -50,6 +50,18 @@ public interface WaystoneType {
     }
 
     /**
+     * Gets the position of the target for the given block of the waystone.
+     * Waystones made of multiple blocks should return the same position for each of their blocks, as a waystone can only have one target.
+     * <p>
+     * This position is used for claiming, discovering and break protection, and to find the target when one of the blocks is removed.
+     * @param waystone block of the waystone
+     * @param pos      position of the block
+     */
+    default BlockPos getTargetPos(BlockState waystone, BlockPos pos){
+        return pos;
+    }
+
+    /**
      * Gets the size of the waystone. Used for particle effects that highlight the waystone.
      * @param waystone the waystone block
      */

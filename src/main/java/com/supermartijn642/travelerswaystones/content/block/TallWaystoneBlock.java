@@ -2,7 +2,6 @@ package com.supermartijn642.travelerswaystones.content.block;
 
 import com.supermartijn642.core.block.BlockProperties;
 import com.supermartijn642.core.block.BlockShape;
-import com.supermartijn642.travelerswaystones.api.WaystoneType;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -33,7 +32,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 import java.util.function.UnaryOperator;
 
-public class TallWaystoneBlock extends WaystoneBlock implements WaystoneType, SimpleWaterloggedBlock {
+public class TallWaystoneBlock extends WaystoneBlock implements SimpleWaterloggedBlock {
 
     public static final BooleanProperty FLIPPED = BooleanProperty.create("flipped");
     public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
@@ -106,7 +105,7 @@ public class TallWaystoneBlock extends WaystoneBlock implements WaystoneType, Si
     }
 
     @Override
-    public BlockPos getBasePos(BlockPos pos, BlockState state){
+    public BlockPos getTargetPos(BlockState state, BlockPos pos){
         return state.getValue(HALF) == DoubleBlockHalf.LOWER ? pos : state.getValue(FLIPPED) ? pos.above() : pos.below();
     }
 
