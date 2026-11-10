@@ -17,6 +17,10 @@ import java.util.function.Consumer;
 
 public class WarpPendant extends BaseItem {
 
+    public static boolean hasPendant(Player player){
+        return player.getInventory().contains(s -> s.is(TravelersWaystones.warpPendant));
+    }
+
     public WarpPendant(){
         super(ItemProperties.create().maxStackSize(1).group(TravelersWaystones.CREATIVE_GROUP));
     }
