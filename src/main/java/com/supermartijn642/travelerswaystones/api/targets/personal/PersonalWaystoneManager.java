@@ -53,6 +53,16 @@ public interface PersonalWaystoneManager {
     DiscoveredWaystoneTarget discover(WaystoneTarget target);
 
     /**
+     * Opens the teleport screen for the player.
+     * May be called on the server and on the client. On the server, the screen is opened through a packet.
+     * <p>
+     * Teleporting is only allowed when the player is close to {@code from}, or when {@code from} is null and the player carries a warp pendant.
+     * @param from target that the player teleports from, or null when not teleporting from a waystone
+     * @throws IllegalArgumentException if {@code from} was not discovered by the player
+     */
+    void openTeleportScreen(@Nullable DiscoveredWaystoneTarget from);
+
+    /**
      * All targets discovered by the player.
      */
     Set<DiscoveredWaystoneTarget> all();
