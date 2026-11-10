@@ -188,8 +188,8 @@ public class DiscoveredWaystoneTargetImpl implements DiscoveredWaystoneTarget {
         float yaw = (float)Math.toDegrees(Math.atan2(this.pos().getZ() + 0.5 - teleportPos.z(), this.pos().getX() + 0.5 - teleportPos.x())) - 90;
         // Event
         WaystoneEvents.AllowTeleport.Result allowTeleport = WaystoneEvents.AllowTeleport.invoke(this, player, targetLevel, teleportPos, yaw, from);
-        if(allowTeleport instanceof TeleportResult.Denied denied)
-            return new TeleportResultImpl.Denied(denied.reason());
+        if(allowTeleport instanceof WaystoneEvents.AllowTeleport.Result.Deny deny)
+            return new TeleportResultImpl.Denied(deny.reason());
         // Teleport player
         player.closeContainer();
         ServerLevel oldLevel = player.level();
