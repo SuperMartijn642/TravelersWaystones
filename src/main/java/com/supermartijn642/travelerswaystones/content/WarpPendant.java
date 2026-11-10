@@ -6,6 +6,8 @@ import com.supermartijn642.core.item.ItemProperties;
 import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import com.supermartijn642.travelerswaystones.TravelersWaystonesClient;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
+import com.supermartijn642.travelerswaystones.integration.Integration;
+import com.supermartijn642.travelerswaystones.integration.TrinketsUpdatedIntegration;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -16,6 +18,11 @@ import net.minecraft.world.level.Level;
 import java.util.function.Consumer;
 
 public class WarpPendant extends BaseItem {
+
+    public static boolean hasPendant(Player player){
+        return player.getInventory().contains(s -> s.is(TravelersWaystones.warpPendant))
+            || (Integration.isTrinketsUpdatedLoaded && TrinketsUpdatedIntegration.hasPendantInTrinketsSlot(player));
+    }
 
     public WarpPendant(){
         super(ItemProperties.create().maxStackSize(1).group(TravelersWaystones.CREATIVE_GROUP));
