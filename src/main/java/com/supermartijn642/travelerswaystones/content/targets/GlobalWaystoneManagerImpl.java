@@ -2,6 +2,7 @@ package com.supermartijn642.travelerswaystones.content.targets;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.supermartijn642.core.CommonUtils;
 import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.core.registry.Registries;
@@ -31,13 +32,11 @@ import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 import static com.supermartijn642.travelerswaystones.api.targets.GlobalWaystoneManager.Dimensional;
 
@@ -50,10 +49,10 @@ public class GlobalWaystoneManagerImpl {
     private static final Map<Identifier,Dimensional> BY_DIMENSION_VIEW = Collections.unmodifiableMap(BY_DIMENSION);
     private static final Map<UUID,Set<WaystoneTarget>> BY_DISCOVERER = new Object2ObjectOpenHashMap<>();
     /**
-     * Targets that were added previously, but for which their block now has no waystone type registered.
-     * These are not used, just kept as to not lose targets in case of issues.
+     * Serialized targets that were added previously, but whose block no longer exists or no longer has a waystone type registered.
+     * These are not used, just kept as they were saved, so the targets come back when their block or waystone type does.
      */
-    private static final List<WaystoneTarget> TARGETS_WITH_MISSING_WAYSTONE_TYPES = new ArrayList<>();
+    private static final List<JsonObject> UNLOADED_TARGETS = new ArrayList<>();
     private static int nextTargetIndex = 0;
 
     public static GlobalWaystoneManager.ClaimScreenResult displayClaimScreen(Player player, Level level, BlockPos pos, boolean isNewlyPlaced, @Nullable Component nameSuggestion){
@@ -240,16 +239,16 @@ public class GlobalWaystoneManagerImpl {
         BY_OWNER.clear();
         BY_DIMENSION.clear();
         BY_DISCOVERER.clear();
-        TARGETS_WITH_MISSING_WAYSTONE_TYPES.clear();
+        UNLOADED_TARGETS.clear();
         nextTargetIndex = 0;
     }
 
     public static JsonElement serialize(RegistryAccess registryAccess){
-        JsonArray targets = new JsonArray(BY_ID.size() + TARGETS_WITH_MISSING_WAYSTONE_TYPES.size());
+        JsonArray targets = new JsonArray(BY_ID.size() + UNLOADED_TARGETS.size());
         for(WaystoneTarget target : BY_ID.values())
             targets.add(WaystoneTargetImpl.serialize(target, registryAccess));
-        for(WaystoneTarget target : TARGETS_WITH_MISSING_WAYSTONE_TYPES)
-            targets.add(WaystoneTargetImpl.serialize(target, registryAccess));
+        for(JsonObject target : UNLOADED_TARGETS)
+            targets.add(target);
         return targets;
     }
 
@@ -257,12 +256,33 @@ public class GlobalWaystoneManagerImpl {
         clear();
         JsonArray targets = element.getAsJsonArray();
         List<Exception> exceptions = new ArrayList<>();
-        for(JsonElement targetJson : targets){
+        Set<String> missingBlocks = new TreeSet<>(), missingTypes = new TreeSet<>();
+        int missingBlockTargets = 0, missingTypeTargets = 0;
+        for(JsonElement targetElement : targets){
+            JsonObject targetJson;
             WaystoneTarget target;
             try{
-                target = WaystoneTargetImpl.deserialize(targetJson.getAsJsonObject(), registryAccess);
+                targetJson = targetElement.getAsJsonObject();
+                if(WaystoneTargetImpl.hasMissingBlock(targetJson)){
+                    int id = targetJson.get("id").getAsInt();
+                    if(id >= nextTargetIndex)
+                        nextTargetIndex = id + 1;
+                    UNLOADED_TARGETS.add(targetJson);
+                    missingBlocks.add(WaystoneTargetImpl.blockName(targetJson));
+                    missingBlockTargets++;
+                    continue;
+                }
+                target = WaystoneTargetImpl.deserialize(targetJson, registryAccess);
             }catch(Exception e){
                 exceptions.add(e);
+                continue;
+            }
+            if(WaystoneType.get(target.block().getBlock()) == null){
+                if(target.id() >= nextTargetIndex)
+                    nextTargetIndex = target.id() + 1;
+                UNLOADED_TARGETS.add(targetJson);
+                missingTypes.add(Registries.BLOCKS.getIdentifier(target.block().getBlock()).toString());
+                missingTypeTargets++;
                 continue;
             }
             if(BY_ID.containsKey(target.id())){
@@ -275,10 +295,6 @@ public class GlobalWaystoneManagerImpl {
             }
             if(target.id() >= nextTargetIndex)
                 nextTargetIndex = target.id() + 1;
-            if(WaystoneType.get(target.block().getBlock()) == null){
-                TARGETS_WITH_MISSING_WAYSTONE_TYPES.add(target);
-                continue;
-            }
             ALL.add(target);
             BY_ID.put(target.id(), target);
             BY_OWNER.add(target);
@@ -286,6 +302,10 @@ public class GlobalWaystoneManagerImpl {
                 BY_DISCOVERER.computeIfAbsent(discoverer, _ -> new ObjectOpenHashSet<>()).add(target);
             forDimensionImpl(target.dimension()).add(target);
         }
+        if(missingBlockTargets > 0)
+            TravelersWaystones.LOGGER.error("Could not load {} waystone targets because the following blocks do not exist:\n{}", missingBlockTargets, String.join(", ", missingBlocks));
+        if(missingTypeTargets > 0)
+            TravelersWaystones.LOGGER.error("Could not load {} waystone targets because no waystone type was registered for the following blocks:\n{}", missingTypeTargets, String.join(", ", missingTypes));
         if(!exceptions.isEmpty()){
             String message = exceptions.size() == 1 ? "Failed to deserialize a target!" : "Failed to deserialize " + exceptions.size() + " targets!";
             Exception first = exceptions.getFirst();
@@ -293,17 +313,6 @@ public class GlobalWaystoneManagerImpl {
                 first.addSuppressed(exceptions.get(i));
             TravelersWaystones.LOGGER.error(message, first);
             throw new RuntimeException(message, first);
-        }
-        if(!TARGETS_WITH_MISSING_WAYSTONE_TYPES.isEmpty()){
-            String blocks = TARGETS_WITH_MISSING_WAYSTONE_TYPES.stream()
-                .map(WaystoneTarget::block)
-                .map(BlockBehaviour.BlockStateBase::getBlock)
-                .collect(Collectors.toSet()).stream()
-                .map(Registries.BLOCKS::getIdentifier)
-                .sorted()
-                .map(Identifier::toString)
-                .collect(Collectors.joining(", "));
-            TravelersWaystones.LOGGER.error("Could not load {} waystone targets because no waystone type was registered for the following block:\n{}", TARGETS_WITH_MISSING_WAYSTONE_TYPES.size(), blocks);
         }
     }
 
