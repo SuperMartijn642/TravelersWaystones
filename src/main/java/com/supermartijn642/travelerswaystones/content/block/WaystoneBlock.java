@@ -1,6 +1,5 @@
 package com.supermartijn642.travelerswaystones.content.block;
 
-import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.core.block.BaseBlock;
 import com.supermartijn642.core.block.BlockProperties;
@@ -9,7 +8,6 @@ import com.supermartijn642.travelerswaystones.api.targets.GlobalWaystoneManager;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
-import com.supermartijn642.travelerswaystones.content.screen.WaystoneTeleportScreen;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -62,7 +60,7 @@ public class WaystoneBlock extends BaseBlock implements WaystoneType {
                     manager.discover(target);
             }
         }else if(level.isClientSide())
-            ClientUtils.displayScreen(WaystoneTeleportScreen.create(discoveredTarget, manager));
+            manager.openTeleportScreen(discoveredTarget);
         return InteractionFeedback.SUCCESS;
     }
 
