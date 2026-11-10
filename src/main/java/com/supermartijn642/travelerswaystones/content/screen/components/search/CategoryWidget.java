@@ -229,8 +229,17 @@ public abstract class CategoryWidget extends AbstractButtonWidget {
         public boolean updateFilter(String filter){
             boolean match = super.updateFilter(filter);
             String username = PlayerProfileCache.get(true).getUsername(this.owner);
-            if(username != null)
-                match |= username.contains(filter);
+            if(username != null && !filter.isEmpty() && username.toLowerCase(Locale.ROOT).contains(filter)){
+                // Show all waystones of the player when searching for their name
+                this.entries.forEach(entry -> {
+                    entry.updateFilter("");
+                    entry.setEnabled(true);
+                });
+                this.setEnabled(true);
+                this.expanded = true;
+                this.expansionProgress = 1;
+                match = true;
+            }
             return match;
         }
 
