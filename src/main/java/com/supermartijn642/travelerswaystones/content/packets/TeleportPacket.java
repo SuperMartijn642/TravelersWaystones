@@ -6,6 +6,7 @@ import com.supermartijn642.core.network.PacketContext;
 import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
+import com.supermartijn642.travelerswaystones.content.WarpPendant;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -52,6 +53,16 @@ public class TeleportPacket implements BasePacket {
         DiscoveredWaystoneTarget to = manager.getTargetForId(this.toId);
         if(to == null)
             return;
+        // The player must be at the fromId waystone or have a pendant when not teleporting from a waystone
+        if(this.fromId == null){
+            if(!WarpPendant.hasPendant(player))
+                return;
+        }else{
+            double maxDistance = player.blockInteractionRange() + 10;
+            if(from == null || !from.dimension().equals(player.level().dimension().identifier())
+                || from.pos().distToCenterSqr(player.position()) > maxDistance * maxDistance)
+                return;
+        }
         DiscoveredWaystoneTarget.TeleportResult result = to.teleport((ServerPlayer)player, from, this.allowDangerous);
         switch(result){
             case DiscoveredWaystoneTarget.TeleportResult.Dangerous dangerous -> TravelersWaystones.CHANNEL.sendToPlayer(player, new WarnDangerousPacket(to.id(), dangerous.warningOrDefault()));
