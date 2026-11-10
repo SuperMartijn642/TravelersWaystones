@@ -24,6 +24,9 @@ import java.util.Map;
 
 /**
  * Provides waystone functionality for blocks.
+ * <p>
+ * The target of a waystone is removed automatically when one of its blocks is replaced by a different block, see {@link #getTargetPos(BlockState, BlockPos)}.
+ * Blocks therefore do not need to remove their target themselves when they are broken.
  */
 public interface WaystoneType {
 
