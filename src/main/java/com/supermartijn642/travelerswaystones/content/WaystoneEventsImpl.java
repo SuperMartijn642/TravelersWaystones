@@ -238,19 +238,15 @@ public class WaystoneEventsImpl {
 
         private static final ResultlessEventHandler<WaystoneEvents.Rename.Context> HANDLER = new ResultlessEventHandler<>(WaystoneEvents.Rename.class.getSimpleName());
 
-        public static void invoke(WaystoneTarget target, @Nullable Player player, String oldName){
-            HANDLER.invoke(new ContextImpl(target, player, oldName));
+        public static void invoke(WaystoneTarget target, @Nullable Player player, String oldName, boolean isClient){
+            HANDLER.invoke(new ContextImpl(target, player, oldName, isClient));
         }
 
         public static void addListener(Identifier identifier, Consumer<WaystoneEvents.Rename.Context> listener){
             HANDLER.addListener(identifier, listener);
         }
 
-        public record ContextImpl(WaystoneTarget target, @Nullable Player player, String oldName) implements WaystoneEvents.Rename.Context {
-            @Override
-            public boolean isClient(){
-                return this.player.level().isClientSide();
-            }
+        public record ContextImpl(WaystoneTarget target, @Nullable Player player, String oldName, boolean isClient) implements WaystoneEvents.Rename.Context {
         }
     }
 
