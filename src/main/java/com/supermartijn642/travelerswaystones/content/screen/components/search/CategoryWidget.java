@@ -53,8 +53,10 @@ public abstract class CategoryWidget extends AbstractButtonWidget {
         this.setEnabled(match || filter.isEmpty());
         if(filter.isEmpty())
             this.setExpanded(this.getManuallyExpanded(), false, true, false);
-        else if(match)
+        else if(match){
             this.expanded = true;
+            this.entries.forEach(entry -> entry.setEnabled(true));
+        }
         this.expansionProgress = this.expanded ? 1 : 0;
         return match;
     }
