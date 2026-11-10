@@ -38,7 +38,7 @@ public class WaystoneBlockStateModel implements BlockStateModel {
         if(manager == null)
             return false;
         Identifier dimension = level instanceof Level ? ((Level)level).dimension().identifier() : player.level().dimension().identifier();
-        return manager.getTargetAt(dimension, waystone.getBasePos(pos, state)) != null;
+        return manager.getTargetAt(dimension, waystone.getTargetPos(state, pos)) != null;
     }
 
     private final BlockStateModel original;
