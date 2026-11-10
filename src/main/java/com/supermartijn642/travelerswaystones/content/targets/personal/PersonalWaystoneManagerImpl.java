@@ -184,7 +184,7 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
             this.favorites.remove(target);
         this.recents.remove(target);
         this.byOwner.remove(target);
-        this.forDimensionImpl(target.dimension()).add(target);
+        this.forDimensionImpl(target.dimension()).remove(target);
         if(this.isClient){
             if(!fromServerPacket)
                 TravelersWaystones.CHANNEL.sendToServer(new UndiscoverTargetPacket(target.id()));
