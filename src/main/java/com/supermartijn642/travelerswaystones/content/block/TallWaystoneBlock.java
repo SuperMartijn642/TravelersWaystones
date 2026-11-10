@@ -187,10 +187,10 @@ public class TallWaystoneBlock extends WaystoneBlock implements WaystoneType, Si
         boolean isAboveClear = level.getBlockState(pos.above()).canBeReplaced();
         if(isBelowSolid && isAboveClear)
             return state.setValue(FLIPPED, false).setValue(HALF, DoubleBlockHalf.LOWER);
-        boolean isAboveSolid = level.getBlockState(pos.above()).isFaceSturdy(level, pos.below(), Direction.DOWN);
+        boolean isAboveSolid = level.getBlockState(pos.above()).isFaceSturdy(level, pos.above(), Direction.DOWN);
         if(isBelowClear && isAboveSolid)
             return state.setValue(FLIPPED, true).setValue(HALF, DoubleBlockHalf.LOWER);
-        boolean isAboveAboveSolid = level.getBlockState(pos.below().below()).isFaceSturdy(level, pos.below().below(), Direction.DOWN);
+        boolean isAboveAboveSolid = level.getBlockState(pos.above().above()).isFaceSturdy(level, pos.above().above(), Direction.DOWN);
         if(isAboveClear && isAboveAboveSolid)
             return state.setValue(FLIPPED, true).setValue(HALF, DoubleBlockHalf.UPPER);
         if(isAboveClear)
