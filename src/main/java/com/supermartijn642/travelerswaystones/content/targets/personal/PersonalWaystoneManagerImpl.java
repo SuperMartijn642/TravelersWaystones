@@ -310,12 +310,11 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
             if(target.isFavorite())
                 this.favorites.add(target);
             for(int i = 0; i < recents.length; i++){
-                if(recents[i] == index)
+                if(recents[i] == index++)
                     this.recents.set(i, target);
             }
             this.byOwner.add(target);
             this.forDimensionImpl(target.dimension()).add(target);
-            index++;
         }
         this.populateFromGlobalManager(); // Global manager is always correct
         this.recents.removeIf(Objects::isNull);
