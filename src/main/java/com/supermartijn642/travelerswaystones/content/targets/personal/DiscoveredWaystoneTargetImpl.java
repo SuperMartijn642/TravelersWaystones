@@ -251,21 +251,21 @@ public class DiscoveredWaystoneTargetImpl implements DiscoveredWaystoneTarget {
         private record NoTeleportPosition(@Nullable Component reason) implements TeleportResult.NoTeleportPosition {
             @Override
             public Component reasonOrDefault(){
-                return TextComponents.translation("travelerswaystones.teleport.no_space").color(ChatFormatting.RED).get();
+                return this.reason == null ? TextComponents.translation("travelerswaystones.teleport.no_space").color(ChatFormatting.RED).get() : this.reason;
             }
         }
 
         private record Denied(@Nullable Component reason) implements TeleportResult.Denied {
             @Override
             public Component reasonOrDefault(){
-                return TextComponents.translation("travelerswaystones.teleport.denied").color(ChatFormatting.RED).get();
+                return this.reason == null ? TextComponents.translation("travelerswaystones.teleport.denied").color(ChatFormatting.RED).get() : this.reason;
             }
         }
 
         private record Dangerous(@Nullable Component warning) implements TeleportResult.Dangerous {
             @Override
             public Component warningOrDefault(){
-                return TextComponents.translation("travelerswaystones.teleport.dangerous").get();
+                return this.warning == null ? TextComponents.translation("travelerswaystones.teleport.dangerous").get() : this.warning;
             }
         }
 
