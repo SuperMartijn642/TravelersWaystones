@@ -9,6 +9,7 @@ import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.RegistryOps;
@@ -57,6 +58,15 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
         for(int i = 0; i + 1 < discoverers.size(); i += 2)
             target.discoverers.add(new UUID(discoverers.get(i).getAsLong(), discoverers.get(i + 1).getAsLong()));
         return target;
+    }
+
+    public static boolean hasMissingBlock(JsonObject json){
+        Identifier block = Identifier.tryParse(blockName(json));
+        return block != null && !BuiltInRegistries.BLOCK.containsKey(block);
+    }
+
+    public static String blockName(JsonObject json){
+        return json.getAsJsonObject("block").get("Name").getAsString();
     }
 
     public static void encode(WaystoneTarget target, FriendlyByteBuf buffer){
