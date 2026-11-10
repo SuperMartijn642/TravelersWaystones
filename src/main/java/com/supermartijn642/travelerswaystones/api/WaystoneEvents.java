@@ -135,7 +135,7 @@ public final class WaystoneEvents {
         }
 
         public static void addListener(Identifier identifier, Consumer<Context> listener){
-            WaystoneEvents.Remove.addListener(identifier, listener);
+            WaystoneEventsImpl.Remove.addListener(identifier, listener);
         }
 
         @ApiStatus.NonExtendable
