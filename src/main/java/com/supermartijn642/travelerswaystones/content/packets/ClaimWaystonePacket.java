@@ -5,10 +5,12 @@ import com.supermartijn642.core.network.PacketContext;
 import com.supermartijn642.travelerswaystones.api.targets.GlobalWaystoneManager;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
+import com.supermartijn642.travelerswaystones.content.block.WaystoneBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class ClaimWaystonePacket implements BasePacket {
 
@@ -32,7 +34,7 @@ public class ClaimWaystonePacket implements BasePacket {
     @Override
     public void read(FriendlyByteBuf buffer){
         this.pos = buffer.readBlockPos();
-        this.name = buffer.readUtf(WaystoneTarget.MAX_NAME_LENGTH);
+        this.name = buffer.readUtf(WaystoneTarget.MAX_NAME_LENGTH).trim();
     }
 
     @Override
@@ -47,6 +49,9 @@ public class ClaimWaystonePacket implements BasePacket {
         if(player.blockPosition().distSqr(this.pos) > maxDistance * maxDistance)
             return;
         Level level = player.level();
+        BlockState state = level.getBlockState(this.pos);
+        if(state.getBlock() instanceof WaystoneBlock waystone && !waystone.getBasePos(this.pos, state).equals(this.pos))
+            return;
         WaystoneTarget target = GlobalWaystoneManager.getTargetAt(level, this.pos);
         if(target != null)
             return;
