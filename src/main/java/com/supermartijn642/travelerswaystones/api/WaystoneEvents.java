@@ -541,14 +541,17 @@ public final class WaystoneEvents {
      */
     public static final class Rename {
         /**
-         * @param target  target that was renamed
-         * @param player  player that renamed the target, may be null
-         * @param oldName name of the target before it was renamed
+         * @param target   target that was renamed
+         * @param player   player that renamed the target, may be null
+         * @param oldName  name of the target before it was renamed
+         * @param isClient whether this event fired on the client
          */
-        public static void invoke(WaystoneTarget target, @Nullable Player player, String oldName){
+        public static void invoke(WaystoneTarget target, @Nullable Player player, String oldName, boolean isClient){
+            WaystoneEventsImpl.Rename.invoke(target, player, oldName, isClient);
         }
 
         public static void addListener(Identifier identifier, Consumer<Context> listener){
+            WaystoneEventsImpl.Rename.addListener(identifier, listener);
         }
 
         @ApiStatus.NonExtendable
