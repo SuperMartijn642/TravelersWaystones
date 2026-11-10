@@ -185,6 +185,10 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
         this.recents.remove(target);
         this.byOwner.remove(target);
         this.forDimensionImpl(target.dimension()).remove(target);
+        if(this.isClient && this.player.level().dimension().identifier().equals(target.dimension())){
+            BlockState state = this.player.level().getBlockState(target.pos());
+            this.player.level().setBlocksDirty(target.pos(), state, Blocks.AIR.defaultBlockState());
+        }
         if(this.isClient){
             if(!fromServerPacket)
                 TravelersWaystones.CHANNEL.sendToServer(new UndiscoverTargetPacket(target.id()));
