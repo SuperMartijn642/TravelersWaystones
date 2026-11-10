@@ -6,7 +6,6 @@ import com.supermartijn642.travelerswaystones.api.WaystoneType;
 import com.supermartijn642.travelerswaystones.api.targets.GlobalWaystoneManager;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
-import com.supermartijn642.travelerswaystones.content.block.WaystoneBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
@@ -51,9 +50,8 @@ public class ClaimWaystonePacket implements BasePacket {
             return;
         Level level = player.level();
         BlockState state = level.getBlockState(this.pos);
-        if(state.getBlock() instanceof WaystoneBlock waystone && !waystone.getBasePos(this.pos, state).equals(this.pos))
-            return;
-        if(WaystoneType.get(state.getBlock()) == null)
+        WaystoneType type = WaystoneType.get(state.getBlock());
+        if(type == null || !type.getTargetPos(state, this.pos).equals(this.pos))
             return;
         WaystoneTarget target = GlobalWaystoneManager.getTargetAt(level, this.pos);
         if(target != null)
