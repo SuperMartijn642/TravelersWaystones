@@ -2,11 +2,11 @@ package com.supermartijn642.travelerswaystones.mixin;
 
 import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.TextComponents;
+import com.supermartijn642.travelerswaystones.api.WaystoneType;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
 import com.supermartijn642.travelerswaystones.content.WaystoneEventsImpl;
 import com.supermartijn642.travelerswaystones.content.WaystoneTypeRegistry;
-import com.supermartijn642.travelerswaystones.content.block.WaystoneBlock;
 import com.supermartijn642.travelerswaystones.content.moving.WaystoneMovingHandler;
 import com.supermartijn642.travelerswaystones.content.moving.WaystoneMovingHandlerClient;
 import net.minecraft.ChatFormatting;
@@ -101,8 +101,9 @@ public class MinecraftMixin {
         if(!level.getWorldBorder().isWithinBounds(pos))
             return;
         BlockState state = level.getBlockState(pos);
-        if(state.getBlock() instanceof WaystoneBlock waystone){
-            pos = waystone.getTargetPos(state, pos);
+        WaystoneType type = WaystoneType.get(state.getBlock());
+        if(type != null && type.hasBreakProtection(state)){
+            pos = type.getTargetPos(state, pos);
             if(this.waystoneMineWarningDelay <= 0){
                 DiscoveredWaystoneTarget target = PersonalWaystoneManager.get(player).getTargetAt(level, pos);
                 boolean isOwner = target != null && target.owner().equals(player.getUUID());
