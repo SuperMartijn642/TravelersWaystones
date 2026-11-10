@@ -15,7 +15,7 @@ public class WaystoneTypeRegistry {
     public static WaystoneType get(Block block){
         if(!finalized)
             throw new IllegalStateException("Waystones cannot be queried during initialization!");
-        return WAYSTONES.getOrDefault(block, WaystoneType.DEFAULT);
+        return WAYSTONES.get(block);
     }
 
     public static void register(WaystoneType type, Block... blocks){
