@@ -298,6 +298,7 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
         for(int i = 0; i < recents.length && i < MAX_RECENTS; i++)
             this.recents.add(null);
         for(ValueInput child : targets){
+            int targetIndex = index++;
             DiscoveredWaystoneTarget target = DiscoveredWaystoneTargetImpl.read(child);
             if(target == null) // Target was removed
                 continue;
@@ -310,7 +311,7 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
             if(target.isFavorite())
                 this.favorites.add(target);
             for(int i = 0; i < recents.length; i++){
-                if(recents[i] == index++)
+                if(recents[i] == targetIndex)
                     this.recents.set(i, target);
             }
             this.byOwner.add(target);
