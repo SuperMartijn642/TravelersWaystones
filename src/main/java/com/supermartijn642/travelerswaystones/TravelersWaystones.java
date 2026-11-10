@@ -53,6 +53,7 @@ public class TravelersWaystones implements ModInitializer {
         CHANNEL.registerMessage(FavoriteTargetPacket.class, FavoriteTargetPacket::new, PacketDirection.BOTH_WAYS, true);
         CHANNEL.registerMessage(MoveWaystonePacket.class, MoveWaystonePacket::new, PacketDirection.CLIENT_TO_SERVER, true);
         CHANNEL.registerMessage(OpenClaimScreenPacket.class, OpenClaimScreenPacket::new, PacketDirection.SERVER_TO_CLIENT, true);
+        CHANNEL.registerMessage(OpenTeleportScreenPacket.class, OpenTeleportScreenPacket::new, PacketDirection.SERVER_TO_CLIENT, true);
         CHANNEL.registerMessage(PersonalTargetsPacket.class, PersonalTargetsPacket::new, PacketDirection.SERVER_TO_CLIENT, true);
         CHANNEL.registerMessage(RecentTargetPacket.class, RecentTargetPacket::new, PacketDirection.SERVER_TO_CLIENT, true);
         CHANNEL.registerMessage(UndiscoverTargetPacket.class, UndiscoverTargetPacket::new, PacketDirection.BOTH_WAYS, true);

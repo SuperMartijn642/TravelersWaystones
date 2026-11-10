@@ -2,6 +2,7 @@ package com.supermartijn642.travelerswaystones.content.targets.personal;
 
 import com.supermartijn642.core.CommonUtils;
 import com.supermartijn642.travelerswaystones.TravelersWaystones;
+import com.supermartijn642.travelerswaystones.TravelersWaystonesClient;
 import com.supermartijn642.travelerswaystones.api.WaystoneEvents;
 import com.supermartijn642.travelerswaystones.api.WaystoneType;
 import com.supermartijn642.travelerswaystones.api.targets.GlobalWaystoneManager;
@@ -90,6 +91,16 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
             TravelersWaystones.CHANNEL.sendToServer(new SetTargetSuppressDangerousPacket(target.id(), suppress));
         else
             TravelersWaystones.CHANNEL.sendToPlayer(this.player, new SetTargetSuppressDangerousPacket(target.id(), suppress));
+    }
+
+    @Override
+    public void openTeleportScreen(@Nullable DiscoveredWaystoneTarget from){
+        if(from != null && this.getTargetForId(from.id()) != from)
+            throw new IllegalArgumentException("Target '" + from.name() + "' was not discovered by player '" + this.player.getName().getString() + "'!");
+        if(this.isClient)
+            TravelersWaystonesClient.openTeleportScreen(from);
+        else
+            TravelersWaystones.CHANNEL.sendToPlayer(this.player, new OpenTeleportScreenPacket(from == null ? null : from.id()));
     }
 
     public void pushRecent(DiscoveredWaystoneTarget target){
