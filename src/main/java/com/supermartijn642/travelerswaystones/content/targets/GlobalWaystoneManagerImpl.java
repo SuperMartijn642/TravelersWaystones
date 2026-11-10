@@ -389,7 +389,7 @@ public class GlobalWaystoneManagerImpl {
         private record Denied(@Nullable Component reason) implements GlobalWaystoneManager.ClaimScreenResult.Denied {
             @Override
             public Component reasonOrDefault(){
-                return TextComponents.translation("travelerswaystones.claim.denied").get();
+                return this.reason == null ? TextComponents.translation("travelerswaystones.claim.denied").get() : this.reason;
             }
         }
     }
@@ -401,7 +401,7 @@ public class GlobalWaystoneManagerImpl {
         private record Denied(@Nullable Component reason) implements GlobalWaystoneManager.ClaimResult.Denied {
             @Override
             public Component reasonOrDefault(){
-                return TextComponents.translation("travelerswaystones.claim.denied").get();
+                return this.reason == null ? TextComponents.translation("travelerswaystones.claim.denied").get() : this.reason;
             }
         }
     }
