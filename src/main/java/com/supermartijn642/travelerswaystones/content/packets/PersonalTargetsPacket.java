@@ -41,9 +41,7 @@ public class PersonalTargetsPacket implements BasePacket {
     @Override
     public void read(FriendlyByteBuf buffer){
         int size = buffer.readVarInt();
-        if(size > 1024)
-            throw new IllegalStateException("Received more than 1024 targets!");
-        this.targets = new ArrayList<>(size);
+        this.targets = new ArrayList<>(Math.min(size, 256));
         for(int i = 0; i < size; ++i)
             this.targets.add(DiscoveredWaystoneTargetImpl.decode(buffer));
         this.recents = buffer.readVarIntArray(PersonalWaystoneManagerImpl.MAX_RECENTS);
