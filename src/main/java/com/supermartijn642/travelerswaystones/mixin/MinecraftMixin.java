@@ -88,7 +88,7 @@ public class MinecraftMixin {
             return;
         BlockState state = level.getBlockState(pos);
         if(state.getBlock() instanceof WaystoneBlock waystone){
-            pos = waystone.getBasePos(pos, state);
+            pos = waystone.getTargetPos(state, pos);
             if(this.waystoneMineWarningDelay <= 0){
                 DiscoveredWaystoneTarget target = PersonalWaystoneManager.get(player).getTargetAt(level, pos);
                 boolean isOwner = target != null && target.owner().equals(player.getUUID());

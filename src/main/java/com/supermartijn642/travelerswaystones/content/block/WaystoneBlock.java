@@ -4,6 +4,7 @@ import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.core.block.BaseBlock;
 import com.supermartijn642.core.block.BlockProperties;
+import com.supermartijn642.travelerswaystones.api.WaystoneType;
 import com.supermartijn642.travelerswaystones.api.targets.GlobalWaystoneManager;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
@@ -33,7 +34,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.BiConsumer;
 
-public class WaystoneBlock extends BaseBlock {
+public class WaystoneBlock extends BaseBlock implements WaystoneType {
 
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty DISCOVERED = BooleanProperty.create("discovered");
@@ -43,14 +44,10 @@ public class WaystoneBlock extends BaseBlock {
         this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH).setValue(DISCOVERED, false));
     }
 
-    public BlockPos getBasePos(BlockPos pos, BlockState state){
-        return pos;
-    }
-
     @Override
     protected InteractionFeedback interact(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, Direction hitSide, Vec3 hitLocation){
         PersonalWaystoneManager manager = PersonalWaystoneManager.get(player);
-        BlockPos basePos = this.getBasePos(pos, state);
+        BlockPos basePos = this.getTargetPos(state, pos);
         DiscoveredWaystoneTarget discoveredTarget = manager.getTargetAt(level, basePos);
         if(discoveredTarget == null){
             if(player.level() != level)
@@ -78,7 +75,7 @@ public class WaystoneBlock extends BaseBlock {
     public void destroy(LevelAccessor level, BlockPos pos, BlockState state){
         if(level.isClientSide() || !(level instanceof Level))
             return;
-        BlockPos targetPos = this.getBasePos(pos, state);
+        BlockPos targetPos = this.getTargetPos(state, pos);
         WaystoneTarget target = GlobalWaystoneManager.getTargetAt((Level)level, targetPos);
         if(target != null)
             GlobalWaystoneManager.remove(target);
