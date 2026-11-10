@@ -128,7 +128,8 @@ public class GlobalWaystoneManagerImpl {
                     BY_DISCOVERER.remove(discoverer);
             }
         }
-        forAllOnlinePlayers(target.discoverers(), player -> {
+        // Copy the discoverers as undiscovering removes them from the target
+        forAllOnlinePlayers(new ObjectOpenHashSet<>(target.discoverers()), player -> {
             PersonalWaystoneManager waystoneManager = PersonalWaystoneManagerImpl.get(player, false);
             if(waystoneManager != null){
                 DiscoveredWaystoneTarget discoveredTarget = waystoneManager.get(target);
@@ -187,7 +188,13 @@ public class GlobalWaystoneManagerImpl {
     public static void removeDiscovered(DiscoveredWaystoneTarget target, UUID discoverer){
         if(!target.target().discoverers().contains(discoverer))
             return;
-        BY_DISCOVERER.get(discoverer).remove(target.target());
+        // There's no entry anymore if the target itself is being removed and it was the last one for this player
+        Set<WaystoneTarget> targets = BY_DISCOVERER.get(discoverer);
+        if(targets != null){
+            targets.remove(target.target());
+            if(targets.isEmpty())
+                BY_DISCOVERER.remove(discoverer);
+        }
         ((WaystoneTargetImpl)target.target()).removeDiscoverer(discoverer);
     }
 
