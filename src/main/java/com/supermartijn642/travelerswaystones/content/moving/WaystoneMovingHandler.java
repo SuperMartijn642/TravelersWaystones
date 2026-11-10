@@ -34,6 +34,7 @@ public class WaystoneMovingHandler {
                 TextComponents.translation("travelerswaystones.moving.denied").color(ChatFormatting.RED).get() :
                 TextComponents.fromTextComponent(deny.reason()).color(ChatFormatting.RED).get();
             player.sendOverlayMessage(TextComponents.fromTextComponent(reason).color(ChatFormatting.RED).get());
+            return;
         }
 
         BlockPos oldPos = target.pos();
