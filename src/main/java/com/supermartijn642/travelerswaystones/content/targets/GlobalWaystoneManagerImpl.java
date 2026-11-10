@@ -145,7 +145,7 @@ public class GlobalWaystoneManagerImpl {
         ((WaystoneTargetImpl)target).setName(name);
         RenameTargetPacket renamePacket = new RenameTargetPacket(target.id(), name);
         forAllOnlinePlayers(target.discoverers(), p -> TravelersWaystones.CHANNEL.sendToPlayer(p, renamePacket));
-        WaystoneEvents.Rename.invoke(target, player, oldName);
+        WaystoneEvents.Rename.invoke(target, player, oldName, false);
     }
 
     public static void move(WaystoneTarget target, Player player, Level level, BlockPos to, BlockState block, Identifier biome, Level oldLevel){

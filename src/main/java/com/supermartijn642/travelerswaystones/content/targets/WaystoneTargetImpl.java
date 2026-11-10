@@ -114,7 +114,7 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
         String oldName = this.name;
         this.name = name;
         if(this.isClient)
-            WaystoneEvents.Rename.invoke(this, null, oldName);
+            WaystoneEvents.Rename.invoke(this, null, oldName, true);
     }
 
     public void setBiomePosAndBlock(Identifier biome, BlockPos pos, BlockState block){
