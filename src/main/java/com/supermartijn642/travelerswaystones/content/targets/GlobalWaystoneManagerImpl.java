@@ -86,11 +86,11 @@ public class GlobalWaystoneManagerImpl {
         WaystoneEvents.AllowClaim.Result permission = WaystoneEventsImpl.AllowClaim.invoke(player, level, pos, block);
         if(permission instanceof WaystoneEvents.AllowClaim.Result.Deny deny)
             return new ClaimResultImpl.Denied(deny.reason());
-        WaystoneTarget target = add(player, level, pos, name);
+        WaystoneTarget target = add(player.getUUID(), player, level, pos, name);
         return new ClaimResultImpl.Success(target);
     }
 
-    public static WaystoneTarget add(ServerPlayer owner, ServerLevel level, BlockPos pos, String name){
+    public static WaystoneTarget add(UUID owner, @Nullable ServerPlayer player, ServerLevel level, BlockPos pos, String name){
         name = name.trim();
         if(name.length() < WaystoneTarget.MIN_NAME_LENGTH || name.length() > WaystoneTarget.MAX_NAME_LENGTH)
             throw new IllegalArgumentException("Name must be between " + WaystoneTarget.MIN_NAME_LENGTH + " and " + WaystoneTarget.MAX_NAME_LENGTH + " characters, not " + name.length() + "!");
@@ -101,15 +101,14 @@ public class GlobalWaystoneManagerImpl {
         if(WaystoneType.get(block.getBlock()) == null)
             throw new IllegalStateException("No waystone type registered for block '" + block.getBlock() + "'!");
         int id = nextTargetIndex++;
-        UUID uuid = owner.getUUID();
         Identifier biome = level.getBiome(pos).unwrapKey().orElseThrow().identifier();
-        WaystoneTargetImpl target = new WaystoneTargetImpl(false, id, name, uuid, dimension, biome, pos, block);
+        WaystoneTargetImpl target = new WaystoneTargetImpl(false, id, name, owner, dimension, biome, pos, block);
         ALL.add(target);
         BY_ID.put(id, target);
         BY_OWNER.add(target);
         forDimensionImpl(dimension).add(target);
         sendChunkTargets(dimension, target.chunkPos());
-        WaystoneEventsImpl.Claim.invoke(target, level, owner);
+        WaystoneEventsImpl.Claim.invoke(target, level, player);
         return target;
     }
 
