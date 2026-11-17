@@ -4,8 +4,8 @@
 	"parent": "minecraft:block/block",
 	"texture_size": [32, 32],
 	"textures": {
-		"particle": "travelerswaystones:block/stone_bricks_waystone_bottom",
-		"waystone": "travelerswaystones:block/stone_bricks_waystone_bottom",
+		"particle": "travelerswaystones:block/stone_waystone_bottom",
+		"waystone": "travelerswaystones:block/stone_waystone_bottom",
 		"glyphs": "travelerswaystones:block/glyphs"
 	},
 	"elements": [
