@@ -10,10 +10,13 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.RegistryOps;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -29,7 +32,7 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
         json.addProperty("name", target.name());
         json.addProperty("ownerLower", target.owner().getLeastSignificantBits());
         json.addProperty("ownerHigher", target.owner().getMostSignificantBits());
-        json.addProperty("dimension", target.dimension().toShortString());
+        json.addProperty("dimension", target.dimension().identifier().toShortString());
         json.addProperty("biome", target.biome().toShortString());
         json.addProperty("pos", target.pos().asLong());
         RegistryOps<JsonElement> ops = registryAccess.createSerializationContext(JsonOps.INSTANCE);
@@ -50,7 +53,7 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
             json.get("id").getAsInt(),
             json.get("name").getAsString(),
             new UUID(json.get("ownerHigher").getAsLong(), json.get("ownerLower").getAsLong()),
-            Identifier.parse(json.get("dimension").getAsString()),
+            ResourceKey.create(Registries.DIMENSION, Identifier.parse(json.get("dimension").getAsString())),
             Identifier.parse(json.get("biome").getAsString()),
             BlockPos.of(json.get("pos").getAsLong()),
             BlockState.CODEC.decode(ops, json.get("block")).getOrThrow().getFirst());
@@ -73,7 +76,7 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
         buffer.writeInt(target.id());
         buffer.writeUtf(target.name());
         buffer.writeUUID(target.owner());
-        buffer.writeIdentifier(target.dimension());
+        buffer.writeResourceKey(target.dimension());
         buffer.writeIdentifier(target.biome());
         buffer.writeBlockPos(target.pos());
         buffer.writeVarInt(Block.getId(target.block()));
@@ -85,7 +88,7 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
             buffer.readInt(),
             buffer.readUtf(WaystoneTarget.MAX_NAME_LENGTH),
             buffer.readUUID(),
-            buffer.readIdentifier(),
+            buffer.readResourceKey(Registries.DIMENSION),
             buffer.readIdentifier(),
             buffer.readBlockPos(),
             Block.stateById(buffer.readVarInt())
@@ -96,7 +99,7 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
     private final int id;
     private String name;
     private final UUID owner;
-    private final Identifier dimension;
+    private final ResourceKey<Level> dimension;
     private Identifier biome;
     private BlockPos pos;
     private ChunkPos chunkPos;
@@ -108,7 +111,7 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
      */
     private boolean preventRemoveWhileMoving = false;
 
-    public WaystoneTargetImpl(boolean isClient, int id, String name, UUID owner, Identifier dimension, Identifier biome, BlockPos pos, BlockState block){
+    public WaystoneTargetImpl(boolean isClient, int id, String name, UUID owner, ResourceKey<Level> dimension, Identifier biome, BlockPos pos, BlockState block){
         this.isClient = isClient;
         this.id = id;
         this.name = name;
@@ -174,7 +177,7 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
     }
 
     @Override
-    public Identifier dimension(){
+    public ResourceKey<Level> dimension(){
         return this.dimension;
     }
 

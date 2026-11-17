@@ -13,7 +13,6 @@ import com.supermartijn642.travelerswaystones.content.WaystoneEventsImpl;
 import com.supermartijn642.travelerswaystones.content.targets.WaystoneTargetImpl;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -22,6 +21,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -138,7 +138,7 @@ public class DiscoveredWaystoneTargetImpl implements DiscoveredWaystoneTarget {
     }
 
     @Override
-    public Identifier dimension(){
+    public ResourceKey<Level> dimension(){
         return this.target.dimension();
     }
 
@@ -164,11 +164,11 @@ public class DiscoveredWaystoneTargetImpl implements DiscoveredWaystoneTarget {
 
     @Override
     public TeleportResult teleport(ServerPlayer player, @Nullable DiscoveredWaystoneTarget from, boolean allowDangerous){
-        ServerLevel targetLevel = player.level().getServer().getLevel(ResourceKey.create(Registries.DIMENSION, this.dimension()));
+        ServerLevel targetLevel = player.level().getServer().getLevel(this.dimension());
         if(targetLevel == null){
             return new TeleportResultImpl.Error(TextComponents.translation(
                 "travelerswaystones.teleport.error.missing_level",
-                TextComponents.string(this.dimension().toString()).color(ChatFormatting.GOLD).get()
+                TextComponents.string(this.dimension().identifier().toString()).color(ChatFormatting.GOLD).get()
             ).color(ChatFormatting.RED).get());
         }
         // Find suitable location
