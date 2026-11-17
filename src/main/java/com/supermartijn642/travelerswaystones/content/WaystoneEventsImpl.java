@@ -66,7 +66,7 @@ public class WaystoneEventsImpl {
 
         private static final ResultlessEventHandler<WaystoneEvents.Claim.Context> HANDLER = new ResultlessEventHandler<>(WaystoneEvents.Claim.class.getSimpleName());
 
-        public static void invoke(WaystoneTarget target, ServerLevel level, ServerPlayer player){
+        public static void invoke(WaystoneTarget target, ServerLevel level, @Nullable ServerPlayer player){
             HANDLER.invoke(new ContextImpl(target, level, player));
         }
 
@@ -74,7 +74,7 @@ public class WaystoneEventsImpl {
             HANDLER.addListener(identifier, listener);
         }
 
-        public record ContextImpl(WaystoneTarget target, ServerLevel level, ServerPlayer player) implements WaystoneEvents.Claim.Context {
+        public record ContextImpl(WaystoneTarget target, ServerLevel level, @Nullable ServerPlayer player) implements WaystoneEvents.Claim.Context {
         }
     }
 
