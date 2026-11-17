@@ -5,10 +5,10 @@ import com.supermartijn642.travelerswaystones.api.WaystoneType;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -52,7 +52,7 @@ public interface WaystoneTarget {
      * <p>
      * May change when a target is moved, see {@link WaystoneEvents.Move}.
      */
-    Identifier biome();
+    ResourceKey<Biome> biome();
 
     /**
      * Position that this target is at.
