@@ -3,12 +3,12 @@ package com.supermartijn642.travelerswaystones.content.targets.personal;
 import com.supermartijn642.core.CommonUtils;
 import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import com.supermartijn642.travelerswaystones.TravelersWaystonesClient;
-import com.supermartijn642.travelerswaystones.api.WaystoneEvents;
 import com.supermartijn642.travelerswaystones.api.WaystoneType;
 import com.supermartijn642.travelerswaystones.api.targets.GlobalWaystoneManager;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
+import com.supermartijn642.travelerswaystones.content.WaystoneEventsImpl;
 import com.supermartijn642.travelerswaystones.content.packets.*;
 import com.supermartijn642.travelerswaystones.content.targets.GlobalWaystoneManagerImpl;
 import com.supermartijn642.travelerswaystones.content.targets.WaystoneTargetImpl;
@@ -178,7 +178,7 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
             BlockState state = this.player.level().getBlockState(target.pos());
             this.player.level().setBlocksDirty(target.pos(), state, Blocks.AIR.defaultBlockState());
         }
-        WaystoneEvents.Discover.invoke(discoveredTarget, this.player.level(), this.player);
+        WaystoneEventsImpl.Discover.invoke(discoveredTarget, this.player.level(), this.player);
         if(showEffects)
             this.showDiscoverEffects(discoveredTarget);
         return discoveredTarget;
@@ -207,7 +207,7 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
             GlobalWaystoneManagerImpl.removeDiscovered(target, this.player.getUUID());
             TravelersWaystones.CHANNEL.sendToPlayer(this.player, new UndiscoverTargetPacket(target.id()));
         }
-        WaystoneEvents.Undiscover.invoke(target, this.player);
+        WaystoneEventsImpl.Undiscover.invoke(target, this.player);
     }
 
     public void copyFrom(PersonalWaystoneManagerImpl manager){

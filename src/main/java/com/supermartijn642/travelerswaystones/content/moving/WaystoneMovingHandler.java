@@ -5,6 +5,7 @@ import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import com.supermartijn642.travelerswaystones.api.WaystoneEvents;
 import com.supermartijn642.travelerswaystones.api.WaystoneType;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
+import com.supermartijn642.travelerswaystones.content.WaystoneEventsImpl;
 import com.supermartijn642.travelerswaystones.content.targets.GlobalWaystoneManagerImpl;
 import com.supermartijn642.travelerswaystones.content.targets.WaystoneTargetImpl;
 import net.minecraft.ChatFormatting;
@@ -28,7 +29,7 @@ public class WaystoneMovingHandler {
             throw new IllegalStateException("Trying to move waystone client-side!");
 
         // Check event
-        WaystoneEvents.AllowMove.Result allowMove = WaystoneEvents.AllowMove.invoke(target, level, player, to);
+        WaystoneEvents.AllowMove.Result allowMove = WaystoneEventsImpl.AllowMove.invoke(target, level, player, to);
         if(allowMove instanceof WaystoneEvents.AllowMove.Result.Deny deny){
             Component reason = deny.reason() == null ?
                 TextComponents.translation("travelerswaystones.moving.denied").color(ChatFormatting.RED).get() :
