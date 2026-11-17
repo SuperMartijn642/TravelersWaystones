@@ -12,6 +12,7 @@ import com.supermartijn642.travelerswaystones.api.targets.GlobalWaystoneManager;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
+import com.supermartijn642.travelerswaystones.content.WaystoneEventsImpl;
 import com.supermartijn642.travelerswaystones.content.packets.ChunkTargetsPacket;
 import com.supermartijn642.travelerswaystones.content.packets.OpenClaimScreenPacket;
 import com.supermartijn642.travelerswaystones.content.packets.RenameTargetPacket;
@@ -65,7 +66,7 @@ public class GlobalWaystoneManagerImpl {
         BlockState block = level.getBlockState(pos);
         if(WaystoneType.get(block.getBlock()) == null)
             throw new IllegalStateException("No waystone type registered for block '" + block.getBlock() + "'!");
-        WaystoneEvents.AllowClaim.Result permission = WaystoneEvents.AllowClaim.invoke(player, level, pos, block);
+        WaystoneEvents.AllowClaim.Result permission = WaystoneEventsImpl.AllowClaim.invoke(player, level, pos, block);
         if(permission instanceof WaystoneEvents.AllowClaim.Result.Deny deny)
             return new ClaimScreenResultImpl.Denied(deny.reason());
         TravelersWaystones.CHANNEL.sendToPlayer(player, new OpenClaimScreenPacket(pos, isNewlyPlaced, nameSuggestion));
@@ -82,7 +83,7 @@ public class GlobalWaystoneManagerImpl {
         BlockState block = level.getBlockState(pos);
         if(WaystoneType.get(block.getBlock()) == null)
             throw new IllegalStateException("No waystone type registered for block '" + block.getBlock() + "'!");
-        WaystoneEvents.AllowClaim.Result permission = WaystoneEvents.AllowClaim.invoke(player, level, pos, block);
+        WaystoneEvents.AllowClaim.Result permission = WaystoneEventsImpl.AllowClaim.invoke(player, level, pos, block);
         if(permission instanceof WaystoneEvents.AllowClaim.Result.Deny deny)
             return new ClaimResultImpl.Denied(deny.reason());
         WaystoneTarget target = add(player, level, pos, name);
@@ -108,7 +109,7 @@ public class GlobalWaystoneManagerImpl {
         BY_OWNER.add(target);
         forDimensionImpl(dimension).add(target);
         sendChunkTargets(dimension, target.chunkPos());
-        WaystoneEvents.Claim.invoke(target, level, owner);
+        WaystoneEventsImpl.Claim.invoke(target, level, owner);
         return target;
     }
 
@@ -142,7 +143,7 @@ public class GlobalWaystoneManagerImpl {
                     discoveredTarget.undiscover();
             }
         });
-        WaystoneEvents.Remove.invoke(target);
+        WaystoneEventsImpl.Remove.invoke(target);
     }
 
     /**
@@ -164,7 +165,7 @@ public class GlobalWaystoneManagerImpl {
         ((WaystoneTargetImpl)target).setName(name);
         RenameTargetPacket renamePacket = new RenameTargetPacket(target.id(), name);
         forAllOnlinePlayers(target.discoverers(), p -> TravelersWaystones.CHANNEL.sendToPlayer(p, renamePacket));
-        WaystoneEvents.Rename.invoke(target, player, oldName, false);
+        WaystoneEventsImpl.Rename.invoke(target, player, oldName, false);
     }
 
     public static void move(WaystoneTarget target, Player player, Level level, BlockPos to, BlockState block, Identifier biome, Level oldLevel){
@@ -197,8 +198,8 @@ public class GlobalWaystoneManagerImpl {
             TravelersWaystones.CHANNEL.sendToPlayer(p, packet);
         });
         // Events
-        WaystoneEvents.Move.invoke(target, level, player, oldLevel, oldPos, oldBlock, oldBiome);
-        WaystoneEvents.UpdateLocation.invoke(target, oldDimension, oldPos, oldBlock, oldBiome, false);
+        WaystoneEventsImpl.Move.invoke(target, level, player, oldLevel, oldPos, oldBlock, oldBiome);
+        WaystoneEventsImpl.UpdateLocation.invoke(target, oldDimension, oldPos, oldBlock, oldBiome, false);
     }
 
     public static void addDiscovered(WaystoneTarget target, UUID discoverer){

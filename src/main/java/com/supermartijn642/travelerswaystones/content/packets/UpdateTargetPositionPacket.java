@@ -2,9 +2,9 @@ package com.supermartijn642.travelerswaystones.content.packets;
 
 import com.supermartijn642.core.network.BasePacket;
 import com.supermartijn642.core.network.PacketContext;
-import com.supermartijn642.travelerswaystones.api.WaystoneEvents;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
+import com.supermartijn642.travelerswaystones.content.WaystoneEventsImpl;
 import com.supermartijn642.travelerswaystones.content.targets.WaystoneTargetImpl;
 import com.supermartijn642.travelerswaystones.content.targets.personal.PersonalWaystoneManagerImpl;
 import net.minecraft.core.BlockPos;
@@ -59,6 +59,6 @@ public class UpdateTargetPositionPacket implements BasePacket {
         manager.updateTargetPositionPre(target);
         ((WaystoneTargetImpl)target.target()).setBiomePosAndBlock(this.newBiome, this.newPos, this.newBlock);
         manager.updateTargetPositionPost(target);
-        WaystoneEvents.UpdateLocation.invoke(target.target(), oldDimension, oldPos, oldBlock, oldBiome, true);
+        WaystoneEventsImpl.UpdateLocation.invoke(target.target(), oldDimension, oldPos, oldBlock, oldBiome, true);
     }
 }
