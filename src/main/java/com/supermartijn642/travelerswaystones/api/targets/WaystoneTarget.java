@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Represent a waystone destination owner by a player.
+ * Represents a waystone destination owned by a player.
  */
 @ApiStatus.NonExtendable
 public interface WaystoneTarget {
@@ -22,7 +22,7 @@ public interface WaystoneTarget {
     int MIN_NAME_LENGTH = 3, MAX_NAME_LENGTH = 20;
 
     /**
-     * Unique id for this target.
+     * Unique id for this target. The id does not change for as long as the target exists, also not when the server restarts.
      */
     int id();
 
@@ -81,9 +81,10 @@ public interface WaystoneTarget {
     Set<UUID> discoverers();
 
     /**
-     * Discovers this target for the given player, including associated affects like overlay message and particles.
+     * Discovers this target for the given player, including associated effects like overlay message and particles.
      * @param player player to discover the target
      * @return the discovered target for the given player
+     * @throws IllegalStateException if the player has already discovered the target
      */
     default DiscoveredWaystoneTarget discover(Player player){
         return PersonalWaystoneManager.get(player).discover(this);

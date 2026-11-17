@@ -17,6 +17,8 @@ import java.util.UUID;
 
 /**
  * Manages waystone data for a specific player.
+ * <p>
+ * Available on the server and on the client. On the client, only the manager of the local player is available.
  */
 @ApiStatus.NonExtendable
 public interface PersonalWaystoneManager {
