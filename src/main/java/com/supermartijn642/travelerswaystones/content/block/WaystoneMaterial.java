@@ -25,7 +25,7 @@ public enum WaystoneMaterial {
     GRANITE("Granite Waystone", SoundType.STONE, 1.5f, 6, true, MapColor.DIRT, 0, () -> Items.GRANITE, BlockTags.MINEABLE_WITH_PICKAXE),
     MUD_BRICK("Mud Brick Waystone", SoundType.MUD_BRICKS, 1.5f, 3, true, MapColor.TERRACOTTA_LIGHT_GRAY, 0, () -> Items.MUD_BRICKS, BlockTags.MINEABLE_WITH_PICKAXE),
     NETHERRACK("Netherrack Waystone", SoundType.NETHERRACK, 0.4f, 0.4f, true, MapColor.NETHER, 0, () -> Items.NETHERRACK, BlockTags.MINEABLE_WITH_PICKAXE),
-    NETHER_BRICK("Nether Brick Waystone", SoundType.NETHER_BRICKS, 2, 6, true, MapColor.NETHER, 0, () -> Items.NETHER_BRICK, BlockTags.MINEABLE_WITH_PICKAXE),
+    NETHER_BRICK("Nether Brick Waystone", SoundType.NETHER_BRICKS, 2, 6, true, MapColor.NETHER, 0, () -> Items.NETHER_BRICKS, BlockTags.MINEABLE_WITH_PICKAXE),
     OBSIDIAN("Obsidian Waystone", SoundType.STONE, 50, 1200, true, MapColor.COLOR_BLACK, 0, () -> Items.OBSIDIAN, BlockTags.MINEABLE_WITH_PICKAXE),
     PURPUR("Purpur Waystone", SoundType.STONE, 1.5f, 6, true, MapColor.COLOR_MAGENTA, 0, () -> Items.PURPUR_BLOCK, BlockTags.MINEABLE_WITH_PICKAXE),
     RED_NETHER_BRICK("Red Nether Brick Waystone", SoundType.NETHER_BRICKS, 2, 6, true, MapColor.NETHER, 0, () -> Items.RED_NETHER_BRICKS, BlockTags.MINEABLE_WITH_PICKAXE),
