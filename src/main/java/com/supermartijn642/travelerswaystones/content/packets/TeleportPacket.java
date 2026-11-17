@@ -9,6 +9,7 @@ import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWayst
 import com.supermartijn642.travelerswaystones.content.WarpPendant;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.Nullable;
@@ -63,7 +64,8 @@ public class TeleportPacket implements BasePacket {
                 || from.pos().distToCenterSqr(player.position()) > maxDistance * maxDistance)
                 return;
         }
-        DiscoveredWaystoneTarget.TeleportResult result = to.teleport((ServerPlayer)player, from, this.allowDangerous);
+        Identifier source = this.fromId == null ? DiscoveredWaystoneTarget.SOURCE_PENDANT : DiscoveredWaystoneTarget.SOURCE_WAYSTONE;
+        DiscoveredWaystoneTarget.TeleportResult result = to.teleport((ServerPlayer)player, from, source, this.allowDangerous);
         switch(result){
             case DiscoveredWaystoneTarget.TeleportResult.Dangerous dangerous -> TravelersWaystones.CHANNEL.sendToPlayer(player, new WarnDangerousPacket(to.id(), dangerous.warningOrDefault()));
             case DiscoveredWaystoneTarget.TeleportResult.Success _ -> {}

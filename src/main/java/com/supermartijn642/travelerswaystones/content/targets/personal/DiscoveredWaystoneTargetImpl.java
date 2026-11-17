@@ -15,6 +15,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -163,7 +164,7 @@ public class DiscoveredWaystoneTargetImpl implements DiscoveredWaystoneTarget {
     }
 
     @Override
-    public TeleportResult teleport(ServerPlayer player, @Nullable DiscoveredWaystoneTarget from, boolean allowDangerous){
+    public TeleportResult teleport(ServerPlayer player, @Nullable DiscoveredWaystoneTarget from, Identifier source, boolean allowDangerous){
         ServerLevel targetLevel = player.level().getServer().getLevel(this.dimension());
         if(targetLevel == null){
             return new TeleportResultImpl.Error(TextComponents.translation(
@@ -186,7 +187,7 @@ public class DiscoveredWaystoneTargetImpl implements DiscoveredWaystoneTarget {
             throw new AssertionError("Unknown teleport result: " + positionResult.getClass().getName());
         float yaw = (float)Math.toDegrees(Math.atan2(this.pos().getZ() + 0.5 - teleportPos.z(), this.pos().getX() + 0.5 - teleportPos.x())) - 90;
         // Event
-        WaystoneEvents.AllowTeleport.Result allowTeleport = WaystoneEventsImpl.AllowTeleport.invoke(this, player, targetLevel, teleportPos, yaw, from);
+        WaystoneEvents.AllowTeleport.Result allowTeleport = WaystoneEventsImpl.AllowTeleport.invoke(this, player, targetLevel, teleportPos, yaw, from, source);
         if(allowTeleport instanceof WaystoneEvents.AllowTeleport.Result.Deny deny)
             return new TeleportResultImpl.Denied(deny.reason());
         // Teleport player
@@ -202,7 +203,7 @@ public class DiscoveredWaystoneTargetImpl implements DiscoveredWaystoneTarget {
             return new TeleportResultImpl.Error(TextComponents.translation("travelerswaystones.teleport.error.teleport_failed").color(ChatFormatting.RED).get());
         player = (ServerPlayer)result.entity().after();
         // Event
-        WaystoneEventsImpl.Teleport.invoke(this, player, targetLevel, from, oldLevel, new Vector3d(oldPosition.x, oldPosition.y, oldPosition.z));
+        WaystoneEventsImpl.Teleport.invoke(this, player, targetLevel, from, oldLevel, new Vector3d(oldPosition.x, oldPosition.y, oldPosition.z), source);
         // Effects
         if(from != null)
             this.manager.pushRecent(from);
