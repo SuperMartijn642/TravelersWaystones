@@ -16,6 +16,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3dc;
 
+import java.util.Comparator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -252,6 +253,9 @@ public class WaystoneEventsImpl {
 
     private static class EventHandler<C, R> {
 
+        // Identifier#compareTo compares the path before the namespace
+        private static final Comparator<Identifier> IDENTIFIER_ORDER = Comparator.comparing(Identifier::getNamespace).thenComparing(Identifier::getPath);
+
         private final String name;
         private final Function<C,R> defaultResult;
         @SuppressWarnings("unchecked")
@@ -264,16 +268,18 @@ public class WaystoneEventsImpl {
         }
 
         public R invoke(C context){
+            R defaultResult = this.defaultResult.apply(context);
             for(int i = 0; i < this.listeners.length; i++){
                 try{
                     R result = this.listeners[i].apply(context);
-                    if(result != null)
+                    // Allow results should not stop other listeners from denying
+                    if(result != null && result != defaultResult)
                         return result;
                 }catch(Exception e){
                     TravelersWaystones.LOGGER.error("Listener '{}' for event '{}' threw an exception!", this.identifiers[i], this.name, e);
                 }
             }
-            return this.defaultResult.apply(context);
+            return defaultResult;
         }
 
         public synchronized void addListener(Identifier identifier, Function<C,R> listener){
@@ -285,7 +291,7 @@ public class WaystoneEventsImpl {
             }
             // Find insertion index
             int insertionIndex = 0;
-            while(insertionIndex < this.listeners.length && this.identifiers[insertionIndex].compareTo(identifier) < 0)
+            while(insertionIndex < this.listeners.length && IDENTIFIER_ORDER.compare(this.identifiers[insertionIndex], identifier) < 0)
                 insertionIndex++;
             // Insert
             int newLength = this.listeners.length + 1;
