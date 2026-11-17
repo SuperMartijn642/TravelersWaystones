@@ -89,6 +89,18 @@ public final class GlobalWaystoneManager {
     }
 
     /**
+     * Renames the given target. Players that have discovered the target are updated and the {@link WaystoneEvents.Rename} event is fired.
+     * @param target target to rename
+     * @param name   new name for the target
+     * @param player player that renames the target, may be null
+     * @throws IllegalArgumentException if the name is shorter than {@link WaystoneTarget#MIN_NAME_LENGTH} or longer than {@link WaystoneTarget#MAX_NAME_LENGTH} after trimming
+     * @throws IllegalArgumentException if the target has been removed
+     */
+    public static void rename(WaystoneTarget target, String name, @Nullable ServerPlayer player){
+        GlobalWaystoneManagerImpl.rename(target, name, player);
+    }
+
+    /**
      * Removes the given target. This means the target will be unrecoverable and all players lose access to it.
      */
     public static void remove(WaystoneTarget target){

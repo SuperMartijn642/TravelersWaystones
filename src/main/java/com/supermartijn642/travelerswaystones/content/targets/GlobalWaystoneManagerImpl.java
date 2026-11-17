@@ -159,7 +159,12 @@ public class GlobalWaystoneManagerImpl {
             remove(target);
     }
 
-    public static void rename(WaystoneTarget target, String name, Player player){
+    public static void rename(WaystoneTarget target, String name, @Nullable ServerPlayer player){
+        name = name.trim();
+        if(name.length() < WaystoneTarget.MIN_NAME_LENGTH || name.length() > WaystoneTarget.MAX_NAME_LENGTH)
+            throw new IllegalArgumentException("Name must be between " + WaystoneTarget.MIN_NAME_LENGTH + " and " + WaystoneTarget.MAX_NAME_LENGTH + " characters, not " + name.length() + "!");
+        if(!((WaystoneTargetImpl)target).isValid())
+            throw new IllegalArgumentException("Target has been removed!");
         String oldName = target.name();
         ((WaystoneTargetImpl)target).setName(name);
         RenameTargetPacket renamePacket = new RenameTargetPacket(target.id(), name);
