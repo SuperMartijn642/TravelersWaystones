@@ -32,7 +32,7 @@ public enum WaystoneMaterial {
     RED_SANDSTONE("Red Sandstone Waystone", SoundType.STONE, 0.8f, 0.8f, true, MapColor.COLOR_ORANGE, 0, () -> Items.RED_SANDSTONE, BlockTags.MINEABLE_WITH_PICKAXE),
     SANDSTONE("Sandstone Waystone", SoundType.STONE, 0.8f, 0.8f, true, MapColor.SAND, 0, () -> Items.SANDSTONE, BlockTags.MINEABLE_WITH_PICKAXE),
     STONE("Stone Waystone", SoundType.STONE, 1.5f, 6, true, MapColor.STONE, 0, () -> Items.STONE, BlockTags.MINEABLE_WITH_PICKAXE),
-    TUFF("Tuff Waystone", SoundType.TUFF, 1.5f, 6, true, MapColor.TERRACOTTA_GRAY, 0, () -> Items.TUFF_BRICKS, BlockTags.MINEABLE_WITH_PICKAXE);
+    TUFF_BRICK("Tuff Brick Waystone", SoundType.TUFF, 1.5f, 6, true, MapColor.TERRACOTTA_GRAY, 0, () -> Items.TUFF_BRICKS, BlockTags.MINEABLE_WITH_PICKAXE);
 
     private final String identifier = this.name().toLowerCase(Locale.ROOT);
     private final String translation;
