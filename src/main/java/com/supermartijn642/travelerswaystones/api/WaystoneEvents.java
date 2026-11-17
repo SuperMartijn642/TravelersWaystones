@@ -20,12 +20,17 @@ import java.util.function.Function;
 
 /**
  * Holds events related to waystones.
+ * <p>
+ * Listeners must be added during initialization and are called in the order of their identifiers.
+ * For events starting with {@code Allow}, the first listener that returns {@code deny} decides the result.
  */
 public final class WaystoneEvents {
 
     /**
      * Invoked when a player tries to claim a waystone to determine whether the player is allowed to.
      * If any listener returns {@link Result.Deny}, then that is the result. Otherwise, the result is {@link Result.Allow}.
+     * <p>
+     * This event is only fired on the server.
      */
     public static final class AllowClaim {
         /**
@@ -89,6 +94,8 @@ public final class WaystoneEvents {
 
     /**
      * Invoked when a player claims a waystone and a new target is added.
+     * <p>
+     * This event is only fired on the server.
      */
     public static final class Claim {
         /**
@@ -125,6 +132,8 @@ public final class WaystoneEvents {
 
     /**
      * Invoked when a target is removed.
+     * <p>
+     * This event is only fired on the server.
      */
     public static final class Remove {
         /**
@@ -150,6 +159,8 @@ public final class WaystoneEvents {
     /**
      * Invoked when a player tries to move a waystone to determine whether the player is allowed to.
      * If any listener returns {@link Result.Deny}, then that is the result. Otherwise, the result is {@link Result.Allow}.
+     * <p>
+     * This event is only fired on the server.
      */
     public static final class AllowMove {
         /**
@@ -212,6 +223,7 @@ public final class WaystoneEvents {
      * Invoked when a target is moved by a player.
      * <p>
      * For position changes of any kind, use the {@link UpdateLocation} event.
+     * This event is only fired on the server.
      */
     public static final class Move {
         /**
@@ -410,6 +422,11 @@ public final class WaystoneEvents {
 
     /**
      * Invoked when a player tries to teleport to a target to determine whether the player is allowed to.
+     * If any listener returns {@link Result.Deny}, then that is the result. Otherwise, the result is {@link Result.Allow}.
+     * <p>
+     * Every teleport fires this event, also teleports started by other mods through {@link DiscoveredWaystoneTarget#teleport(ServerPlayer, DiscoveredWaystoneTarget, boolean)}.
+     * <p>
+     * This event is only fired on the server.
      */
     public static final class AllowTeleport {
         /**
@@ -482,6 +499,8 @@ public final class WaystoneEvents {
 
     /**
      * Invoked when a player teleports to a target.
+     * <p>
+     * This event is only fired on the server.
      */
     public static final class Teleport {
         /**
