@@ -7,7 +7,8 @@ import com.supermartijn642.travelerswaystones.content.targets.GlobalWaystoneMana
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.ApiStatus;
@@ -34,7 +35,7 @@ public final class GlobalWaystoneManager {
      * @throws IllegalStateException if there is already a target at the given location
      * @throws IllegalStateException if the block at the given location has no {@link WaystoneType} registered
      */
-    public static ClaimScreenResult displayClaimScreen(Player player, Level level, BlockPos pos, boolean isNewlyPlaced, @Nullable Component nameSuggestion){
+    public static ClaimScreenResult displayClaimScreen(ServerPlayer player, ServerLevel level, BlockPos pos, boolean isNewlyPlaced, @Nullable Component nameSuggestion){
         return GlobalWaystoneManagerImpl.displayClaimScreen(player, level, pos, isNewlyPlaced, nameSuggestion);
     }
 
@@ -48,15 +49,15 @@ public final class GlobalWaystoneManager {
      * @throws IllegalStateException if there is already a target at the given location
      * @throws IllegalStateException if the block at the given location has no {@link WaystoneType} registered
      * @see ClaimResult
-     * @see #add(Player, Level, BlockPos, String)
+     * @see #add(ServerPlayer, ServerLevel, BlockPos, String)
      */
-    public static ClaimResult claim(Player player, Level level, BlockPos pos, String name){
+    public static ClaimResult claim(ServerPlayer player, ServerLevel level, BlockPos pos, String name){
         return GlobalWaystoneManagerImpl.claim(player, level, pos, name);
     }
 
     /**
      * Creates a target at the given location. This bypasses normal checks like the {@link WaystoneEvents.AllowClaim} event.
-     * If this is a player action, you should use {@link #claim(Player, Level, BlockPos, String)} instead.
+     * If this is a player action, you should use {@link #claim(ServerPlayer, ServerLevel, BlockPos, String)} instead.
      * <p>
      * Waystones placed during world generation should not get a target.
      * @param owner owner of the target
@@ -66,7 +67,7 @@ public final class GlobalWaystoneManager {
      * @throws IllegalStateException if there is already a target at the given location
      * @throws IllegalStateException if the block at the given location has no {@link WaystoneType} registered
      */
-    public static WaystoneTarget add(Player owner, Level level, BlockPos pos, String name){
+    public static WaystoneTarget add(ServerPlayer owner, ServerLevel level, BlockPos pos, String name){
         return GlobalWaystoneManagerImpl.add(owner, level, pos, name);
     }
 
@@ -195,7 +196,7 @@ public final class GlobalWaystoneManager {
         Map<ChunkPos,Set<WaystoneTarget>> byChunk();
     }
 
-    /// Result for {@link #displayClaimScreen(Player, Level, BlockPos, boolean, Component)}.
+    /// Result for {@link #displayClaimScreen(ServerPlayer, ServerLevel, BlockPos, boolean, Component)}.
     /// Will be one of the following:
     ///  - {@link Success} if the screen is shown to the player
     ///  - {@link Denied} if claiming a target is denied by the {@link WaystoneEvents.AllowClaim} event
@@ -228,7 +229,7 @@ public final class GlobalWaystoneManager {
         }
     }
 
-    /// Result for {@link #claim(Player, Level, BlockPos, String)}.
+    /// Result for {@link #claim(ServerPlayer, ServerLevel, BlockPos, String)}.
     /// Will be one of the following:
     ///  - {@link Success} if the target is claimed
     ///  - {@link Denied} if claiming a target is denied by the {@link WaystoneEvents.AllowClaim} event
