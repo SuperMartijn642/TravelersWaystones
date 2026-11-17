@@ -3,7 +3,7 @@ package com.supermartijn642.travelerswaystones.api.targets.personal;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import com.supermartijn642.travelerswaystones.content.targets.personal.PersonalWaystoneManagerImpl;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
@@ -82,7 +82,7 @@ public interface PersonalWaystoneManager {
     /**
      * Whether the player has discovered a target at the given location.
      */
-    default boolean has(Identifier dimension, BlockPos pos){
+    default boolean has(ResourceKey<Level> dimension, BlockPos pos){
         return this.getTargetAt(dimension, pos) != null;
     }
 
@@ -90,14 +90,14 @@ public interface PersonalWaystoneManager {
      * Whether the player has discovered a target at the given location.
      */
     default boolean has(Level level, BlockPos pos){
-        return this.has(level.dimension().identifier(), pos);
+        return this.has(level.dimension(), pos);
     }
 
     /**
      * Gets the target at the given location if the player has discovered it.
      */
     @Nullable
-    default DiscoveredWaystoneTarget getTargetAt(Identifier dimension, BlockPos pos){
+    default DiscoveredWaystoneTarget getTargetAt(ResourceKey<Level> dimension, BlockPos pos){
         return this.forDimension(dimension).getTargetAt(pos);
     }
 
@@ -106,7 +106,7 @@ public interface PersonalWaystoneManager {
      */
     @Nullable
     default DiscoveredWaystoneTarget getTargetAt(Level level, BlockPos pos){
-        return this.getTargetAt(level.dimension().identifier(), pos);
+        return this.getTargetAt(level.dimension(), pos);
     }
 
     /**
@@ -119,7 +119,7 @@ public interface PersonalWaystoneManager {
      * The instance will stay relevant for as long as this manager is.
      * @see Dimensional
      */
-    Dimensional forDimension(Identifier dimension);
+    Dimensional forDimension(ResourceKey<Level> dimension);
 
     /**
      * Helper for discovered targets in the given dimension.
@@ -127,7 +127,7 @@ public interface PersonalWaystoneManager {
      * @see Dimensional
      */
     default Dimensional forDimension(Level level){
-        return this.forDimension(level.dimension().identifier());
+        return this.forDimension(level.dimension());
     }
 
     /**
@@ -139,7 +139,7 @@ public interface PersonalWaystoneManager {
      * All dimension helpers.
      * @see Dimensional
      */
-    Map<Identifier,Dimensional> byDimension();
+    Map<ResourceKey<Level>,Dimensional> byDimension();
 
     /**
      * Provides access to all discovered targets located in a dimension.

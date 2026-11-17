@@ -6,6 +6,7 @@ import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -75,7 +76,7 @@ public interface DiscoveredWaystoneTarget {
      * Gets the dimension for {@link #target()}.
      * @see WaystoneTarget#dimension()
      */
-    Identifier dimension();
+    ResourceKey<Level> dimension();
 
     /**
      * Gets the biome for {@link #target()}.

@@ -18,6 +18,8 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,7 +27,7 @@ import java.util.UUID;
 
 public class ClaimWaystoneScreen extends BaseWidget {
 
-    public static Screen create(UUID owner, Identifier dimension, Identifier biome, BlockPos pos, BlockState state, boolean isNewlyPlaced, @Nullable String nameSuggestion) {
+    public static Screen create(UUID owner, ResourceKey<Level> dimension, Identifier biome, BlockPos pos, BlockState state, boolean isNewlyPlaced, @Nullable String nameSuggestion) {
         return WidgetScreen.of(new ClaimWaystoneScreen(owner, dimension, biome, pos, state, isNewlyPlaced, nameSuggestion));
     }
 
@@ -35,7 +37,7 @@ public class ClaimWaystoneScreen extends BaseWidget {
     private final DiscoveredWaystoneTarget dummyTarget;
     private ButtonWidget confirmButton;
 
-    public ClaimWaystoneScreen(UUID owner, Identifier dimension, Identifier biome, BlockPos pos, BlockState state, boolean isNewlyPlaced, @Nullable String nameSuggestion) {
+    public ClaimWaystoneScreen(UUID owner, ResourceKey<Level> dimension, Identifier biome, BlockPos pos, BlockState state, boolean isNewlyPlaced, @Nullable String nameSuggestion) {
         super(0, 0, 140, 106);
         this.isNewlyPlaced = isNewlyPlaced;
         this.dummyTarget = new DiscoveredWaystoneTargetImpl(new WaystoneTargetImpl(true, 0, nameSuggestion == null ? "" : nameSuggestion, owner, dimension, biome, pos, state));
