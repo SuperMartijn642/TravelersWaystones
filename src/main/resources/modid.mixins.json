@@ -6,11 +6,13 @@
   "mixins": [
     "LevelChunkMixin",
     "MinecraftServerMixin",
+    "PlayerChunkSenderMixin",
     "PlayerListMixin",
     "PlayerMixin",
     "ServerPlayerMixin"
   ],
   "client": [
+    "ClientChunkCacheMixin",
     "ClientLevelMixin",
     "ClientPacketListenerMixin",
     "HudMixin",

@@ -48,6 +48,7 @@ public class TravelersWaystones implements ModInitializer {
 
     @Override
     public void onInitialize(){
+        CHANNEL.registerMessage(ChunkTargetsPacket.class, ChunkTargetsPacket::new, PacketDirection.SERVER_TO_CLIENT, true);
         CHANNEL.registerMessage(ClaimWaystonePacket.class, ClaimWaystonePacket::new, PacketDirection.CLIENT_TO_SERVER, true);
         CHANNEL.registerMessage(DiscoverTargetPacket.class, DiscoverTargetPacket::new, PacketDirection.SERVER_TO_CLIENT, true);
         CHANNEL.registerMessage(FavoriteTargetPacket.class, FavoriteTargetPacket::new, PacketDirection.BOTH_WAYS, true);
