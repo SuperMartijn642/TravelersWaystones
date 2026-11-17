@@ -5,6 +5,7 @@ import com.supermartijn642.travelerswaystones.api.WaystoneType;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -23,6 +24,18 @@ import java.util.UUID;
  */
 @ApiStatus.NonExtendable
 public interface DiscoveredWaystoneTarget {
+
+    /**
+     * Teleport source for teleports from a waystone.
+     * @see WaystoneEvents.AllowTeleport.Context#source()
+     */
+    Identifier SOURCE_WAYSTONE = Identifier.fromNamespaceAndPath("travelerswaystones", "waystone");
+
+    /**
+     * Teleport source for teleports with a warp pendant.
+     * @see WaystoneEvents.AllowTeleport.Context#source()
+     */
+    Identifier SOURCE_PENDANT = Identifier.fromNamespaceAndPath("travelerswaystones", "pendant");
 
     /**
      * Global target that is discovered.
@@ -107,13 +120,14 @@ public interface DiscoveredWaystoneTarget {
      * This fires the {@link WaystoneEvents.AllowTeleport} event, but does not check whether the player is at a waystone or carries a warp pendant.
      * @param player player to teleport
      * @param from target that the player is teleporting from
+     * @param source what started the teleport, see {@link WaystoneEvents.AllowTeleport.Context#source()}
      * @param allowDangerous whether to teleport if the destination is dangerous
      * @return result containing whether the teleport was successful
      * @see TeleportResult
      */
-    TeleportResult teleport(ServerPlayer player, @Nullable DiscoveredWaystoneTarget from, boolean allowDangerous);
+    TeleportResult teleport(ServerPlayer player, @Nullable DiscoveredWaystoneTarget from, Identifier source, boolean allowDangerous);
 
-    /// Result for {@link #teleport(ServerPlayer, DiscoveredWaystoneTarget, boolean)}.
+    /// Result for {@link #teleport(ServerPlayer, DiscoveredWaystoneTarget, Identifier, boolean)}.
     /// Will be one of the following:
     ///  - {@link Success} if the player is teleported successfully
     ///  - {@link Dangerous} if the destination is dangerous and the {@code allowDangerous} argument was {@code false}
