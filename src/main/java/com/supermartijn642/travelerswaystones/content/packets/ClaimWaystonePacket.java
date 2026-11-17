@@ -1,11 +1,13 @@
 package com.supermartijn642.travelerswaystones.content.packets;
 
+import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.core.network.BasePacket;
 import com.supermartijn642.core.network.PacketContext;
 import com.supermartijn642.travelerswaystones.api.WaystoneType;
 import com.supermartijn642.travelerswaystones.api.targets.GlobalWaystoneManager;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
@@ -59,5 +61,7 @@ public class ClaimWaystonePacket implements BasePacket {
         GlobalWaystoneManager.ClaimResult result = GlobalWaystoneManager.claim(player, level, this.pos, this.name);
         if(result instanceof GlobalWaystoneManager.ClaimResult.Success success)
             PersonalWaystoneManager.get(player).discover(success.target());
+        else if(result instanceof GlobalWaystoneManager.ClaimResult.Denied denied)
+            player.sendOverlayMessage(TextComponents.fromTextComponent(denied.reasonOrDefault()).color(ChatFormatting.RED).get());
     }
 }
