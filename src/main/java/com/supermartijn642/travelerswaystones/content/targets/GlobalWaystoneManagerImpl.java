@@ -27,7 +27,6 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -50,8 +49,8 @@ public class GlobalWaystoneManagerImpl {
     private static final Set<WaystoneTarget> ALL = new ObjectOpenHashSet<>(), ALL_VIEW = Collections.unmodifiableSet(ALL);
     private static final Int2ObjectOpenHashMap<WaystoneTarget> BY_ID = new Int2ObjectOpenHashMap<>();  // This is essentially the same as 'ALL', but I need both a lookup by id and a set of all targets
     private static final PartitionedSet<UUID,WaystoneTarget> BY_OWNER = new PartitionedSet<>(WaystoneTarget::owner);
-    private static final Map<Identifier,DimensionalImpl> BY_DIMENSION = new Object2ReferenceOpenHashMap<>();
-    private static final Map<Identifier,Dimensional> BY_DIMENSION_VIEW = Collections.unmodifiableMap(BY_DIMENSION);
+    private static final Map<ResourceKey<Level>,DimensionalImpl> BY_DIMENSION = new Object2ReferenceOpenHashMap<>();
+    private static final Map<ResourceKey<Level>,Dimensional> BY_DIMENSION_VIEW = Collections.unmodifiableMap(BY_DIMENSION);
     private static final Map<UUID,Set<WaystoneTarget>> BY_DISCOVERER = new Object2ObjectOpenHashMap<>();
     /**
      * Serialized targets that were added previously, but whose block no longer exists or no longer has a waystone type registered.
@@ -77,9 +76,9 @@ public class GlobalWaystoneManagerImpl {
         name = name.trim();
         if(name.length() < WaystoneTarget.MIN_NAME_LENGTH || name.length() > WaystoneTarget.MAX_NAME_LENGTH)
             throw new IllegalArgumentException("Name must be between " + WaystoneTarget.MIN_NAME_LENGTH + " and " + WaystoneTarget.MAX_NAME_LENGTH + " characters, not " + name.length() + "!");
-        Identifier dimension = level.dimension().identifier();
+        ResourceKey<Level> dimension = level.dimension();
         if(forDimension(dimension).getTargetAt(pos) != null)
-            throw new IllegalStateException("A target already exists at (" + pos.getX() + "," + pos.getY() + "," + pos.getZ() + ") in " + dimension + "!");
+            throw new IllegalStateException("A target already exists at (" + pos.getX() + "," + pos.getY() + "," + pos.getZ() + ") in " + dimension.identifier() + "!");
         BlockState block = level.getBlockState(pos);
         if(WaystoneType.get(block.getBlock()) == null)
             throw new IllegalStateException("No waystone type registered for block '" + block.getBlock() + "'!");
@@ -94,9 +93,9 @@ public class GlobalWaystoneManagerImpl {
         name = name.trim();
         if(name.length() < WaystoneTarget.MIN_NAME_LENGTH || name.length() > WaystoneTarget.MAX_NAME_LENGTH)
             throw new IllegalArgumentException("Name must be between " + WaystoneTarget.MIN_NAME_LENGTH + " and " + WaystoneTarget.MAX_NAME_LENGTH + " characters, not " + name.length() + "!");
-        Identifier dimension = level.dimension().identifier();
+        ResourceKey<Level> dimension = level.dimension();
         if(forDimension(dimension).getTargetAt(pos) != null)
-            throw new IllegalStateException("A target already exists at (" + pos.getX() + "," + pos.getY() + "," + pos.getZ() + ") in " + dimension + "!");
+            throw new IllegalStateException("A target already exists at (" + pos.getX() + "," + pos.getY() + "," + pos.getZ() + ") in " + dimension.identifier() + "!");
         BlockState block = level.getBlockState(pos);
         if(WaystoneType.get(block.getBlock()) == null)
             throw new IllegalStateException("No waystone type registered for block '" + block.getBlock() + "'!");
@@ -175,7 +174,7 @@ public class GlobalWaystoneManagerImpl {
     public static void move(WaystoneTarget target, ServerPlayer player, ServerLevel level, BlockPos to, BlockState block, Identifier biome, ServerLevel oldLevel){
         if(WaystoneType.get(block.getBlock()) == null)
             throw new IllegalStateException("No waystone type registered for block '" + block.getBlock() + "'!");
-        Identifier oldDimension = target.dimension();
+        ResourceKey<Level> oldDimension = target.dimension();
         BlockPos oldPos = target.pos();
         BlockState oldBlock = target.block();
         Identifier oldBiome = target.biome();
@@ -239,11 +238,11 @@ public class GlobalWaystoneManagerImpl {
         return BY_OWNER.get(owner);
     }
 
-    public static Dimensional forDimension(Identifier dimension){
+    public static Dimensional forDimension(ResourceKey<Level> dimension){
         return forDimensionImpl(dimension);
     }
 
-    private static DimensionalImpl forDimensionImpl(Identifier dimension){
+    private static DimensionalImpl forDimensionImpl(ResourceKey<Level> dimension){
         // As mods may hold on to the returned instance, we can't return an empty dummy as it may become outdated
         // This may lead to issues if some mod spams this for non-existent levels, but that would be that mod's fault
         return BY_DIMENSION.computeIfAbsent(dimension, _ -> new DimensionalImpl());
@@ -253,7 +252,7 @@ public class GlobalWaystoneManagerImpl {
         return BY_OWNER.getMapView();
     }
 
-    public static Map<Identifier,Dimensional> byDimension(){
+    public static Map<ResourceKey<Level>,Dimensional> byDimension(){
         return BY_DIMENSION_VIEW;
     }
 
@@ -319,7 +318,7 @@ public class GlobalWaystoneManagerImpl {
                 continue;
             }
             if(forDimension(target.dimension()).getTargetAt(target.pos()) != null){
-                TravelersWaystones.LOGGER.error("Read duplicate waystone target for position ({}) in dimension '{}'! Duplicate will be ignored", target.pos().toShortString(), target.dimension());
+                TravelersWaystones.LOGGER.error("Read duplicate waystone target for position ({}) in dimension '{}'! Duplicate will be ignored", target.pos().toShortString(), target.dimension().identifier());
                 continue;
             }
             if(target.id() >= nextTargetIndex)
@@ -349,7 +348,7 @@ public class GlobalWaystoneManagerImpl {
      * Sends positions targets in a chunk to a player.
      */
     public static void onChunkSent(ServerPlayer player, ServerLevel level, ChunkPos chunk){
-        Set<WaystoneTarget> targets = forDimension(level.dimension().identifier()).allForChunk(chunk);
+        Set<WaystoneTarget> targets = forDimension(level.dimension()).allForChunk(chunk);
         if(!targets.isEmpty())
             TravelersWaystones.CHANNEL.sendToPlayer(player, createChunkTargetsPacket(chunk, targets));
     }
@@ -357,8 +356,8 @@ public class GlobalWaystoneManagerImpl {
     /**
      * Sends positions targets in a chunk to <b>all</b> players that have the chunk loaded.
      */
-    private static void sendChunkTargets(Identifier dimension, ChunkPos chunk){
-        ServerLevel level = CommonUtils.getServer().getLevel(ResourceKey.create(Registries.DIMENSION, dimension));
+    private static void sendChunkTargets(ResourceKey<Level> dimension, ChunkPos chunk){
+        ServerLevel level = CommonUtils.getServer().getLevel(dimension);
         if(level == null)
             return;
         List<ServerPlayer> players = level.getChunkSource().chunkMap.getPlayers(chunk, false);

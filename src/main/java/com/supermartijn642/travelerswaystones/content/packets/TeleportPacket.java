@@ -59,7 +59,7 @@ public class TeleportPacket implements BasePacket {
                 return;
         }else{
             double maxDistance = player.blockInteractionRange() + 10;
-            if(from == null || !from.dimension().equals(player.level().dimension().identifier())
+            if(from == null || !from.dimension().equals(player.level().dimension())
                 || from.pos().distToCenterSqr(player.position()) > maxDistance * maxDistance)
                 return;
         }
