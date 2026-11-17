@@ -9,6 +9,7 @@ import com.supermartijn642.travelerswaystones.api.WaystoneType;
 import com.supermartijn642.travelerswaystones.api.targets.GlobalWaystoneManager;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
+import com.supermartijn642.travelerswaystones.content.WaystoneEventsImpl;
 import com.supermartijn642.travelerswaystones.content.targets.WaystoneTargetImpl;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -187,7 +188,7 @@ public class DiscoveredWaystoneTargetImpl implements DiscoveredWaystoneTarget {
             throw new AssertionError("Unknown teleport result: " + positionResult.getClass().getName());
         float yaw = (float)Math.toDegrees(Math.atan2(this.pos().getZ() + 0.5 - teleportPos.z(), this.pos().getX() + 0.5 - teleportPos.x())) - 90;
         // Event
-        WaystoneEvents.AllowTeleport.Result allowTeleport = WaystoneEvents.AllowTeleport.invoke(this, player, targetLevel, teleportPos, yaw, from);
+        WaystoneEvents.AllowTeleport.Result allowTeleport = WaystoneEventsImpl.AllowTeleport.invoke(this, player, targetLevel, teleportPos, yaw, from);
         if(allowTeleport instanceof WaystoneEvents.AllowTeleport.Result.Deny deny)
             return new TeleportResultImpl.Denied(deny.reason());
         // Teleport player
@@ -203,7 +204,7 @@ public class DiscoveredWaystoneTargetImpl implements DiscoveredWaystoneTarget {
             return new TeleportResultImpl.Error(TextComponents.translation("travelerswaystones.teleport.error.teleport_failed").color(ChatFormatting.RED).get());
         player = (ServerPlayer)result.entity().after();
         // Event
-        WaystoneEvents.Teleport.invoke(this, player, targetLevel, from, oldLevel, new Vector3d(oldPosition.x, oldPosition.y, oldPosition.z));
+        WaystoneEventsImpl.Teleport.invoke(this, player, targetLevel, from, oldLevel, new Vector3d(oldPosition.x, oldPosition.y, oldPosition.z));
         // Effects
         if(from != null)
             this.manager.pushRecent(from);
