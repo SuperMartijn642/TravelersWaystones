@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.resources.model.geometry.BakedQuad;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -38,7 +38,7 @@ public class WaystoneBlockStateModel implements BlockStateModel {
         PersonalWaystoneManager manager = PersonalWaystoneManagerImpl.get(player, false);
         if(manager == null)
             return false;
-        Identifier dimension = level instanceof Level ? ((Level)level).dimension().identifier() : player.level().dimension().identifier();
+        ResourceKey<Level> dimension = level instanceof Level ? ((Level)level).dimension() : player.level().dimension();
         return manager.getTargetAt(dimension, waystone.getTargetPos(state, pos)) != null;
     }
 
