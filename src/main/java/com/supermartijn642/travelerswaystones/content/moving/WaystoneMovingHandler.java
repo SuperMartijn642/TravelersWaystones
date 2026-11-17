@@ -13,8 +13,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
@@ -24,7 +23,7 @@ public class WaystoneMovingHandler {
 
     public static final int MAX_DISTANCE = 10;
 
-    public static void move(Level level, Player player, WaystoneTarget target, BlockHitResult to){
+    public static void move(ServerLevel level, ServerPlayer player, WaystoneTarget target, BlockHitResult to){
         if(level.isClientSide())
             throw new IllegalStateException("Trying to move waystone client-side!");
 
@@ -43,7 +42,7 @@ public class WaystoneMovingHandler {
         if(!player.getAbilities().mayBuild || !isWithinMovingDistance(target, placement))
             return;
         for(BlockPos pos : placement.keySet()){
-            if(!player.mayInteract((ServerLevel)level, pos))
+            if(!player.mayInteract(level, pos))
                 return;
         }
         BlockPos oldPos = target.pos();
@@ -83,7 +82,7 @@ public class WaystoneMovingHandler {
 
         // Add effects
         WaystoneType.Bounds dimensions = target.waystoneType().getBounds(target.block());
-        ((ServerLevel)level).sendParticles(
+        level.sendParticles(
             TravelersWaystones.discoverParticle.create(dimensions.width() + 0.05, -dimensions.height()),
             oldPos.getX() + 0.5, oldPos.getY() + dimensions.height(), oldPos.getZ() + 0.5,
             1,
@@ -91,7 +90,7 @@ public class WaystoneMovingHandler {
             0
         );
         BlockPos pos = target.pos();
-        ((ServerLevel)level).sendParticles(
+        level.sendParticles(
             TravelersWaystones.discoverParticle.create(dimensions.width() + 0.05, dimensions.height()),
             pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
             1,
