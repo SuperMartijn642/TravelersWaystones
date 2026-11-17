@@ -4,8 +4,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
-import com.supermartijn642.travelerswaystones.api.WaystoneEvents;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
+import com.supermartijn642.travelerswaystones.content.WaystoneEventsImpl;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
@@ -124,7 +124,7 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
         String oldName = this.name;
         this.name = name;
         if(this.isClient)
-            WaystoneEvents.Rename.invoke(this, null, oldName, true);
+            WaystoneEventsImpl.Rename.invoke(this, null, oldName, true);
     }
 
     public void setBiomePosAndBlock(Identifier biome, BlockPos pos, BlockState block){
