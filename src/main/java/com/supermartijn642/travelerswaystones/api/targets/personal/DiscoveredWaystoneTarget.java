@@ -6,6 +6,7 @@ import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -133,12 +134,12 @@ public interface DiscoveredWaystoneTarget {
             /**
              * Player instance after being teleported.
              */
-            Player player();
+            ServerPlayer player();
 
             /**
              * Level that the player was teleported to.
              */
-            Level level();
+            ServerLevel level();
 
             /**
              * Position that the player was teleported to.
