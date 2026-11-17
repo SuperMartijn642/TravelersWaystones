@@ -18,13 +18,13 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Manages all waystone data. Importantly, this class may only be interacted with from the server.<br>
+ * Manages all waystone data. Importantly, this class may only be interacted with from the server, on the server thread.<br>
  * For data for a specific player, see {@link PersonalWaystoneManager}.
  */
 public final class GlobalWaystoneManager {
 
     /**
-     * Shows a screen to the given to create a target at the given location. The block at the given location must have a registered {@link WaystoneType}.
+     * Shows a screen to the given player to create a target at the given location. The block at the given location must have a registered {@link WaystoneType}.
      * @param player         player to show the screen to
      * @param level          level that the to be created target is in
      * @param pos            position that the to be created target is at
@@ -57,6 +57,8 @@ public final class GlobalWaystoneManager {
     /**
      * Creates a target at the given location. This bypasses normal checks like the {@link WaystoneEvents.AllowClaim} event.
      * If this is a player action, you should use {@link #claim(Player, Level, BlockPos, String)} instead.
+     * <p>
+     * Waystones placed during world generation should not get a target.
      * @param owner owner of the target
      * @param level level that the target is in
      * @param pos   position of the target
@@ -140,7 +142,7 @@ public final class GlobalWaystoneManager {
 
     /**
      * All dimension helpers.
-     * @see PersonalWaystoneManager.Dimensional
+     * @see Dimensional
      */
     public static Map<Identifier,Dimensional> byDimension(){
         return GlobalWaystoneManagerImpl.byDimension();

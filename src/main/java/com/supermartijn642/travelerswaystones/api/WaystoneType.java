@@ -37,6 +37,8 @@ public interface WaystoneType {
 
     /**
      * Gets the {@link WaystoneType} registered for the given block.
+     * @return the registered type, or null if the block is not a waystone
+     * @throws IllegalStateException when called before the game has finished initializing
      */
     @Nullable
     static WaystoneType get(Block block){
@@ -45,7 +47,10 @@ public interface WaystoneType {
 
     /**
      * Registers the given type for the given blocks.
+     * Must be called during initialization, for example right after the blocks are registered.
+     * Waystone types are fixed once the game has finished initializing.
      * @throws IllegalStateException when one of the given blocks is already registered
+     * @throws IllegalStateException when called after the game has finished initializing
      * @see DEFAULT
      */
     static void register(WaystoneType waystoneType, Block... blocks){
@@ -145,6 +150,9 @@ public interface WaystoneType {
      * The waystone target will be moved separately based on the result of this method.
      * <p>
      * This should first place the waystone at the new position before removing the existing blocks such that the existing blocks can remain in case some error occurs.
+     * <p>
+     * The default implementation places the block from {@link Block#getStateForPlacement(BlockPlaceContext)} and removes the old one.
+     * It does not move block entity data and does not call {@link Block#setPlacedBy}, so waystones that need either should override this method.
      * @param waystone   the waystone block
      * @param level      level that the waystone is currently located in
      * @param player     player to get placement for
@@ -189,7 +197,7 @@ public interface WaystoneType {
     @ApiStatus.NonExtendable
     sealed interface TeleportPositionResult {
         /**
-         * Indicates the destination is dangerous and the player should confirm teleporting.
+         * Indicates the destination is safe.
          * @param position position that the player will be teleported to
          */
         static Success success(Vector3dc position){
