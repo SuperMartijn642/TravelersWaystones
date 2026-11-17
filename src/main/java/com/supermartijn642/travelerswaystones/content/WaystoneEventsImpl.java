@@ -8,6 +8,7 @@ import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWay
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -39,7 +40,7 @@ public class WaystoneEventsImpl {
         private static final WaystoneEvents.AllowClaim.Result.Allow ALLOW = new WaystoneEvents.AllowClaim.Result.Allow() {};
         private static final EventHandler<WaystoneEvents.AllowClaim.Context,WaystoneEvents.AllowClaim.Result> HANDLER = new EventHandler<>(WaystoneEvents.AllowClaim.class.getSimpleName(), _ -> ALLOW);
 
-        public static WaystoneEvents.AllowClaim.Result invoke(Player player, Level level, BlockPos pos, BlockState waystone){
+        public static WaystoneEvents.AllowClaim.Result invoke(ServerPlayer player, ServerLevel level, BlockPos pos, BlockState waystone){
             if(WaystoneType.get(waystone.getBlock()) == null)
                 throw new IllegalStateException("No waystone type registered for block '" + waystone.getBlock() + "'!");
             return HANDLER.invoke(new ContextImpl(player, level, pos, waystone));
@@ -49,7 +50,7 @@ public class WaystoneEventsImpl {
             HANDLER.addListener(identifier, listener);
         }
 
-        public record ContextImpl(Player player, Level level, BlockPos pos, BlockState waystone) implements WaystoneEvents.AllowClaim.Context {
+        public record ContextImpl(ServerPlayer player, ServerLevel level, BlockPos pos, BlockState waystone) implements WaystoneEvents.AllowClaim.Context {
         }
 
         public static WaystoneEvents.AllowClaim.Result.Allow allow(){
@@ -65,7 +66,7 @@ public class WaystoneEventsImpl {
 
         private static final ResultlessEventHandler<WaystoneEvents.Claim.Context> HANDLER = new ResultlessEventHandler<>(WaystoneEvents.Claim.class.getSimpleName());
 
-        public static void invoke(WaystoneTarget target, Level level, Player player){
+        public static void invoke(WaystoneTarget target, ServerLevel level, ServerPlayer player){
             HANDLER.invoke(new ContextImpl(target, level, player));
         }
 
@@ -73,7 +74,7 @@ public class WaystoneEventsImpl {
             HANDLER.addListener(identifier, listener);
         }
 
-        public record ContextImpl(WaystoneTarget target, Level level, Player player) implements WaystoneEvents.Claim.Context {
+        public record ContextImpl(WaystoneTarget target, ServerLevel level, ServerPlayer player) implements WaystoneEvents.Claim.Context {
         }
     }
 
@@ -98,7 +99,7 @@ public class WaystoneEventsImpl {
         private static final WaystoneEvents.AllowMove.Result.Allow ALLOW = new WaystoneEvents.AllowMove.Result.Allow() {};
         private static final EventHandler<WaystoneEvents.AllowMove.Context,WaystoneEvents.AllowMove.Result> HANDLER = new EventHandler<>(WaystoneEvents.AllowMove.class.getSimpleName(), _ -> ALLOW);
 
-        public static WaystoneEvents.AllowMove.Result invoke(WaystoneTarget target, Level level, Player player, BlockHitResult to){
+        public static WaystoneEvents.AllowMove.Result invoke(WaystoneTarget target, ServerLevel level, ServerPlayer player, BlockHitResult to){
             return HANDLER.invoke(new ContextImpl(target, level, player, to));
         }
 
@@ -106,7 +107,7 @@ public class WaystoneEventsImpl {
             HANDLER.addListener(identifier, listener);
         }
 
-        public record ContextImpl(WaystoneTarget target, Level level, Player player, BlockHitResult to) implements WaystoneEvents.AllowMove.Context {
+        public record ContextImpl(WaystoneTarget target, ServerLevel level, ServerPlayer player, BlockHitResult to) implements WaystoneEvents.AllowMove.Context {
         }
 
         public static WaystoneEvents.AllowMove.Result.Allow allow(){
@@ -122,7 +123,7 @@ public class WaystoneEventsImpl {
 
         private static final ResultlessEventHandler<WaystoneEvents.Move.Context> HANDLER = new ResultlessEventHandler<>(WaystoneEvents.Move.class.getSimpleName());
 
-        public static void invoke(WaystoneTarget target, Level level, Player player, Level oldLevel, BlockPos oldPos, BlockState oldBlock, Identifier oldBiome){
+        public static void invoke(WaystoneTarget target, ServerLevel level, ServerPlayer player, ServerLevel oldLevel, BlockPos oldPos, BlockState oldBlock, Identifier oldBiome){
             if(WaystoneType.get(oldBlock.getBlock()) == null)
                 throw new IllegalStateException("No waystone type registered for block '" + oldBlock.getBlock() + "'!");
             HANDLER.invoke(new ContextImpl(target, level, player, oldLevel, oldPos, oldBlock, oldBiome));
@@ -132,7 +133,7 @@ public class WaystoneEventsImpl {
             HANDLER.addListener(identifier, listener);
         }
 
-        public record ContextImpl(WaystoneTarget target, Level level, Player player, Level oldLevel, BlockPos oldPos, BlockState oldBlock, Identifier oldBiome) implements WaystoneEvents.Move.Context {
+        public record ContextImpl(WaystoneTarget target, ServerLevel level, ServerPlayer player, ServerLevel oldLevel, BlockPos oldPos, BlockState oldBlock, Identifier oldBiome) implements WaystoneEvents.Move.Context {
         }
     }
 
@@ -199,7 +200,7 @@ public class WaystoneEventsImpl {
         private static final WaystoneEvents.AllowTeleport.Result.Allow ALLOW = new WaystoneEvents.AllowTeleport.Result.Allow() {};
         private static final EventHandler<WaystoneEvents.AllowTeleport.Context,WaystoneEvents.AllowTeleport.Result> HANDLER = new EventHandler<>(WaystoneEvents.AllowTeleport.class.getSimpleName(), _ -> ALLOW);
 
-        public static WaystoneEvents.AllowTeleport.Result invoke(DiscoveredWaystoneTarget target, ServerPlayer player, Level level, Vector3dc position, float yaw, @Nullable DiscoveredWaystoneTarget from){
+        public static WaystoneEvents.AllowTeleport.Result invoke(DiscoveredWaystoneTarget target, ServerPlayer player, ServerLevel level, Vector3dc position, float yaw, @Nullable DiscoveredWaystoneTarget from){
             return HANDLER.invoke(new ContextImpl(target, player, level, position, yaw, from));
         }
 
@@ -207,7 +208,7 @@ public class WaystoneEventsImpl {
             HANDLER.addListener(identifier, listener);
         }
 
-        public record ContextImpl(DiscoveredWaystoneTarget target, ServerPlayer player, Level level, Vector3dc position, float yaw, @Nullable DiscoveredWaystoneTarget from) implements WaystoneEvents.AllowTeleport.Context {
+        public record ContextImpl(DiscoveredWaystoneTarget target, ServerPlayer player, ServerLevel level, Vector3dc position, float yaw, @Nullable DiscoveredWaystoneTarget from) implements WaystoneEvents.AllowTeleport.Context {
         }
 
         public static WaystoneEvents.AllowTeleport.Result.Allow allow(){
@@ -223,7 +224,7 @@ public class WaystoneEventsImpl {
 
         private static final ResultlessEventHandler<WaystoneEvents.Teleport.Context> HANDLER = new ResultlessEventHandler<>(WaystoneEvents.Teleport.class.getSimpleName());
 
-        public static void invoke(DiscoveredWaystoneTarget target, Player player, Level level, @Nullable DiscoveredWaystoneTarget from, Level oldLevel, Vector3dc oldPosition){
+        public static void invoke(DiscoveredWaystoneTarget target, ServerPlayer player, ServerLevel level, @Nullable DiscoveredWaystoneTarget from, ServerLevel oldLevel, Vector3dc oldPosition){
             HANDLER.invoke(new ContextImpl(target, player, level, from, oldLevel, oldPosition));
         }
 
@@ -231,7 +232,7 @@ public class WaystoneEventsImpl {
             HANDLER.addListener(identifier, listener);
         }
 
-        public record ContextImpl(DiscoveredWaystoneTarget target, Player player, Level level, @Nullable DiscoveredWaystoneTarget from, Level oldLevel, Vector3dc oldPosition) implements WaystoneEvents.Teleport.Context {
+        public record ContextImpl(DiscoveredWaystoneTarget target, ServerPlayer player, ServerLevel level, @Nullable DiscoveredWaystoneTarget from, ServerLevel oldLevel, Vector3dc oldPosition) implements WaystoneEvents.Teleport.Context {
         }
     }
 
