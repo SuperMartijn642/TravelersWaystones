@@ -17,6 +17,7 @@ import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -33,7 +34,7 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
         json.addProperty("ownerLower", target.owner().getLeastSignificantBits());
         json.addProperty("ownerHigher", target.owner().getMostSignificantBits());
         json.addProperty("dimension", target.dimension().identifier().toShortString());
-        json.addProperty("biome", target.biome().toShortString());
+        json.addProperty("biome", target.biome().identifier().toShortString());
         json.addProperty("pos", target.pos().asLong());
         RegistryOps<JsonElement> ops = registryAccess.createSerializationContext(JsonOps.INSTANCE);
         json.add("block", BlockState.CODEC.encodeStart(ops, target.block()).getOrThrow());
@@ -54,7 +55,7 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
             json.get("name").getAsString(),
             new UUID(json.get("ownerHigher").getAsLong(), json.get("ownerLower").getAsLong()),
             ResourceKey.create(Registries.DIMENSION, Identifier.parse(json.get("dimension").getAsString())),
-            Identifier.parse(json.get("biome").getAsString()),
+            ResourceKey.create(Registries.BIOME, Identifier.parse(json.get("biome").getAsString())),
             BlockPos.of(json.get("pos").getAsLong()),
             BlockState.CODEC.decode(ops, json.get("block")).getOrThrow().getFirst());
         JsonArray discoverers = json.getAsJsonArray("discoverers");
@@ -77,7 +78,7 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
         buffer.writeUtf(target.name());
         buffer.writeUUID(target.owner());
         buffer.writeResourceKey(target.dimension());
-        buffer.writeIdentifier(target.biome());
+        buffer.writeResourceKey(target.biome());
         buffer.writeBlockPos(target.pos());
         buffer.writeVarInt(Block.getId(target.block()));
     }
@@ -89,7 +90,7 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
             buffer.readUtf(WaystoneTarget.MAX_NAME_LENGTH),
             buffer.readUUID(),
             buffer.readResourceKey(Registries.DIMENSION),
-            buffer.readIdentifier(),
+            buffer.readResourceKey(Registries.BIOME),
             buffer.readBlockPos(),
             Block.stateById(buffer.readVarInt())
         );
@@ -100,7 +101,7 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
     private String name;
     private final UUID owner;
     private final ResourceKey<Level> dimension;
-    private Identifier biome;
+    private ResourceKey<Biome> biome;
     private BlockPos pos;
     private ChunkPos chunkPos;
     private BlockState block;
@@ -111,7 +112,7 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
      */
     private boolean preventRemoveWhileMoving = false;
 
-    public WaystoneTargetImpl(boolean isClient, int id, String name, UUID owner, ResourceKey<Level> dimension, Identifier biome, BlockPos pos, BlockState block){
+    public WaystoneTargetImpl(boolean isClient, int id, String name, UUID owner, ResourceKey<Level> dimension, ResourceKey<Biome> biome, BlockPos pos, BlockState block){
         this.isClient = isClient;
         this.id = id;
         this.name = name;
@@ -130,7 +131,7 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
             WaystoneEventsImpl.Rename.invoke(this, null, oldName, true);
     }
 
-    public void setBiomePosAndBlock(Identifier biome, BlockPos pos, BlockState block){
+    public void setBiomePosAndBlock(ResourceKey<Biome> biome, BlockPos pos, BlockState block){
         this.biome = biome;
         this.pos = pos;
         this.chunkPos = ChunkPos.containing(pos);
@@ -182,7 +183,7 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
     }
 
     @Override
-    public Identifier biome(){
+    public ResourceKey<Biome> biome(){
         return this.biome;
     }
 

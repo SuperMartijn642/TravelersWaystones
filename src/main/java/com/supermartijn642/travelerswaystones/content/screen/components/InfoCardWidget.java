@@ -160,7 +160,7 @@ public class InfoCardWidget extends BaseWidget {
             TextComponents.string(dimension.getPath()).get() :
             TextComponents.translation(dimension.toLanguageKey("dimension")).get();
         graphics.submitText(dimensionName, this.x + 43, this.y + 46);
-        Identifier biome = waystone.biome();
+        Identifier biome = waystone.biome().identifier();
         Component biomeName = Language.getInstance().getOrDefault(biome.toLanguageKey("biome"), null) == null ?
             TextComponents.string(biome.getPath()).get() :
             TextComponents.translation(biome.toLanguageKey("biome")).get();
@@ -185,7 +185,7 @@ public class InfoCardWidget extends BaseWidget {
         }else if(mouseX >= 41 && mouseX < 41 + 94 && mouseY >= 43 && mouseY < 43 + 10)
             graphics.submitTooltipForTopStratum(t -> t.literal(waystone.dimension().identifier().toString()), mouseX + this.x, mouseY + this.y);
         else if(mouseX >= 41 && mouseX < 41 + 94 && mouseY >= 54 && mouseY < 54 + 10)
-            graphics.submitTooltipForTopStratum(t -> t.literal(waystone.biome().toString()), mouseX + this.x, mouseY + this.y);
+            graphics.submitTooltipForTopStratum(t -> t.literal(waystone.biome().identifier().toString()), mouseX + this.x, mouseY + this.y);
     }
 
     public static void renderDimensionIcon(GuiGraphicsHelper graphics, int x, int y, ResourceKey<Level> dimension){
