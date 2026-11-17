@@ -7,6 +7,7 @@ import com.supermartijn642.travelerswaystones.content.WaystoneEventsImpl;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -257,7 +258,7 @@ public final class WaystoneEvents {
             /**
              * Dimension the target was located in before it was updated.
              */
-            Identifier oldDimension();
+            ResourceKey<Level> oldDimension();
 
             /**
              * Position the target was located at before it was updated.

@@ -76,7 +76,7 @@ public class TravelersWaystonesClient {
         String formattedNameSuggestion = nameSuggestion == null ? null : nameSuggestion.getString();
         ClientUtils.displayScreen(ClaimWaystoneScreen.create(
             player.getUUID(),
-            level.dimension().identifier(),
+            level.dimension(),
             level.getBiome(pos).unwrapKey().orElseThrow().identifier(),
             pos,
             level.getBlockState(pos),
