@@ -6,7 +6,7 @@ import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWayst
 import com.supermartijn642.travelerswaystones.content.targets.GlobalWaystoneManagerImpl;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.ChunkPos;
@@ -119,7 +119,7 @@ public final class GlobalWaystoneManager {
      * Gets the target at the given location.
      */
     @Nullable
-    public static WaystoneTarget getTargetAt(Identifier dimension, BlockPos pos){
+    public static WaystoneTarget getTargetAt(ResourceKey<Level> dimension, BlockPos pos){
         return forDimension(dimension).getTargetAt(pos);
     }
 
@@ -128,7 +128,7 @@ public final class GlobalWaystoneManager {
      */
     @Nullable
     public static WaystoneTarget getTargetAt(Level level, BlockPos pos){
-        return getTargetAt(level.dimension().identifier(), pos);
+        return getTargetAt(level.dimension(), pos);
     }
 
     /**
@@ -150,7 +150,7 @@ public final class GlobalWaystoneManager {
      * The instance will stay relevant for as long as the server is.
      * @see Dimensional
      */
-    public static Dimensional forDimension(Identifier dimension){
+    public static Dimensional forDimension(ResourceKey<Level> dimension){
         return GlobalWaystoneManagerImpl.forDimension(dimension);
     }
 
@@ -160,7 +160,7 @@ public final class GlobalWaystoneManager {
      * @see Dimensional
      */
     public static Dimensional forDimension(Level level){
-        return forDimension(level.dimension().identifier());
+        return forDimension(level.dimension());
     }
 
     /**
@@ -174,7 +174,7 @@ public final class GlobalWaystoneManager {
      * All dimension helpers.
      * @see Dimensional
      */
-    public static Map<Identifier,Dimensional> byDimension(){
+    public static Map<ResourceKey<Level>,Dimensional> byDimension(){
         return GlobalWaystoneManagerImpl.byDimension();
     }
 

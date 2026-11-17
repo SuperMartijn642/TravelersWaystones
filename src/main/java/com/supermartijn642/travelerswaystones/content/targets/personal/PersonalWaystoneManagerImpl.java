@@ -20,8 +20,6 @@ import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
@@ -56,8 +54,8 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
     private final Set<DiscoveredWaystoneTarget> favorites = new HashSet<>(), favoritesView = Collections.unmodifiableSet(this.favorites);
     private final List<DiscoveredWaystoneTarget> recents = new ArrayList<>(), recentsView = Collections.unmodifiableList(this.recents);
     private final PartitionedSet<UUID,DiscoveredWaystoneTarget> byOwner = new PartitionedSet<>(DiscoveredWaystoneTarget::owner);
-    private final Map<Identifier,DimensionalImpl> byDimension = new Object2ReferenceOpenHashMap<>();
-    private final Map<Identifier,Dimensional> byDimensionView = Collections.unmodifiableMap(this.byDimension);
+    private final Map<ResourceKey<Level>,DimensionalImpl> byDimension = new Object2ReferenceOpenHashMap<>();
+    private final Map<ResourceKey<Level>,Dimensional> byDimensionView = Collections.unmodifiableMap(this.byDimension);
 
     public PersonalWaystoneManagerImpl(Player player){
         this.player = player;
@@ -149,7 +147,7 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
             ClientDiscoveryEffects.showEffects(this.player, target);
             return;
         }
-        Level level = CommonUtils.getLevel(ResourceKey.create(Registries.DIMENSION, target.dimension()));
+        Level level = CommonUtils.getLevel(target.dimension());
         if(level != null){
             BlockPos pos = target.pos();
             WaystoneType.Bounds dimensions = target.waystoneType().getBounds(target.block());
@@ -174,7 +172,7 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
         this.byGlobalTarget.add(discoveredTarget);
         this.byOwner.add(discoveredTarget);
         this.forDimensionImpl(discoveredTarget.dimension()).add(discoveredTarget);
-        if(this.isClient && this.player.level().dimension().identifier().equals(target.dimension())){
+        if(this.isClient && this.player.level().dimension().equals(target.dimension())){
             BlockState state = this.player.level().getBlockState(target.pos());
             this.player.level().setBlocksDirty(target.pos(), state, Blocks.AIR.defaultBlockState());
         }
@@ -196,7 +194,7 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
         this.recents.remove(target);
         this.byOwner.remove(target);
         this.forDimensionImpl(target.dimension()).remove(target);
-        if(this.isClient && this.player.level().dimension().identifier().equals(target.dimension())){
+        if(this.isClient && this.player.level().dimension().equals(target.dimension())){
             BlockState state = this.player.level().getBlockState(target.pos());
             this.player.level().setBlocksDirty(target.pos(), state, Blocks.AIR.defaultBlockState());
         }
@@ -218,7 +216,7 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
         this.favorites.addAll(manager.favorites);
         this.recents.addAll(manager.recents);
         this.byOwner.addAll(manager.byOwner);
-        manager.byDimension.forEach((identifier, dimensional) -> this.forDimensionImpl(identifier).copyFrom(dimensional));
+        manager.byDimension.forEach((dimension, dimensional) -> this.forDimensionImpl(dimension).copyFrom(dimensional));
         for(DiscoveredWaystoneTarget target : this.all)
             ((DiscoveredWaystoneTargetImpl)target).setManager(this);
     }
@@ -252,11 +250,11 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
     }
 
     @Override
-    public Dimensional forDimension(Identifier dimension){
+    public Dimensional forDimension(ResourceKey<Level> dimension){
         return this.forDimensionImpl(dimension);
     }
 
-    private DimensionalImpl forDimensionImpl(Identifier level){
+    private DimensionalImpl forDimensionImpl(ResourceKey<Level> level){
         // As mods may hold on to the returned instance, we can't return an empty dummy as it may become outdated
         // This may lead to issues if some mod spams this for non-existent levels, but that would be that mod's fault
         return this.byDimension.computeIfAbsent(level, _ -> new DimensionalImpl());
@@ -267,7 +265,7 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
     }
 
     @Override
-    public Map<Identifier,Dimensional> byDimension(){
+    public Map<ResourceKey<Level>,Dimensional> byDimension(){
         return this.byDimensionView;
     }
 

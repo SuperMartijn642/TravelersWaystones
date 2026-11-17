@@ -76,7 +76,7 @@ public class MoveWaystonePacket implements BasePacket {
 
         // Check waystone exists
         Level level = player.level();
-        WaystoneTarget target = GlobalWaystoneManager.getTargetAt(level.dimension().identifier(), this.current);
+        WaystoneTarget target = GlobalWaystoneManager.getTargetAt(level, this.current);
         if(target == null || !target.waystoneType().isMoveable(target.block()))
             return;
         if(!target.owner().equals(player.getUUID()))
