@@ -7,6 +7,7 @@ import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWay
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
 import com.supermartijn642.travelerswaystones.content.moving.WaystoneMovingHandler;
 import com.supermartijn642.travelerswaystones.content.moving.WaystoneMovingHandlerClient;
+import com.supermartijn642.travelerswaystones.content.targets.ClientTargetPositions;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -88,8 +89,11 @@ public class MinecraftMixin {
             return;
         BlockState state = level.getBlockState(pos);
         WaystoneType type = WaystoneType.get(state.getBlock());
-        if(type != null && type.hasBreakProtection(state)){
-            pos = type.getTargetPos(state, pos);
+        if(type == null || !type.hasBreakProtection(state))
+            return;
+        pos = type.getTargetPos(state, pos);
+        // Waystones without a target can be broken normally
+        if(ClientTargetPositions.hasTarget(level, pos)){
             if(this.waystoneMineWarningDelay <= 0){
                 DiscoveredWaystoneTarget target = PersonalWaystoneManager.get(player).getTargetAt(level, pos);
                 boolean isOwner = target != null && target.owner().equals(player.getUUID());
