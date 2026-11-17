@@ -18,6 +18,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -154,7 +155,7 @@ public class InfoCardWidget extends BaseWidget {
             TextComponents.translation("travelerswaystones.screen.teleport.owner.unknown").get() :
             TextComponents.string(username).get();
         graphics.submitText(owner, this.x + 43, this.y + 35);
-        Identifier dimension = waystone.dimension();
+        Identifier dimension = waystone.dimension().identifier();
         Component dimensionName = Language.getInstance().getOrDefault(dimension.toLanguageKey("dimension"), null) == null ?
             TextComponents.string(dimension.getPath()).get() :
             TextComponents.translation(dimension.toLanguageKey("dimension")).get();
@@ -182,18 +183,18 @@ public class InfoCardWidget extends BaseWidget {
             if(PlayerProfileCache.get(true).getUsername(waystone.owner()) == null)
                 graphics.submitTooltipForTopStratum(t -> t.literal(waystone.owner().toString()), mouseX + this.x, mouseY + this.y);
         }else if(mouseX >= 41 && mouseX < 41 + 94 && mouseY >= 43 && mouseY < 43 + 10)
-            graphics.submitTooltipForTopStratum(t -> t.literal(waystone.dimension().toString()), mouseX + this.x, mouseY + this.y);
+            graphics.submitTooltipForTopStratum(t -> t.literal(waystone.dimension().identifier().toString()), mouseX + this.x, mouseY + this.y);
         else if(mouseX >= 41 && mouseX < 41 + 94 && mouseY >= 54 && mouseY < 54 + 10)
             graphics.submitTooltipForTopStratum(t -> t.literal(waystone.biome().toString()), mouseX + this.x, mouseY + this.y);
     }
 
-    public static void renderDimensionIcon(GuiGraphicsHelper graphics, int x, int y, Identifier dimension){
+    public static void renderDimensionIcon(GuiGraphicsHelper graphics, int x, int y, ResourceKey<Level> dimension){
         Block block = null;
-        if(Level.OVERWORLD.identifier().equals(dimension))
+        if(Level.OVERWORLD.equals(dimension))
             block = Blocks.GRASS_BLOCK;
-        else if(Level.NETHER.identifier().equals(dimension))
+        else if(Level.NETHER.equals(dimension))
             block = Blocks.NETHERRACK;
-        else if(Level.END.identifier().equals(dimension))
+        else if(Level.END.equals(dimension))
             block = Blocks.END_STONE;
         if(block == null){
             graphics.submitSprite(DIMENSION_ICON, x, y, 8, 8);
