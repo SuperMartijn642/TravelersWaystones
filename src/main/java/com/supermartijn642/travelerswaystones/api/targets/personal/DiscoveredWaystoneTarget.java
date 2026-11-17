@@ -101,7 +101,8 @@ public interface DiscoveredWaystoneTarget {
     WaystoneType waystoneType();
 
     /**
-     * Teleports the given player to this target, including associated affects like particles.
+     * Teleports the given player to this target, including associated effects like particles.
+     * This fires the {@link WaystoneEvents.AllowTeleport} event, but does not check whether the player is at a waystone or carries a warp pendant.
      * @param player player to teleport
      * @param from target that the player is teleporting from
      * @param allowDangerous whether to teleport if the destination is dangerous
