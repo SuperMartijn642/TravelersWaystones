@@ -11,9 +11,10 @@ import com.supermartijn642.travelerswaystones.content.targets.WaystoneTargetImpl
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
@@ -77,7 +78,7 @@ public class WaystoneMovingHandler {
         }
 
         // Move target
-        Identifier biome = level.getBiome(newPos).unwrapKey().orElseThrow().identifier();
+        ResourceKey<Biome> biome = level.getBiome(newPos).unwrapKey().orElseThrow();
         GlobalWaystoneManagerImpl.move(target, player, level, newPos, newBlock, biome, level);
 
         // Add effects

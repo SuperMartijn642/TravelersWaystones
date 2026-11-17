@@ -8,10 +8,11 @@ import com.supermartijn642.travelerswaystones.content.WaystoneEventsImpl;
 import com.supermartijn642.travelerswaystones.content.targets.WaystoneTargetImpl;
 import com.supermartijn642.travelerswaystones.content.targets.personal.PersonalWaystoneManagerImpl;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -20,9 +21,9 @@ public class UpdateTargetPositionPacket implements BasePacket {
     private int id;
     private BlockPos newPos;
     private BlockState newBlock;
-    private Identifier newBiome;
+    private ResourceKey<Biome> newBiome;
 
-    public UpdateTargetPositionPacket(int id, BlockPos newPos, BlockState newBlock, Identifier newBiome){
+    public UpdateTargetPositionPacket(int id, BlockPos newPos, BlockState newBlock, ResourceKey<Biome> newBiome){
         this.id = id;
         this.newPos = newPos;
         this.newBlock = newBlock;
@@ -37,7 +38,7 @@ public class UpdateTargetPositionPacket implements BasePacket {
         buffer.writeVarInt(this.id);
         buffer.writeBlockPos(this.newPos);
         buffer.writeVarInt(Block.getId(this.newBlock));
-        buffer.writeIdentifier(this.newBiome);
+        buffer.writeResourceKey(this.newBiome);
     }
 
     @Override
@@ -45,7 +46,7 @@ public class UpdateTargetPositionPacket implements BasePacket {
         this.id = buffer.readVarInt();
         this.newPos = buffer.readBlockPos();
         this.newBlock = Block.stateById(buffer.readVarInt());
-        this.newBiome = buffer.readIdentifier();
+        this.newBiome = buffer.readResourceKey(Registries.BIOME);
     }
 
     @Override
@@ -57,7 +58,7 @@ public class UpdateTargetPositionPacket implements BasePacket {
         ResourceKey<Level> oldDimension = target.dimension();
         BlockPos oldPos = target.pos();
         BlockState oldBlock = target.block();
-        Identifier oldBiome = target.biome();
+        ResourceKey<Biome> oldBiome = target.biome();
         manager.updateTargetPositionPre(target);
         ((WaystoneTargetImpl)target.target()).setBiomePosAndBlock(this.newBiome, this.newPos, this.newBlock);
         manager.updateTargetPositionPost(target);

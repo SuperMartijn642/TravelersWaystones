@@ -28,7 +28,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -36,6 +35,7 @@ import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
@@ -100,7 +100,7 @@ public class GlobalWaystoneManagerImpl {
         if(WaystoneType.get(block.getBlock()) == null)
             throw new IllegalStateException("No waystone type registered for block '" + block.getBlock() + "'!");
         int id = nextTargetIndex++;
-        Identifier biome = level.getBiome(pos).unwrapKey().orElseThrow().identifier();
+        ResourceKey<Biome> biome = level.getBiome(pos).unwrapKey().orElseThrow();
         WaystoneTargetImpl target = new WaystoneTargetImpl(false, id, name, owner, dimension, biome, pos, block);
         ALL.add(target);
         BY_ID.put(id, target);
@@ -171,13 +171,13 @@ public class GlobalWaystoneManagerImpl {
         WaystoneEventsImpl.Rename.invoke(target, player, oldName, false);
     }
 
-    public static void move(WaystoneTarget target, ServerPlayer player, ServerLevel level, BlockPos to, BlockState block, Identifier biome, ServerLevel oldLevel){
+    public static void move(WaystoneTarget target, ServerPlayer player, ServerLevel level, BlockPos to, BlockState block, ResourceKey<Biome> biome, ServerLevel oldLevel){
         if(WaystoneType.get(block.getBlock()) == null)
             throw new IllegalStateException("No waystone type registered for block '" + block.getBlock() + "'!");
         ResourceKey<Level> oldDimension = target.dimension();
         BlockPos oldPos = target.pos();
         BlockState oldBlock = target.block();
-        Identifier oldBiome = target.biome();
+        ResourceKey<Biome> oldBiome = target.biome();
         // Remove target
         forDimensionImpl(target.dimension()).remove(target);
         forAllOnlinePlayers(target.discoverers(), p -> {
