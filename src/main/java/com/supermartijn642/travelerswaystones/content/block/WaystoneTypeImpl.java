@@ -1,8 +1,10 @@
 package com.supermartijn642.travelerswaystones.content.block;
 
+import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.travelerswaystones.api.WaystoneType;
 import com.supermartijn642.travelerswaystones.api.targets.GlobalWaystoneManager;
 import com.supermartijn642.travelerswaystones.content.targets.ClientTargetPositions;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -94,22 +96,26 @@ public class WaystoneTypeImpl {
             return () -> position;
         }
 
-        public static WaystoneType.TeleportPositionResult.Failure failure(Component reason){
-            return () -> reason;
+        public static WaystoneType.TeleportPositionResult.Failure failure(@Nullable Component reason){
+            return new Failure(reason);
         }
 
         public static WaystoneType.TeleportPositionResult.Dangerous dangerous(Vector3dc position, @Nullable Component warning){
-            return new WaystoneType.TeleportPositionResult.Dangerous() {
-                @Override
-                public Vector3dc teleportPosition(){
-                    return position;
-                }
+            return new Dangerous(position, warning);
+        }
 
-                @Override
-                public @Nullable Component warning(){
-                    return warning;
-                }
-            };
+        private record Failure(@Nullable Component reason) implements WaystoneType.TeleportPositionResult.Failure {
+            @Override
+            public Component reasonOrDefault(){
+                return this.reason == null ? TextComponents.translation("travelerswaystones.teleport.no_space").color(ChatFormatting.RED).get() : this.reason;
+            }
+        }
+
+        private record Dangerous(Vector3dc teleportPosition, @Nullable Component warning) implements WaystoneType.TeleportPositionResult.Dangerous {
+            @Override
+            public Component warningOrDefault(){
+                return this.warning == null ? TextComponents.translation("travelerswaystones.teleport.dangerous").get() : this.warning;
+            }
         }
     }
 

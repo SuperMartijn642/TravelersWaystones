@@ -232,6 +232,12 @@ public interface WaystoneType {
              * Context message that can be shown to the player.
              */
             @Nullable Component reason();
+
+            /**
+             * Context message that can be shown to the player.
+             * Uses a default message if none was provided.
+             */
+            Component reasonOrDefault();
         }
 
         @ApiStatus.NonExtendable
@@ -242,6 +248,12 @@ public interface WaystoneType {
              * Context message that can be shown to the player.
              */
             @Nullable Component warning();
+
+            /**
+             * Context message that can be shown to the player.
+             * Uses a default message if none was provided.
+             */
+            Component warningOrDefault();
         }
     }
 
