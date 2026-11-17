@@ -8,6 +8,7 @@ import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWay
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -141,7 +142,7 @@ public class WaystoneEventsImpl {
 
         private static final ResultlessEventHandler<WaystoneEvents.UpdateLocation.Context> HANDLER = new ResultlessEventHandler<>(WaystoneEvents.UpdateLocation.class.getSimpleName());
 
-        public static void invoke(WaystoneTarget target, Identifier oldDimension, BlockPos oldPos, BlockState oldBlock, Identifier oldBiome, boolean isClient){
+        public static void invoke(WaystoneTarget target, ResourceKey<Level> oldDimension, BlockPos oldPos, BlockState oldBlock, Identifier oldBiome, boolean isClient){
             if(WaystoneType.get(oldBlock.getBlock()) == null)
                 throw new IllegalStateException("No waystone type registered for block '" + oldBlock.getBlock() + "'!");
             HANDLER.invoke(new ContextImpl(target, oldDimension, oldPos, oldBlock, oldBiome, isClient));
@@ -151,7 +152,7 @@ public class WaystoneEventsImpl {
             HANDLER.addListener(identifier, listener);
         }
 
-        public record ContextImpl(WaystoneTarget target, Identifier oldDimension, BlockPos oldPos, BlockState oldBlock, Identifier oldBiome, boolean isClient) implements WaystoneEvents.UpdateLocation.Context {
+        public record ContextImpl(WaystoneTarget target, ResourceKey<Level> oldDimension, BlockPos oldPos, BlockState oldBlock, Identifier oldBiome, boolean isClient) implements WaystoneEvents.UpdateLocation.Context {
         }
     }
 

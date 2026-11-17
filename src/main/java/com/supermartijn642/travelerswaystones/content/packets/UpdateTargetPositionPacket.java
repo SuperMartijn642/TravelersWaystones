@@ -10,6 +10,8 @@ import com.supermartijn642.travelerswaystones.content.targets.personal.PersonalW
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -52,7 +54,7 @@ public class UpdateTargetPositionPacket implements BasePacket {
         DiscoveredWaystoneTarget target = manager.getTargetForId(this.id);
         if(target == null)
             return;
-        Identifier oldDimension = target.dimension();
+        ResourceKey<Level> oldDimension = target.dimension();
         BlockPos oldPos = target.pos();
         BlockState oldBlock = target.block();
         Identifier oldBiome = target.biome();
