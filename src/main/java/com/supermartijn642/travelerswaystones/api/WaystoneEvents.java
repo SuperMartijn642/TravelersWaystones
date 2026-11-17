@@ -350,7 +350,7 @@ public final class WaystoneEvents {
      * Invoked when a player tries to teleport to a target to determine whether the player is allowed to.
      * If any listener returns {@link Result.Deny}, then that is the result. Otherwise, the result is {@link Result.Allow}.
      * <p>
-     * Every teleport fires this event, also teleports started by other mods through {@link DiscoveredWaystoneTarget#teleport(ServerPlayer, DiscoveredWaystoneTarget, boolean)}.
+     * Every teleport fires this event, also teleports started by other mods through {@link DiscoveredWaystoneTarget#teleport(ServerPlayer, DiscoveredWaystoneTarget, Identifier, boolean)}.
      * <p>
      * This event is only fired on the server.
      */
@@ -390,6 +390,12 @@ public final class WaystoneEvents {
              * The target that the player teleported from.
              */
             @Nullable DiscoveredWaystoneTarget from();
+
+            /**
+             * What started the teleport, {@link DiscoveredWaystoneTarget#SOURCE_WAYSTONE} or {@link DiscoveredWaystoneTarget#SOURCE_PENDANT} for teleports from Traveler's Waystones itself.
+             * Other mods use their own identifiers.
+             */
+            Identifier source();
         }
 
         @ApiStatus.NonExtendable
@@ -454,6 +460,12 @@ public final class WaystoneEvents {
              * Position that the player was at before being teleported.
              */
             Vector3dc oldPosition();
+
+            /**
+             * What started the teleport.
+             * @see AllowTeleport.Context#source()
+             */
+            Identifier source();
         }
     }
 
