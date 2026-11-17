@@ -33,17 +33,6 @@ public final class WaystoneEvents {
      * This event is only fired on the server.
      */
     public static final class AllowClaim {
-        /**
-         * @param player   player to claim the waystone
-         * @param level    level that the target is in
-         * @param pos      position that the target is at
-         * @param waystone block used as waystone
-         * @throws IllegalStateException if the given block has no {@link WaystoneType} registered
-         */
-        public static Result invoke(Player player, Level level, BlockPos pos, BlockState waystone){
-            return WaystoneEventsImpl.AllowClaim.invoke(player, level, pos, waystone);
-        }
-
         public static void addListener(Identifier identifier, Function<Context,Result> listener){
             WaystoneEventsImpl.AllowClaim.addListener(identifier, listener);
         }
@@ -98,15 +87,6 @@ public final class WaystoneEvents {
      * This event is only fired on the server.
      */
     public static final class Claim {
-        /**
-         * @param target target that was created
-         * @param level  level that the target is in
-         * @param player player that claimed the target
-         */
-        public static void invoke(WaystoneTarget target, Level level, Player player){
-            WaystoneEventsImpl.Claim.invoke(target, level, player);
-        }
-
         public static void addListener(Identifier identifier, Consumer<Context> listener){
             WaystoneEventsImpl.Claim.addListener(identifier, listener);
         }
@@ -136,13 +116,6 @@ public final class WaystoneEvents {
      * This event is only fired on the server.
      */
     public static final class Remove {
-        /**
-         * @param target target that was removed
-         */
-        public static void invoke(WaystoneTarget target){
-            WaystoneEventsImpl.Remove.invoke(target);
-        }
-
         public static void addListener(Identifier identifier, Consumer<Context> listener){
             WaystoneEventsImpl.Remove.addListener(identifier, listener);
         }
@@ -163,16 +136,6 @@ public final class WaystoneEvents {
      * This event is only fired on the server.
      */
     public static final class AllowMove {
-        /**
-         * @param target target to be moved
-         * @param level  level to move the target to
-         * @param player player moving the target
-         * @param to     position to move the target to
-         */
-        public static Result invoke(WaystoneTarget target, Level level, Player player, BlockHitResult to){
-            return WaystoneEventsImpl.AllowMove.invoke(target, level, player, to);
-        }
-
         public static void addListener(Identifier identifier, Function<Context,Result> listener){
             WaystoneEventsImpl.AllowMove.addListener(identifier, listener);
         }
@@ -226,20 +189,6 @@ public final class WaystoneEvents {
      * This event is only fired on the server.
      */
     public static final class Move {
-        /**
-         * @param target   target that was moved
-         * @param level    level the target was moved to
-         * @param player   player that moved the target
-         * @param oldLevel level the target was located in before it was moved
-         * @param oldPos   position the target was located at before it was moved
-         * @param oldBlock block used as waystone for the target before it was moved
-         * @param oldBiome biome the target was located in before it was moved
-         * @throws IllegalStateException if the given old block has no {@link WaystoneType} registered
-         */
-        public static void invoke(WaystoneTarget target, Level level, Player player, Level oldLevel, BlockPos oldPos, BlockState oldBlock, Identifier oldBiome){
-            WaystoneEventsImpl.Move.invoke(target, level, player, oldLevel, oldPos, oldBlock, oldBiome);
-        }
-
         public static void addListener(Identifier identifier, Consumer<Context> listener){
             WaystoneEventsImpl.Move.addListener(identifier, listener);
         }
@@ -289,19 +238,6 @@ public final class WaystoneEvents {
      * This event is fired on the server and on the clients of players that have discovered the target.
      */
     public static final class UpdateLocation {
-        /**
-         * @param target       target whose location was changed
-         * @param oldDimension dimension the target was located in before it was updated
-         * @param oldPos       position the target was located at before it was updated
-         * @param oldBlock     block used as waystone for the target before it was updated
-         * @param oldBiome     biome the target was located in before it was updated
-         * @param isClient     whether this event fired on the client
-         * @throws IllegalStateException if the given old block has no {@link WaystoneType} registered
-         */
-        public static void invoke(WaystoneTarget target, Identifier oldDimension, BlockPos oldPos, BlockState oldBlock, Identifier oldBiome, boolean isClient){
-            WaystoneEventsImpl.UpdateLocation.invoke(target, oldDimension, oldPos, oldBlock, oldBiome, isClient);
-        }
-
         public static void addListener(Identifier identifier, Consumer<Context> listener){
             WaystoneEventsImpl.UpdateLocation.addListener(identifier, listener);
         }
@@ -346,15 +282,6 @@ public final class WaystoneEvents {
      * This event is fired on the server and on the client for the player that discovered the target.
      */
     public static final class Discover {
-        /**
-         * @param target target that was discovered
-         * @param level  level the target is located in
-         * @param player player that discovered the target
-         */
-        public static void invoke(DiscoveredWaystoneTarget target, Level level, Player player){
-            WaystoneEventsImpl.Discover.invoke(target, level, player);
-        }
-
         public static void addListener(Identifier identifier, Consumer<Context> listener){
             WaystoneEventsImpl.Discover.addListener(identifier, listener);
         }
@@ -389,14 +316,6 @@ public final class WaystoneEvents {
      * This event is fired on the server and on the client for the player that undiscovered the target.
      */
     public static final class Undiscover {
-        /**
-         * @param target target that was un-discovered
-         * @param player player that the discovered target belonged to
-         */
-        public static void invoke(DiscoveredWaystoneTarget target, Player player){
-            WaystoneEventsImpl.Undiscover.invoke(target, player);
-        }
-
         public static void addListener(Identifier identifier, Consumer<Context> listener){
             WaystoneEventsImpl.Undiscover.addListener(identifier, listener);
         }
@@ -429,18 +348,6 @@ public final class WaystoneEvents {
      * This event is only fired on the server.
      */
     public static final class AllowTeleport {
-        /**
-         * @param target   target to teleport to
-         * @param player   player to be teleported
-         * @param level    level that the target is located in
-         * @param position position that the target is located at
-         * @param yaw      yaw for the player after teleportation
-         * @param from     the target that the player teleported from, may be null
-         */
-        public static Result invoke(DiscoveredWaystoneTarget target, ServerPlayer player, Level level, Vector3dc position, float yaw, @Nullable DiscoveredWaystoneTarget from){
-            return WaystoneEventsImpl.AllowTeleport.invoke(target, player, level, position, yaw, from);
-        }
-
         public static void addListener(Identifier identifier, Function<Context,Result> listener){
             WaystoneEventsImpl.AllowTeleport.addListener(identifier, listener);
         }
@@ -503,18 +410,6 @@ public final class WaystoneEvents {
      * This event is only fired on the server.
      */
     public static final class Teleport {
-        /**
-         * @param target      target that the player was teleported to
-         * @param player      player that was teleported
-         * @param level       level the target is located in
-         * @param from        target that the player teleported from
-         * @param oldLevel    level that the player was in before being teleported
-         * @param oldPosition position that the player was at before being teleported
-         */
-        public static void invoke(DiscoveredWaystoneTarget target, Player player, Level level, @Nullable DiscoveredWaystoneTarget from, Level oldLevel, Vector3dc oldPosition){
-            WaystoneEventsImpl.Teleport.invoke(target, player, level, from, oldLevel, oldPosition);
-        }
-
         public static void addListener(Identifier identifier, Consumer<Context> listener){
             WaystoneEventsImpl.Teleport.addListener(identifier, listener);
         }
@@ -559,16 +454,6 @@ public final class WaystoneEvents {
      * This event is fired on the server and on the clients of players that have discovered the target.
      */
     public static final class Rename {
-        /**
-         * @param target   target that was renamed
-         * @param player   player that renamed the target, may be null
-         * @param oldName  name of the target before it was renamed
-         * @param isClient whether this event fired on the client
-         */
-        public static void invoke(WaystoneTarget target, @Nullable Player player, String oldName, boolean isClient){
-            WaystoneEventsImpl.Rename.invoke(target, player, oldName, isClient);
-        }
-
         public static void addListener(Identifier identifier, Consumer<Context> listener){
             WaystoneEventsImpl.Rename.addListener(identifier, listener);
         }
