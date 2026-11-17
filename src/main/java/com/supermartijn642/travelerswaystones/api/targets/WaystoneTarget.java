@@ -29,7 +29,7 @@ public interface WaystoneTarget {
     /**
      * Name of this target.
      * <p>
-     * Targets can be renamed, see {@link WaystoneEvents.Rename}.
+     * Targets can be renamed with {@link GlobalWaystoneManager#rename}, see {@link WaystoneEvents.Rename}.
      */
     String name();
 

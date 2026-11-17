@@ -8,6 +8,7 @@ import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWayst
 import com.supermartijn642.travelerswaystones.content.targets.GlobalWaystoneManagerImpl;
 import com.supermartijn642.travelerswaystones.content.targets.WaystoneTargetImpl;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
 
 public class RenameTargetPacket implements BasePacket {
 
@@ -48,6 +49,6 @@ public class RenameTargetPacket implements BasePacket {
         if(context.getHandlingSide().isClient())
             ((WaystoneTargetImpl)target.target()).setName(this.name);
         else if(target.owner().equals(context.getPlayer().getUUID()))
-            GlobalWaystoneManagerImpl.rename(target.target(), this.name, context.getPlayer());
+            GlobalWaystoneManagerImpl.rename(target.target(), this.name, (ServerPlayer)context.getPlayer());
     }
 }
