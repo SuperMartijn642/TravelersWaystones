@@ -22,8 +22,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -246,7 +244,7 @@ public class DiscoveredWaystoneTargetImpl implements DiscoveredWaystoneTarget {
     }
 
     private static class TeleportResultImpl {
-        private record Success(Player player, Level level, Vector3dc position) implements TeleportResult.Success {
+        private record Success(ServerPlayer player, ServerLevel level, Vector3dc position) implements TeleportResult.Success {
         }
 
         private record NoTeleportPosition(@Nullable Component reason) implements TeleportResult.NoTeleportPosition {

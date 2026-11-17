@@ -6,6 +6,7 @@ import com.supermartijn642.travelerswaystones.content.WaystoneEventsImpl;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -42,12 +43,12 @@ public final class WaystoneEvents {
             /**
              * Player to claim the waystone
              */
-            Player player();
+            ServerPlayer player();
 
             /**
              * Level that the target is in.
              */
-            Level level();
+            ServerLevel level();
 
             /**
              * Position that the target is at.
@@ -101,12 +102,12 @@ public final class WaystoneEvents {
             /**
              * Level that the target is in.
              */
-            Level level();
+            ServerLevel level();
 
             /**
              * Player that claimed the target.
              */
-            Player player();
+            ServerPlayer player();
         }
     }
 
@@ -150,12 +151,12 @@ public final class WaystoneEvents {
             /**
              * Level to move the target to.
              */
-            Level level();
+            ServerLevel level();
 
             /**
              * Player moving the target.
              */
-            Player player();
+            ServerPlayer player();
 
             /**
              * Position to move the target to.
@@ -203,17 +204,17 @@ public final class WaystoneEvents {
             /**
              * Level the target was moved to.
              */
-            Level level();
+            ServerLevel level();
 
             /**
              * Player that moved the target.
              */
-            Player player();
+            ServerPlayer player();
 
             /**
              * Level the target was located in before it was moved.
              */
-            Level oldLevel();
+            ServerLevel oldLevel();
 
             /**
              * Position the target was located at before it was moved.
@@ -367,7 +368,7 @@ public final class WaystoneEvents {
             /**
              * Level that the target is located in.
              */
-            Level level();
+            ServerLevel level();
 
             /**
              * Position that the target is located at.
@@ -424,12 +425,12 @@ public final class WaystoneEvents {
             /**
              * Player that was teleported.
              */
-            Player player();
+            ServerPlayer player();
 
             /**
              * Level the target is located in.
              */
-            Level level();
+            ServerLevel level();
 
             /**
              * Target that the player teleported from.
@@ -439,7 +440,7 @@ public final class WaystoneEvents {
             /**
              * Level that the player was in before being teleported.
              */
-            Level oldLevel();
+            ServerLevel oldLevel();
 
             /**
              * Position that the player was at before being teleported.

@@ -11,6 +11,8 @@ import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWayst
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -47,7 +49,7 @@ public class WaystoneBlock extends BaseBlock implements WaystoneType {
             if(!level.isClientSide()){
                 WaystoneTarget target = GlobalWaystoneManager.getTargetAt(level, basePos);
                 if(target == null){
-                    GlobalWaystoneManager.ClaimScreenResult result = GlobalWaystoneManager.displayClaimScreen(player, level, basePos, false, null);
+                    GlobalWaystoneManager.ClaimScreenResult result = GlobalWaystoneManager.displayClaimScreen((ServerPlayer)player, (ServerLevel)level, basePos, false, null);
                     if(result instanceof GlobalWaystoneManager.ClaimScreenResult.Denied denied)
                         player.sendOverlayMessage(TextComponents.fromTextComponent(denied.reasonOrDefault()).color(ChatFormatting.RED).get());
                 }else
