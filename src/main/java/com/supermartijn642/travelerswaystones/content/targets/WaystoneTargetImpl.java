@@ -66,7 +66,8 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
     }
 
     public static String blockName(JsonObject json){
-        return json.getAsJsonObject("block").get("Name").getAsString();
+        JsonElement block = json.get("block");
+        return block.isJsonPrimitive() ? block.getAsString() : block.getAsJsonObject().get("id").getAsString();
     }
 
     public static void encode(WaystoneTarget target, FriendlyByteBuf buffer){
