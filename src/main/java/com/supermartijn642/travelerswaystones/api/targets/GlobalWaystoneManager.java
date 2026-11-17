@@ -66,9 +66,26 @@ public final class GlobalWaystoneManager {
      * @param name  name of the target
      * @throws IllegalStateException if there is already a target at the given location
      * @throws IllegalStateException if the block at the given location has no {@link WaystoneType} registered
+     * @see #add(UUID, ServerLevel, BlockPos, String)
      */
     public static WaystoneTarget add(ServerPlayer owner, ServerLevel level, BlockPos pos, String name){
-        return GlobalWaystoneManagerImpl.add(owner, level, pos, name);
+        return GlobalWaystoneManagerImpl.add(owner.getUUID(), owner, level, pos, name);
+    }
+
+    /**
+     * Creates a target at the given location for an owner that does not need to be online.
+     * This bypasses normal checks like the {@link WaystoneEvents.AllowClaim} event.
+     * The {@link WaystoneEvents.Claim} event is fired without a player.
+     * @param owner uuid of the owner of the target
+     * @param level level that the target is in
+     * @param pos   position of the target
+     * @param name  name of the target
+     * @throws IllegalStateException if there is already a target at the given location
+     * @throws IllegalStateException if the block at the given location has no {@link WaystoneType} registered
+     * @see #add(ServerPlayer, ServerLevel, BlockPos, String)
+     */
+    public static WaystoneTarget add(UUID owner, ServerLevel level, BlockPos pos, String name){
+        return GlobalWaystoneManagerImpl.add(owner, null, level, pos, name);
     }
 
     /**

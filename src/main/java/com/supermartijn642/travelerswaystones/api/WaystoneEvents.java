@@ -1,5 +1,6 @@
 package com.supermartijn642.travelerswaystones.api;
 
+import com.supermartijn642.travelerswaystones.api.targets.GlobalWaystoneManager;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
 import com.supermartijn642.travelerswaystones.content.WaystoneEventsImpl;
@@ -16,6 +17,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3dc;
 
+import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -83,7 +85,7 @@ public final class WaystoneEvents {
     }
 
     /**
-     * Invoked when a player claims a waystone and a new target is added.
+     * Invoked when a new target is added, either because a player claimed a waystone or through {@link GlobalWaystoneManager#add}.
      * <p>
      * This event is only fired on the server.
      */
@@ -105,9 +107,9 @@ public final class WaystoneEvents {
             ServerLevel level();
 
             /**
-             * Player that claimed the target.
+             * Player that claimed the target, or null if the target was added without a player through {@link GlobalWaystoneManager#add(UUID, ServerLevel, BlockPos, String)}.
              */
-            ServerPlayer player();
+            @Nullable ServerPlayer player();
         }
     }
 
