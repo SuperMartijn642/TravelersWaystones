@@ -174,9 +174,11 @@ public final class WaystoneEvents {
                 return WaystoneEventsImpl.AllowMove.deny(reason);
             }
 
+            @ApiStatus.NonExtendable
             non-sealed interface Allow extends Result {
             }
 
+            @ApiStatus.NonExtendable
             non-sealed interface Deny extends Result {
                 @Nullable Component reason();
             }
@@ -396,9 +398,11 @@ public final class WaystoneEvents {
                 return WaystoneEventsImpl.AllowTeleport.deny(reason);
             }
 
+            @ApiStatus.NonExtendable
             non-sealed interface Allow extends Result {
             }
 
+            @ApiStatus.NonExtendable
             non-sealed interface Deny extends Result {
                 @Nullable Component reason();
             }
