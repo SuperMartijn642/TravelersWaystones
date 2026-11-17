@@ -10,6 +10,8 @@ import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWayst
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -58,7 +60,7 @@ public class ClaimWaystonePacket implements BasePacket {
         WaystoneTarget target = GlobalWaystoneManager.getTargetAt(level, this.pos);
         if(target != null)
             return;
-        GlobalWaystoneManager.ClaimResult result = GlobalWaystoneManager.claim(player, level, this.pos, this.name);
+        GlobalWaystoneManager.ClaimResult result = GlobalWaystoneManager.claim((ServerPlayer)player, (ServerLevel)level, this.pos, this.name);
         if(result instanceof GlobalWaystoneManager.ClaimResult.Success success)
             PersonalWaystoneManager.get(player).discover(success.target());
         else if(result instanceof GlobalWaystoneManager.ClaimResult.Denied denied)
