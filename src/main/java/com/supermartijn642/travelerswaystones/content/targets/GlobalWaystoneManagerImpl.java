@@ -5,7 +5,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.supermartijn642.core.CommonUtils;
 import com.supermartijn642.core.TextComponents;
-import com.supermartijn642.core.registry.Registries;
 import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import com.supermartijn642.travelerswaystones.api.WaystoneEvents;
 import com.supermartijn642.travelerswaystones.api.WaystoneType;
@@ -13,6 +12,7 @@ import com.supermartijn642.travelerswaystones.api.targets.GlobalWaystoneManager;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
+import com.supermartijn642.travelerswaystones.content.packets.ChunkTargetsPacket;
 import com.supermartijn642.travelerswaystones.content.packets.OpenClaimScreenPacket;
 import com.supermartijn642.travelerswaystones.content.packets.RenameTargetPacket;
 import com.supermartijn642.travelerswaystones.content.packets.UpdateTargetPositionPacket;
@@ -25,8 +25,12 @@ import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.entity.player.Player;
@@ -103,6 +107,7 @@ public class GlobalWaystoneManagerImpl {
         BY_ID.put(id, target);
         BY_OWNER.add(target);
         forDimensionImpl(dimension).add(target);
+        sendChunkTargets(dimension, target.chunkPos());
         WaystoneEvents.Claim.invoke(target, level, owner);
         return target;
     }
@@ -119,6 +124,7 @@ public class GlobalWaystoneManagerImpl {
         DimensionalImpl dimensional = forDimensionImpl(target.dimension());
         if(dimensional != null)
             dimensional.remove(target);
+        sendChunkTargets(target.dimension(), ((WaystoneTargetImpl)target).chunkPos());
         for(UUID discoverer : target.discoverers()){
             Set<WaystoneTarget> targets = BY_DISCOVERER.get(discoverer);
             if(targets != null){
@@ -179,6 +185,10 @@ public class GlobalWaystoneManagerImpl {
         ((WaystoneTargetImpl)target).setBiomePosAndBlock(biome, to, block);
         // Re-add target
         forDimensionImpl(target.dimension()).add(target);
+        ChunkPos oldChunk = ChunkPos.containing(oldPos), newChunk = ((WaystoneTargetImpl)target).chunkPos();
+        sendChunkTargets(oldDimension, oldChunk);
+        if(!newChunk.equals(oldChunk))
+            sendChunkTargets(target.dimension(), newChunk);
         UpdateTargetPositionPacket packet = new UpdateTargetPositionPacket(target.id(), to, block, biome);
         forAllOnlinePlayers(target.discoverers(), p -> {
             PersonalWaystoneManagerImpl waystoneManager = (PersonalWaystoneManagerImpl)PersonalWaystoneManagerImpl.get(p, true);
@@ -295,7 +305,7 @@ public class GlobalWaystoneManagerImpl {
                 if(target.id() >= nextTargetIndex)
                     nextTargetIndex = target.id() + 1;
                 UNLOADED_TARGETS.add(targetJson);
-                missingTypes.add(Registries.BLOCKS.getIdentifier(target.block().getBlock()).toString());
+                missingTypes.add(BuiltInRegistries.BLOCK.getKey(target.block().getBlock()).toString());
                 missingTypeTargets++;
                 continue;
             }
@@ -328,6 +338,37 @@ public class GlobalWaystoneManagerImpl {
             TravelersWaystones.LOGGER.error(message, first);
             throw new RuntimeException(message, first);
         }
+    }
+
+    /**
+     * Sends positions targets in a chunk to a player.
+     */
+    public static void onChunkSent(ServerPlayer player, ServerLevel level, ChunkPos chunk){
+        Set<WaystoneTarget> targets = forDimension(level.dimension().identifier()).allForChunk(chunk);
+        if(!targets.isEmpty())
+            TravelersWaystones.CHANNEL.sendToPlayer(player, createChunkTargetsPacket(chunk, targets));
+    }
+
+    /**
+     * Sends positions targets in a chunk to <b>all</b> players that have the chunk loaded.
+     */
+    private static void sendChunkTargets(Identifier dimension, ChunkPos chunk){
+        ServerLevel level = CommonUtils.getServer().getLevel(ResourceKey.create(Registries.DIMENSION, dimension));
+        if(level == null)
+            return;
+        List<ServerPlayer> players = level.getChunkSource().chunkMap.getPlayers(chunk, false);
+        if(players.isEmpty())
+            return;
+        ChunkTargetsPacket packet = createChunkTargetsPacket(chunk, forDimension(dimension).allForChunk(chunk));
+        for(ServerPlayer player : players)
+            TravelersWaystones.CHANNEL.sendToPlayer(player, packet);
+    }
+
+    private static ChunkTargetsPacket createChunkTargetsPacket(ChunkPos chunk, Set<WaystoneTarget> targets){
+        List<BlockPos> positions = new ArrayList<>(targets.size());
+        for(WaystoneTarget target : targets)
+            positions.add(target.pos());
+        return new ChunkTargetsPacket(chunk, positions);
     }
 
     private static void forAllOnlinePlayers(Set<UUID> ids, Consumer<Player> action){

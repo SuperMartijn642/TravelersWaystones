@@ -122,8 +122,9 @@ public interface WaystoneType {
     }
 
     /**
-     * Whether players need to sneak to break the waystone.
-     * Players that try to break a protected waystone without sneaking get a warning that explains how to move or break it.
+     * Whether players need to sneak to break the waystone, if it has a target.
+     * Players that try to break a protected waystone with a target without sneaking get a warning that explains how to move or break it.
+     * Waystones without a target can always be broken normally.
      * @param waystone the waystone block
      */
     default boolean hasBreakProtection(BlockState waystone){
