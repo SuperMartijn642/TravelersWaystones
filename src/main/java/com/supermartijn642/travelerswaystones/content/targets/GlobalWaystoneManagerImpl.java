@@ -60,7 +60,7 @@ public class GlobalWaystoneManagerImpl {
     private static final List<JsonObject> UNLOADED_TARGETS = new ArrayList<>();
     private static int nextTargetIndex = 0;
 
-    public static GlobalWaystoneManager.ClaimScreenResult displayClaimScreen(Player player, Level level, BlockPos pos, boolean isNewlyPlaced, @Nullable Component nameSuggestion){
+    public static GlobalWaystoneManager.ClaimScreenResult displayClaimScreen(ServerPlayer player, ServerLevel level, BlockPos pos, boolean isNewlyPlaced, @Nullable Component nameSuggestion){
         if(GlobalWaystoneManager.getTargetAt(level, pos) != null)
             throw new IllegalStateException("A target already exists at (" + pos.toShortString() + ") in '" + level.dimension().identifier() + "'!");
         BlockState block = level.getBlockState(pos);
@@ -73,7 +73,7 @@ public class GlobalWaystoneManagerImpl {
         return ClaimScreenResultImpl.SUCCESS;
     }
 
-    public static GlobalWaystoneManager.ClaimResult claim(Player player, Level level, BlockPos pos, String name){
+    public static GlobalWaystoneManager.ClaimResult claim(ServerPlayer player, ServerLevel level, BlockPos pos, String name){
         name = name.trim();
         if(name.length() < WaystoneTarget.MIN_NAME_LENGTH || name.length() > WaystoneTarget.MAX_NAME_LENGTH)
             throw new IllegalArgumentException("Name must be between " + WaystoneTarget.MIN_NAME_LENGTH + " and " + WaystoneTarget.MAX_NAME_LENGTH + " characters, not " + name.length() + "!");
@@ -90,7 +90,7 @@ public class GlobalWaystoneManagerImpl {
         return new ClaimResultImpl.Success(target);
     }
 
-    public static WaystoneTarget add(Player owner, Level level, BlockPos pos, String name){
+    public static WaystoneTarget add(ServerPlayer owner, ServerLevel level, BlockPos pos, String name){
         name = name.trim();
         if(name.length() < WaystoneTarget.MIN_NAME_LENGTH || name.length() > WaystoneTarget.MAX_NAME_LENGTH)
             throw new IllegalArgumentException("Name must be between " + WaystoneTarget.MIN_NAME_LENGTH + " and " + WaystoneTarget.MAX_NAME_LENGTH + " characters, not " + name.length() + "!");
@@ -168,7 +168,7 @@ public class GlobalWaystoneManagerImpl {
         WaystoneEventsImpl.Rename.invoke(target, player, oldName, false);
     }
 
-    public static void move(WaystoneTarget target, Player player, Level level, BlockPos to, BlockState block, Identifier biome, Level oldLevel){
+    public static void move(WaystoneTarget target, ServerPlayer player, ServerLevel level, BlockPos to, BlockState block, Identifier biome, ServerLevel oldLevel){
         if(WaystoneType.get(block.getBlock()) == null)
             throw new IllegalStateException("No waystone type registered for block '" + block.getBlock() + "'!");
         Identifier oldDimension = target.dimension();
