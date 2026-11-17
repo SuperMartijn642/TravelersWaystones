@@ -1,6 +1,8 @@
 package com.supermartijn642.travelerswaystones.content.block;
 
 import com.supermartijn642.travelerswaystones.api.WaystoneType;
+import com.supermartijn642.travelerswaystones.api.targets.GlobalWaystoneManager;
+import com.supermartijn642.travelerswaystones.content.targets.ClientTargetPositions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -42,6 +44,17 @@ public class WaystoneTypeImpl {
             }
         }
         TELEPORT_POSITION_CHECK_ORDER = List.copyOf(positions);
+    }
+
+    public static boolean isBreakProtected(Player player, Level level, BlockPos pos, BlockState state){
+        if(player.isSpectator() || player.isShiftKeyDown())
+            return false;
+        WaystoneType type = WaystoneType.get(state.getBlock());
+        if(type == null || !type.hasBreakProtection(state))
+            return false;
+        // Waystones without a target can be broken normally
+        BlockPos targetPos = type.getTargetPos(state, pos);
+        return level.isClientSide() ? ClientTargetPositions.hasTarget(level, targetPos) : GlobalWaystoneManager.getTargetAt(level, targetPos) != null;
     }
 
     public static WaystoneType.TeleportPositionResult getTeleportPosition(BlockState waystone, Level level, BlockPos pos, Player player){

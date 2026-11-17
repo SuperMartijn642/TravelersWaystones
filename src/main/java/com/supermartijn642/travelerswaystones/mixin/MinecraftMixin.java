@@ -7,9 +7,9 @@ import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWay
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
 import com.supermartijn642.travelerswaystones.content.WaystoneEventsImpl;
 import com.supermartijn642.travelerswaystones.content.WaystoneTypeRegistry;
+import com.supermartijn642.travelerswaystones.content.block.WaystoneTypeImpl;
 import com.supermartijn642.travelerswaystones.content.moving.WaystoneMovingHandler;
 import com.supermartijn642.travelerswaystones.content.moving.WaystoneMovingHandlerClient;
-import com.supermartijn642.travelerswaystones.content.targets.ClientTargetPositions;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -95,37 +95,31 @@ public class MinecraftMixin {
     )
     private void cancelLeftClickWaystone(CallbackInfoReturnable<Boolean> cir){
         Player player = ClientUtils.getPlayer();
-        if(player.isSpectator() || player.isShiftKeyDown())
-            return;
         BlockHitResult result = (BlockHitResult)ClientUtils.getMinecraft().hitResult;
         BlockPos pos = result.getBlockPos();
         ClientLevel level = ClientUtils.getWorld();
         if(!level.getWorldBorder().isWithinBounds(pos))
             return;
         BlockState state = level.getBlockState(pos);
-        WaystoneType type = WaystoneType.get(state.getBlock());
-        if(type == null || !type.hasBreakProtection(state))
+        if(!WaystoneTypeImpl.isBreakProtected(player, level, pos, state))
             return;
-        pos = type.getTargetPos(state, pos);
-        // Waystones without a target can be broken normally
-        if(ClientTargetPositions.hasTarget(level, pos)){
-            if(this.waystoneMineWarningDelay <= 0){
-                DiscoveredWaystoneTarget target = PersonalWaystoneManager.get(player).getTargetAt(level, pos);
-                boolean isOwner = target != null && target.owner().equals(player.getUUID());
-                String messageKey = isOwner ? "travelerswaystones.break.warning.owner" : "travelerswaystones.break.warning";
-                player.sendSystemMessage(TextComponents.translation(
-                    messageKey,
-                    TextComponents.number(WaystoneMovingHandler.MAX_DISTANCE).color(ChatFormatting.GOLD).get()
-                ).color(ChatFormatting.WHITE).get());
-                player.sendSystemMessage(TextComponents.translation(
-                    "travelerswaystones.break.warning.bypass",
-                    TextComponents.translation("key.keyboard.left.shift").color(ChatFormatting.GOLD).get()
-                ).color(ChatFormatting.GRAY).italic().get());
-                player.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT, false);
-                this.waystoneMineWarningDelay = 40;
-            }
-            this.missTime = 40;
-            cir.setReturnValue(false);
+        pos = WaystoneType.get(state.getBlock()).getTargetPos(state, pos);
+        if(this.waystoneMineWarningDelay <= 0){
+            DiscoveredWaystoneTarget target = PersonalWaystoneManager.get(player).getTargetAt(level, pos);
+            boolean isOwner = target != null && target.owner().equals(player.getUUID());
+            String messageKey = isOwner ? "travelerswaystones.break.warning.owner" : "travelerswaystones.break.warning";
+            player.sendSystemMessage(TextComponents.translation(
+                messageKey,
+                TextComponents.number(WaystoneMovingHandler.MAX_DISTANCE).color(ChatFormatting.GOLD).get()
+            ).color(ChatFormatting.WHITE).get());
+            player.sendSystemMessage(TextComponents.translation(
+                "travelerswaystones.break.warning.bypass",
+                TextComponents.translation("key.keyboard.left.shift").color(ChatFormatting.GOLD).get()
+            ).color(ChatFormatting.GRAY).italic().get());
+            player.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT, false);
+            this.waystoneMineWarningDelay = 40;
         }
+        this.missTime = 40;
+        cir.setReturnValue(false);
     }
 }
