@@ -41,7 +41,6 @@ public abstract class CategoryWidget extends AbstractButtonWidget {
             this.setActive(false);
             this.activeTransition = 0;
             this.expanded = false;
-            this.setManuallyExpanded(false);
         }else if(!this.getManuallyExpanded())
             this.setExpanded(false, false, true, false);
     }
