@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.ApiStatus;
@@ -234,7 +235,7 @@ public final class WaystoneEvents {
             /**
              * Biome the target was located in before it was moved.
              */
-            Identifier oldBiome();
+            ResourceKey<Biome> oldBiome();
         }
     }
 
@@ -273,7 +274,7 @@ public final class WaystoneEvents {
             /**
              * Biome the target was located in before it was updated.
              */
-            Identifier oldBiome();
+            ResourceKey<Biome> oldBiome();
 
             /**
              * Whether this event is fired on the client.

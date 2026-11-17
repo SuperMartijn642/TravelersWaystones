@@ -77,7 +77,7 @@ public class TravelersWaystonesClient {
         ClientUtils.displayScreen(ClaimWaystoneScreen.create(
             player.getUUID(),
             level.dimension(),
-            level.getBiome(pos).unwrapKey().orElseThrow().identifier(),
+            level.getBiome(pos).unwrapKey().orElseThrow(),
             pos,
             level.getBlockState(pos),
             isNewlyPlaced,
