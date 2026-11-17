@@ -13,6 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
@@ -124,7 +125,7 @@ public class WaystoneEventsImpl {
 
         private static final ResultlessEventHandler<WaystoneEvents.Move.Context> HANDLER = new ResultlessEventHandler<>(WaystoneEvents.Move.class.getSimpleName());
 
-        public static void invoke(WaystoneTarget target, ServerLevel level, ServerPlayer player, ServerLevel oldLevel, BlockPos oldPos, BlockState oldBlock, Identifier oldBiome){
+        public static void invoke(WaystoneTarget target, ServerLevel level, ServerPlayer player, ServerLevel oldLevel, BlockPos oldPos, BlockState oldBlock, ResourceKey<Biome> oldBiome){
             if(WaystoneType.get(oldBlock.getBlock()) == null)
                 throw new IllegalStateException("No waystone type registered for block '" + oldBlock.getBlock() + "'!");
             HANDLER.invoke(new ContextImpl(target, level, player, oldLevel, oldPos, oldBlock, oldBiome));
@@ -134,7 +135,7 @@ public class WaystoneEventsImpl {
             HANDLER.addListener(identifier, listener);
         }
 
-        public record ContextImpl(WaystoneTarget target, ServerLevel level, ServerPlayer player, ServerLevel oldLevel, BlockPos oldPos, BlockState oldBlock, Identifier oldBiome) implements WaystoneEvents.Move.Context {
+        public record ContextImpl(WaystoneTarget target, ServerLevel level, ServerPlayer player, ServerLevel oldLevel, BlockPos oldPos, BlockState oldBlock, ResourceKey<Biome> oldBiome) implements WaystoneEvents.Move.Context {
         }
     }
 
@@ -142,7 +143,7 @@ public class WaystoneEventsImpl {
 
         private static final ResultlessEventHandler<WaystoneEvents.UpdateLocation.Context> HANDLER = new ResultlessEventHandler<>(WaystoneEvents.UpdateLocation.class.getSimpleName());
 
-        public static void invoke(WaystoneTarget target, ResourceKey<Level> oldDimension, BlockPos oldPos, BlockState oldBlock, Identifier oldBiome, boolean isClient){
+        public static void invoke(WaystoneTarget target, ResourceKey<Level> oldDimension, BlockPos oldPos, BlockState oldBlock, ResourceKey<Biome> oldBiome, boolean isClient){
             if(WaystoneType.get(oldBlock.getBlock()) == null)
                 throw new IllegalStateException("No waystone type registered for block '" + oldBlock.getBlock() + "'!");
             HANDLER.invoke(new ContextImpl(target, oldDimension, oldPos, oldBlock, oldBiome, isClient));
@@ -152,7 +153,7 @@ public class WaystoneEventsImpl {
             HANDLER.addListener(identifier, listener);
         }
 
-        public record ContextImpl(WaystoneTarget target, ResourceKey<Level> oldDimension, BlockPos oldPos, BlockState oldBlock, Identifier oldBiome, boolean isClient) implements WaystoneEvents.UpdateLocation.Context {
+        public record ContextImpl(WaystoneTarget target, ResourceKey<Level> oldDimension, BlockPos oldPos, BlockState oldBlock, ResourceKey<Biome> oldBiome, boolean isClient) implements WaystoneEvents.UpdateLocation.Context {
         }
     }
 
