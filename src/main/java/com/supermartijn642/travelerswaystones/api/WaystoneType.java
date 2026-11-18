@@ -6,6 +6,7 @@ import com.supermartijn642.travelerswaystones.content.block.WaystoneTypeImpl;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -55,6 +56,20 @@ public interface WaystoneType {
      */
     static void register(WaystoneType waystoneType, Block... blocks){
         WaystoneTypeRegistry.register(waystoneType, blocks);
+    }
+
+    /**
+     * Handles a player using the waystone at the given position like a waystone from Traveler's Waystones.
+     * Opens the claim screen if the waystone has no target, discovers the target if the player has not discovered it yet and opens the teleport screen otherwise.
+     * Discovering fires {@link WaystoneEvents.AllowDiscover}. Must be called on both the server and the client.
+     * @param player player using the waystone
+     * @param level  level that the waystone is in
+     * @param pos    position of the block that was used
+     * @return {@link InteractionResult#CONSUME} if the player is in a different level, otherwise {@link InteractionResult#SUCCESS}
+     * @throws IllegalStateException if the block at the given position has no registered waystone type
+     */
+    static InteractionResult interact(Player player, Level level, BlockPos pos){
+        return WaystoneTypeImpl.interact(player, level, pos);
     }
 
     /**
