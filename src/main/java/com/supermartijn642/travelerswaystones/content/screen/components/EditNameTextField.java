@@ -18,13 +18,15 @@ public class EditNameTextField extends TextFieldWidget {
     public static final Identifier BACKGROUND = TravelersWaystones.identifier("gui/name_field");
 
     private final int properWidth, properHeight;
+    private final Consumer<String> confirmListener;
     private boolean hasHadText = false;
     private boolean enabled = true;
 
-    public EditNameTextField(int x, int y, int width, int height, String defaultText, int maxLength, Consumer<String> changeListener){
+    public EditNameTextField(int x, int y, int width, int height, String defaultText, int maxLength, Consumer<String> changeListener, Consumer<String> confirmListener){
         super(x, y, width, height, defaultText, maxLength, changeListener);
         this.properWidth = width;
         this.properHeight = height;
+        this.confirmListener = confirmListener;
         this.setTextColors(-1, -1, ARGB.color(200, 200, 200));
         this.textShadow = true;
     }
@@ -42,6 +44,13 @@ public class EditNameTextField extends TextFieldWidget {
 
     public boolean isEnabled(){
         return this.enabled;
+    }
+
+    @Override
+    public void setSelected(boolean selected){
+        if(this.isSelected() && !selected)
+            this.confirmListener.accept(this.getText());
+        super.setSelected(selected);
     }
 
     public void moveCursorToEnd(){
