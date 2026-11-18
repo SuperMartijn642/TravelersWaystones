@@ -112,7 +112,7 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
         TravelersWaystones.CHANNEL.sendToPlayer(this.player, new OpenTeleportScreenPacket(null, selected == null ? null : selected.id(), true));
     }
 
-    private void checkDiscovered(@Nullable DiscoveredWaystoneTarget target){
+    void checkDiscovered(@Nullable DiscoveredWaystoneTarget target){
         if(target != null && this.getTargetForId(target.id()) != target)
             throw new IllegalArgumentException("Target '" + target.name() + "' was not discovered by player '" + this.player.getName().getString() + "'!");
     }
