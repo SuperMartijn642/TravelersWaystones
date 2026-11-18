@@ -102,8 +102,8 @@ public class WaystoneTypeImpl {
         Vec3 teleportPos = null;
         BlockPos.MutableBlockPos dummyPos = new BlockPos.MutableBlockPos();
         Consumer<Vector3ic> applyOffset = offset -> dummyPos.setWithOffset(pos, offset.x(), offset.y(), offset.z());
-        if(waystone.hasProperty(BlockStateProperties.FACING)){
-            applyOffset = switch(waystone.getValue(BlockStateProperties.FACING)){
+        if(waystone.hasProperty(BlockStateProperties.HORIZONTAL_FACING)){
+            applyOffset = switch(waystone.getValue(BlockStateProperties.HORIZONTAL_FACING)){
                 case EAST -> offset -> dummyPos.setWithOffset(pos, offset.x(), offset.y(), offset.z());
                 case SOUTH -> offset -> dummyPos.setWithOffset(pos, -offset.z(), offset.y(), offset.x());
                 case WEST -> offset -> dummyPos.setWithOffset(pos, -offset.x(), offset.y(), -offset.z());
