@@ -76,7 +76,12 @@ public class TravelersWaystonesClient implements ClientModInitializer {
     }
 
     public static void openTeleportScreen(@Nullable DiscoveredWaystoneTarget current, @Nullable DiscoveredWaystoneTarget selected, boolean trusted){
-        PersonalWaystoneManager manager = PersonalWaystoneManager.get(ClientUtils.getPlayer());
+        Player player = ClientUtils.getPlayer();
+        PersonalWaystoneManager manager = PersonalWaystoneManager.get(player);
+        if(manager.all().isEmpty()){
+            player.sendOverlayMessage(TextComponents.translation("travelerswaystones.pendant.no_targets").get());
+            return;
+        }
         ClientUtils.displayScreen(WaystoneTeleportScreen.create(current, selected, trusted, manager));
     }
 
