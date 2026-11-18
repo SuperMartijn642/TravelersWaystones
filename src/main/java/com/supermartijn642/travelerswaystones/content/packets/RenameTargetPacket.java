@@ -5,6 +5,7 @@ import com.supermartijn642.core.network.PacketContext;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
+import com.supermartijn642.travelerswaystones.content.WaystoneEventsImpl;
 import com.supermartijn642.travelerswaystones.content.targets.GlobalWaystoneManagerImpl;
 import com.supermartijn642.travelerswaystones.content.targets.WaystoneTargetImpl;
 import net.minecraft.network.FriendlyByteBuf;
@@ -46,9 +47,11 @@ public class RenameTargetPacket implements BasePacket {
         DiscoveredWaystoneTarget target = PersonalWaystoneManager.get(context.getPlayer()).getTargetForId(this.id);
         if(target == null)
             return;
-        if(context.getHandlingSide().isClient())
+        if(context.getHandlingSide().isClient()){
+            String oldName = target.name();
             ((WaystoneTargetImpl)target.target()).setName(this.name);
-        else if(target.owner().equals(context.getPlayer().getUUID()))
+            WaystoneEventsImpl.Rename.invoke(target.target(), null, oldName, true);
+        }else if(target.owner().equals(context.getPlayer().getUUID()))
             GlobalWaystoneManagerImpl.rename(target.target(), this.name, (ServerPlayer)context.getPlayer());
     }
 }
