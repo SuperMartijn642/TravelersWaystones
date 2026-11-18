@@ -23,7 +23,7 @@ public class ScanParticleType extends ParticleType<ScanParticleType.Options> {
     );
 
     public ScanParticleType(){
-        super(false);
+        super(true);
     }
 
     public Options create(double width, double height){
