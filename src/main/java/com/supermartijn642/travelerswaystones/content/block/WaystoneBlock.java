@@ -1,23 +1,14 @@
 package com.supermartijn642.travelerswaystones.content.block;
 
-import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.core.block.BaseBlock;
 import com.supermartijn642.core.block.BlockProperties;
-import com.supermartijn642.travelerswaystones.api.WaystoneEvents;
 import com.supermartijn642.travelerswaystones.api.WaystoneType;
-import com.supermartijn642.travelerswaystones.api.targets.GlobalWaystoneManager;
-import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
-import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
-import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
-import com.supermartijn642.travelerswaystones.content.WaystoneEventsImpl;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -28,7 +19,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
 public class WaystoneBlock extends BaseBlock implements WaystoneType {
@@ -42,31 +33,8 @@ public class WaystoneBlock extends BaseBlock implements WaystoneType {
     }
 
     @Override
-    protected InteractionFeedback interact(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, Direction hitSide, Vec3 hitLocation){
-        PersonalWaystoneManager manager = PersonalWaystoneManager.get(player);
-        BlockPos basePos = this.getTargetPos(state, pos);
-        DiscoveredWaystoneTarget discoveredTarget = manager.getTargetAt(level, basePos);
-        if(discoveredTarget == null){
-            if(player.level() != level)
-                return InteractionFeedback.CONSUME;
-            if(!level.isClientSide()){
-                WaystoneTarget target = GlobalWaystoneManager.getTargetAt(level, basePos);
-                if(target == null){
-                    GlobalWaystoneManager.ClaimScreenResult result = GlobalWaystoneManager.displayClaimScreen((ServerPlayer)player, (ServerLevel)level, basePos, false, null);
-                    if(result instanceof GlobalWaystoneManager.ClaimScreenResult.Denied denied)
-                        player.sendOverlayMessage(TextComponents.fromTextComponent(denied.reasonOrDefault()).color(ChatFormatting.RED).get());
-                }else{
-                    WaystoneEvents.AllowDiscover.Result allowDiscover = WaystoneEventsImpl.AllowDiscover.invoke((ServerPlayer)player, target);
-                    if(allowDiscover instanceof WaystoneEvents.AllowDiscover.Result.Deny deny){
-                        Component reason = deny.reason() == null ? TextComponents.translation("travelerswaystones.discover.denied").get() : deny.reason();
-                        player.sendOverlayMessage(TextComponents.fromTextComponent(reason).color(ChatFormatting.RED).get());
-                    }else
-                        manager.discover(target);
-                }
-            }
-        }else if(level.isClientSide())
-            manager.openTeleportScreen(discoveredTarget);
-        return InteractionFeedback.SUCCESS;
+    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult){
+        return WaystoneType.interact(player, level, pos);
     }
 
     @Override
