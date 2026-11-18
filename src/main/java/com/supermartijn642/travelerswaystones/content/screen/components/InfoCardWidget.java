@@ -47,6 +47,7 @@ public class InfoCardWidget extends BaseWidget {
     private final BiConsumer<DiscoveredWaystoneTarget,String> updateName;
     private EditNameButton editNameButton;
     private EditNameTextField editNameField;
+    private DiscoveredWaystoneTarget editingTarget;
     private boolean selectNameField;
 
     public InfoCardWidget(int x, int y, boolean standalone, String title, Supplier<DiscoveredWaystoneTarget> target, boolean allowRelocate, boolean showSuppressedWarnings, boolean alwaysShowNameField, BiConsumer<DiscoveredWaystoneTarget,String> updateName){
@@ -82,11 +83,19 @@ public class InfoCardWidget extends BaseWidget {
                 WaystoneMovingHandlerClient.startMoving(this.target.get().target());
                 ClientUtils.closeScreen();
             }));
-        this.editNameField = this.addWidget(new EditNameTextField(this.x + 4, this.y + 16, 132, 14, "", WaystoneTarget.MAX_NAME_LENGTH, name -> this.updateName.accept(this.target.get(), name)));
+        this.editNameField = this.addWidget(new EditNameTextField(this.x + 4, this.y + 16, 132, 14, "", WaystoneTarget.MAX_NAME_LENGTH, name -> {
+            if(this.alwaysShowNameField)
+                this.updateName.accept(this.target.get(), name);
+        }, name -> {
+            if(this.editingTarget != null && !name.trim().equals(this.editingTarget.name()))
+                this.updateName.accept(this.editingTarget, name);
+            this.editingTarget = null;
+        }));
         this.editNameField.setSuggestion(I18n.get("travelerswaystones.screen.claim.name.enter"));
         if(!this.alwaysShowNameField){
             this.editNameField.setEnabled(false);
             this.editNameButton = this.addWidget(new EditNameButton(this.x + 126, this.y + 19, () -> {
+                this.editingTarget = this.target.get();
                 this.editNameField.setEnabled(true);
                 this.editNameField.setTextSuppressed(this.target.get().name());
                 if(this.focusedWidget != null)
