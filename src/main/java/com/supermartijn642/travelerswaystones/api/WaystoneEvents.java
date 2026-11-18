@@ -348,7 +348,7 @@ public final class WaystoneEvents {
             DiscoveredWaystoneTarget target();
 
             /**
-             * Level the target is located in.
+             * Level the target is located in. On the client, this is the level the player is in.
              */
             Level level();
 
