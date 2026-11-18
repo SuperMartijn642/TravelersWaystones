@@ -56,8 +56,10 @@ public class TeleportPacket implements BasePacket {
             return;
         // The player must be at the fromId waystone or have a pendant when not teleporting from a waystone
         if(this.fromId == null){
-            if(!WarpPendant.hasPendant(player))
+            if(!WarpPendant.hasPendant(player)){
+                player.sendSystemMessage(TextComponents.translation("travelerswaystones.teleport.no_pendant").color(ChatFormatting.RED).get());
                 return;
+            }
         }else{
             double maxDistance = player.blockInteractionRange() + 10;
             if(from == null || !from.dimension().equals(player.level().dimension())
