@@ -83,6 +83,9 @@ public class TravelersWaystonesLanguageGenerator extends LanguageGenerator {
         // Claiming waystones
         this.translation("travelerswaystones.claim.denied", "Cannot claim waystone");
 
+        // Discovering waystones
+        this.translation("travelerswaystones.discover.denied", "Cannot discover waystone");
+
         // Moving waystones
         this.translation("travelerswaystones.moving.denied", "Cannot move waystone");
         this.translation("travelerswaystones.moving.hint", "%s to place - %s to cancel");
