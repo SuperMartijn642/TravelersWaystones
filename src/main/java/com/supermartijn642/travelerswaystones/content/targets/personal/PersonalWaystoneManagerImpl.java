@@ -207,7 +207,7 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
         return discoveredTarget;
     }
 
-    public void undiscover(DiscoveredWaystoneTarget target, boolean fromServerPacket){
+    public void undiscover(DiscoveredWaystoneTarget target, boolean fromServerPacket, boolean removed){
         if(!((DiscoveredWaystoneTargetImpl)target).isValid())
             throw new IllegalArgumentException("Target has already been removed!");
         ((DiscoveredWaystoneTargetImpl)target).invalidate();
@@ -225,12 +225,12 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
         }
         if(this.isClient){
             if(!fromServerPacket)
-                TravelersWaystones.CHANNEL.sendToServer(new UndiscoverTargetPacket(target.id()));
+                TravelersWaystones.CHANNEL.sendToServer(new UndiscoverTargetPacket(target.id(), false));
         }else{
             GlobalWaystoneManagerImpl.removeDiscovered(target, this.player.getUUID());
-            TravelersWaystones.CHANNEL.sendToPlayer(this.player, new UndiscoverTargetPacket(target.id()));
+            TravelersWaystones.CHANNEL.sendToPlayer(this.player, new UndiscoverTargetPacket(target.id(), removed));
         }
-        WaystoneEventsImpl.Undiscover.invoke(target, this.player);
+        WaystoneEventsImpl.Undiscover.invoke(target, this.player, removed);
     }
 
     public void copyFrom(PersonalWaystoneManagerImpl manager){

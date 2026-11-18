@@ -120,7 +120,7 @@ public class DiscoveredWaystoneTargetImpl implements DiscoveredWaystoneTarget {
 
     @Override
     public void undiscover(){
-        this.manager.undiscover(this, false);
+        this.manager.undiscover(this, false, false);
     }
 
     @Override
