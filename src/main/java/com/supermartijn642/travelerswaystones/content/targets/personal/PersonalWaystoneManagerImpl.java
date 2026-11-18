@@ -20,6 +20,7 @@ import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
@@ -56,6 +57,7 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
     private final PartitionedSet<UUID,DiscoveredWaystoneTarget> byOwner = new PartitionedSet<>(DiscoveredWaystoneTarget::owner);
     private final Map<ResourceKey<Level>,DimensionalImpl> byDimension = new Object2ReferenceOpenHashMap<>();
     private final Map<ResourceKey<Level>,Dimensional> byDimensionView = Collections.unmodifiableMap(this.byDimension);
+    private @Nullable Identifier trustedTeleportSource;
 
     public PersonalWaystoneManagerImpl(Player player){
         this.player = player;
@@ -96,9 +98,26 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
         if(from != null && this.getTargetForId(from.id()) != from)
             throw new IllegalArgumentException("Target '" + from.name() + "' was not discovered by player '" + this.player.getName().getString() + "'!");
         if(this.isClient)
-            TravelersWaystonesClient.openTeleportScreen(from);
+            TravelersWaystonesClient.openTeleportScreen(from, false);
         else
-            TravelersWaystones.CHANNEL.sendToPlayer(this.player, new OpenTeleportScreenPacket(from == null ? null : from.id()));
+            TravelersWaystones.CHANNEL.sendToPlayer(this.player, new OpenTeleportScreenPacket(from == null ? null : from.id(), false));
+    }
+
+    @Override
+    public void openTrustedTeleportScreen(Identifier source){
+        if(this.isClient)
+            throw new IllegalStateException("Trusted teleport screens can only be opened from the server!");
+        this.trustedTeleportSource = source;
+        TravelersWaystones.CHANNEL.sendToPlayer(this.player, new OpenTeleportScreenPacket(null, true));
+    }
+
+    @Nullable
+    public Identifier getTrustedTeleportSource(){
+        return this.trustedTeleportSource;
+    }
+
+    public void clearTrustedTeleportSource(){
+        this.trustedTeleportSource = null;
     }
 
     public void pushRecent(DiscoveredWaystoneTarget target){
