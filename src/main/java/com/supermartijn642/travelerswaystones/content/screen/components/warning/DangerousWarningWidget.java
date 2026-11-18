@@ -19,15 +19,17 @@ public class DangerousWarningWidget extends BaseWidget {
     public static final Identifier BACKGROUND = TravelersWaystones.identifier("gui/warning_background");
 
     private final @Nullable DiscoveredWaystoneTarget current;
+    private final boolean trusted;
     private final DiscoveredWaystoneTarget target;
     private final Component warning;
     private final Runnable close;
     private final int backgroundHeight;
     private SuppressCheckbox suppressCheckbox;
 
-    public DangerousWarningWidget(int offsetX, int offsetY, @Nullable DiscoveredWaystoneTarget current, DiscoveredWaystoneTarget target, Component warning, Runnable close){
+    public DangerousWarningWidget(int offsetX, int offsetY, @Nullable DiscoveredWaystoneTarget current, boolean trusted, DiscoveredWaystoneTarget target, Component warning, Runnable close){
         super(0, 0, 140, 0);
         this.current = current;
+        this.trusted = trusted;
         this.target = target;
         this.warning = warning;
         this.backgroundHeight = ClientUtils.getFontRenderer().wordWrapHeight(warning, 128) + 39;
@@ -48,7 +50,7 @@ public class DangerousWarningWidget extends BaseWidget {
             () -> {
                 if(this.suppressCheckbox.isChecked())
                     this.target.setSuppressDangerousWarning(true);
-                TravelersWaystones.CHANNEL.sendToServer(new TeleportPacket(this.current == null ? null : this.current.id(), this.target.id(), true));
+                TravelersWaystones.CHANNEL.sendToServer(new TeleportPacket(this.current == null ? null : this.current.id(), this.target.id(), true, this.trusted));
                 this.close.run();
             }
         ));
