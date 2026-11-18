@@ -15,7 +15,7 @@ public class ServerMainMixin {
         method = "main",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/server/notifications/NotificationManager;<init>()V"
+            target = "Lnet/minecraft/server/Services;create(Lcom/mojang/authlib/yggdrasil/YggdrasilAuthenticationService;Ljava/io/File;)Lnet/minecraft/server/Services;"
         )
     )
     private static void freezeWaystoneRegistry(CallbackInfo ci){
