@@ -3,14 +3,17 @@ package com.supermartijn642.travelerswaystones.content.block;
 import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.core.block.BaseBlock;
 import com.supermartijn642.core.block.BlockProperties;
+import com.supermartijn642.travelerswaystones.api.WaystoneEvents;
 import com.supermartijn642.travelerswaystones.api.WaystoneType;
 import com.supermartijn642.travelerswaystones.api.targets.GlobalWaystoneManager;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
+import com.supermartijn642.travelerswaystones.content.WaystoneEventsImpl;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -52,8 +55,14 @@ public class WaystoneBlock extends BaseBlock implements WaystoneType {
                     GlobalWaystoneManager.ClaimScreenResult result = GlobalWaystoneManager.displayClaimScreen((ServerPlayer)player, (ServerLevel)level, basePos, false, null);
                     if(result instanceof GlobalWaystoneManager.ClaimScreenResult.Denied denied)
                         player.sendOverlayMessage(TextComponents.fromTextComponent(denied.reasonOrDefault()).color(ChatFormatting.RED).get());
-                }else
-                    manager.discover(target);
+                }else{
+                    WaystoneEvents.AllowDiscover.Result allowDiscover = WaystoneEventsImpl.AllowDiscover.invoke((ServerPlayer)player, target);
+                    if(allowDiscover instanceof WaystoneEvents.AllowDiscover.Result.Deny deny){
+                        Component reason = deny.reason() == null ? TextComponents.translation("travelerswaystones.discover.denied").get() : deny.reason();
+                        player.sendOverlayMessage(TextComponents.fromTextComponent(reason).color(ChatFormatting.RED).get());
+                    }else
+                        manager.discover(target);
+                }
             }
         }else if(level.isClientSide())
             manager.openTeleportScreen(discoveredTarget);
