@@ -123,6 +123,7 @@ public interface DiscoveredWaystoneTarget {
      * @param source what started the teleport, see {@link WaystoneEvents.AllowTeleport.Context#source()}
      * @param allowDangerous whether to teleport if the destination is dangerous
      * @return result containing whether the teleport was successful
+     * @throws IllegalArgumentException if this target or {@code from} was not discovered by the player
      * @see TeleportResult
      */
     TeleportResult teleport(ServerPlayer player, @Nullable DiscoveredWaystoneTarget from, Identifier source, boolean allowDangerous);
