@@ -1,11 +1,13 @@
 package com.supermartijn642.travelerswaystones.content.particle;
 
+import com.supermartijn642.core.ClientUtils;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.renderer.state.level.QuadParticleRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.LightCoordsUtil;
 import org.joml.Quaternionf;
@@ -13,11 +15,12 @@ import org.joml.Quaternionf;
 public class ScanParticle extends SingleQuadParticle {
 
     private static final double SPEED = 0.2;
+    private static final int MAX_WAIT_TIME = 100;
 
     private final Quaternionf rotation = new Quaternionf();
     private final double width, height;
     private final float warmupTime, degradeTime;
-    private int delay;
+    private int delay, waitTime;
 
     ScanParticle(ClientLevel level, double x, double y, double z, TextureAtlasSprite sprite, double width, double height, int delay){
         super(level, x, y - Math.signum(height) * width / 2, z, sprite);
@@ -38,6 +41,11 @@ public class ScanParticle extends SingleQuadParticle {
         this.xo = this.x;
         this.yo = this.y;
         this.zo = this.z;
+        // Wait for area to be rendered
+        if(this.age == 0 && this.waitTime < MAX_WAIT_TIME && !this.isAreaVisible()){
+            this.waitTime++;
+            return;
+        }
         if(this.delay > 0){
             this.delay--;
             return;
@@ -47,6 +55,10 @@ public class ScanParticle extends SingleQuadParticle {
             return;
         }
         this.move(this.xd, this.yd, this.zd);
+    }
+
+    private boolean isAreaVisible(){
+        return ClientUtils.getMinecraft().levelRenderer.isSectionCompiledAndVisible(BlockPos.containing(this.x, this.y, this.z));
     }
 
     @Override
