@@ -387,6 +387,11 @@ public final class WaystoneEvents {
             Player player();
 
             /**
+             * Whether the target itself was removed, rather than only undiscovered by the player.
+             */
+            boolean removed();
+
+            /**
              * Whether this event is fired on the client.
              */
             boolean isClient();

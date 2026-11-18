@@ -138,7 +138,7 @@ public class GlobalWaystoneManagerImpl {
             if(waystoneManager != null){
                 DiscoveredWaystoneTarget discoveredTarget = waystoneManager.get(target);
                 if(discoveredTarget != null)
-                    discoveredTarget.undiscover();
+                    ((PersonalWaystoneManagerImpl)waystoneManager).undiscover(discoveredTarget, false, true);
             }
         });
         WaystoneEventsImpl.Remove.invoke(target);
