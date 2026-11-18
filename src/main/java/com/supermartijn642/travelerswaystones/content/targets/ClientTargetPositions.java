@@ -42,6 +42,11 @@ public class ClientTargetPositions {
         return positions != null && positions.contains(pos);
     }
 
+    public static void clear(){
+        BY_CHUNK.clear();
+        ClientTargetPositions.level = null;
+    }
+
     private static void updateLevel(Level level){
         if(level != ClientTargetPositions.level){
             BY_CHUNK.clear();
