@@ -11,10 +11,12 @@ import org.jetbrains.annotations.Nullable;
 public class OpenTeleportScreenPacket implements BasePacket {
 
     private @Nullable Integer fromId;
+    private @Nullable Integer selectedId;
     private boolean trusted;
 
-    public OpenTeleportScreenPacket(@Nullable Integer fromId, boolean trusted){
+    public OpenTeleportScreenPacket(@Nullable Integer fromId, @Nullable Integer selectedId, boolean trusted){
         this.fromId = fromId;
+        this.selectedId = selectedId;
         this.trusted = trusted;
     }
 
@@ -26,23 +28,29 @@ public class OpenTeleportScreenPacket implements BasePacket {
         buffer.writeBoolean(this.fromId != null);
         if(this.fromId != null)
             buffer.writeInt(this.fromId);
+        buffer.writeBoolean(this.selectedId != null);
+        if(this.selectedId != null)
+            buffer.writeInt(this.selectedId);
         buffer.writeBoolean(this.trusted);
     }
 
     @Override
     public void read(FriendlyByteBuf buffer){
         this.fromId = buffer.readBoolean() ? buffer.readInt() : null;
+        this.selectedId = buffer.readBoolean() ? buffer.readInt() : null;
         this.trusted = buffer.readBoolean();
     }
 
     @Override
     public void handle(PacketContext context){
+        PersonalWaystoneManager manager = PersonalWaystoneManager.get(context.getPlayer());
         DiscoveredWaystoneTarget from = null;
         if(this.fromId != null){
-            from = PersonalWaystoneManager.get(context.getPlayer()).getTargetForId(this.fromId);
+            from = manager.getTargetForId(this.fromId);
             if(from == null)
                 return;
         }
-        TravelersWaystonesClient.openTeleportScreen(from, this.trusted);
+        DiscoveredWaystoneTarget selected = this.selectedId == null ? null : manager.getTargetForId(this.selectedId);
+        TravelersWaystonesClient.openTeleportScreen(from, selected, this.trusted);
     }
 }
