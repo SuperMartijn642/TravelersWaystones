@@ -10,9 +10,11 @@ import net.minecraft.network.FriendlyByteBuf;
 public class UndiscoverTargetPacket implements BasePacket {
 
     private int id;
+    private boolean removed;
 
-    public UndiscoverTargetPacket(int id){
+    public UndiscoverTargetPacket(int id, boolean removed){
         this.id = id;
+        this.removed = removed;
     }
 
     public UndiscoverTargetPacket(){
@@ -21,11 +23,13 @@ public class UndiscoverTargetPacket implements BasePacket {
     @Override
     public void write(FriendlyByteBuf buffer){
         buffer.writeVarInt(this.id);
+        buffer.writeBoolean(this.removed);
     }
 
     @Override
     public void read(FriendlyByteBuf buffer){
         this.id = buffer.readVarInt();
+        this.removed = buffer.readBoolean();
     }
 
     @Override
@@ -34,6 +38,7 @@ public class UndiscoverTargetPacket implements BasePacket {
         DiscoveredWaystoneTarget target = manager.getTargetForId(this.id);
         if(target == null)
             return;
-        manager.undiscover(target, context.getHandlingSide().isClient());
+        boolean isClient = context.getHandlingSide().isClient();
+        manager.undiscover(target, isClient, isClient && this.removed);
     }
 }
