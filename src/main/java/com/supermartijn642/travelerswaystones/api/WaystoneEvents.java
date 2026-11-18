@@ -3,6 +3,7 @@ package com.supermartijn642.travelerswaystones.api;
 import com.supermartijn642.travelerswaystones.api.targets.GlobalWaystoneManager;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
+import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
 import com.supermartijn642.travelerswaystones.content.WaystoneEventsImpl;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -280,6 +281,52 @@ public final class WaystoneEvents {
              * Whether this event is fired on the client.
              */
             boolean isClient();
+        }
+    }
+
+    /**
+     * Invoked when a player tries to discover a target by using its waystone to determine whether the player is allowed to.
+     * If any listener returns {@link Result.Deny}, then that is the result. Otherwise, the result is {@link Result.Allow}.
+     * <p>
+     * Not fired for targets discovered through {@link PersonalWaystoneManager#discover(WaystoneTarget)}.
+     * This event is only fired on the server.
+     */
+    public static final class AllowDiscover {
+        public static void addListener(Identifier identifier, Function<Context,Result> listener){
+            WaystoneEventsImpl.AllowDiscover.addListener(identifier, listener);
+        }
+
+        @ApiStatus.NonExtendable
+        public interface Context {
+            /**
+             * Player to discover the target.
+             */
+            ServerPlayer player();
+
+            /**
+             * Target to be discovered.
+             */
+            WaystoneTarget target();
+        }
+
+        @ApiStatus.NonExtendable
+        public sealed interface Result {
+            static Result.Allow allow(){
+                return WaystoneEventsImpl.AllowDiscover.allow();
+            }
+
+            static Result.Deny deny(@Nullable Component reason){
+                return WaystoneEventsImpl.AllowDiscover.deny(reason);
+            }
+
+            @ApiStatus.NonExtendable
+            non-sealed interface Allow extends Result {
+            }
+
+            @ApiStatus.NonExtendable
+            non-sealed interface Deny extends Result {
+                @Nullable Component reason();
+            }
         }
     }
 
