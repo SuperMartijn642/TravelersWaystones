@@ -17,8 +17,9 @@ public class ScanParticle extends SingleQuadParticle {
     private final Quaternionf rotation = new Quaternionf();
     private final double width, height;
     private final float warmupTime, degradeTime;
+    private int delay;
 
-    ScanParticle(ClientLevel level, double x, double y, double z, TextureAtlasSprite sprite, double width, double height){
+    ScanParticle(ClientLevel level, double x, double y, double z, TextureAtlasSprite sprite, double width, double height, int delay){
         super(level, x, y - Math.signum(height) * width / 2, z, sprite);
         this.width = width;
         this.height = height;
@@ -29,6 +30,7 @@ public class ScanParticle extends SingleQuadParticle {
         this.yd = Math.signum(height) * SPEED;
         this.warmupTime = 0.5f / (float)SPEED;
         this.degradeTime = 0.5f / (float)SPEED;
+        this.delay = delay;
     }
 
     @Override
@@ -36,6 +38,10 @@ public class ScanParticle extends SingleQuadParticle {
         this.xo = this.x;
         this.yo = this.y;
         this.zo = this.z;
+        if(this.delay > 0){
+            this.delay--;
+            return;
+        }
         if(this.age++ >= this.lifetime){
             this.remove();
             return;
