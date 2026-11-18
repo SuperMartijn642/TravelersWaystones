@@ -10,8 +10,10 @@ import com.supermartijn642.travelerswaystones.content.WaystoneTypeRegistry;
 import com.supermartijn642.travelerswaystones.content.block.WaystoneTypeImpl;
 import com.supermartijn642.travelerswaystones.content.moving.WaystoneMovingHandler;
 import com.supermartijn642.travelerswaystones.content.moving.WaystoneMovingHandlerClient;
+import com.supermartijn642.travelerswaystones.content.targets.ClientTargetPositions;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -73,6 +75,22 @@ public class MinecraftMixin {
     )
     private boolean cancelAttack(boolean original){
         return original && !WaystoneMovingHandlerClient.isMoving();
+    }
+
+    @Inject(
+        method = "disconnect(Lnet/minecraft/client/gui/screens/Screen;ZZ)V",
+        at = @At("TAIL")
+    )
+    private void disconnect(Screen screen, boolean keepResourcePacks, boolean stopSound, CallbackInfo ci){
+        ClientTargetPositions.clear();
+    }
+
+    @Inject(
+        method = "clearClientLevel",
+        at = @At("TAIL")
+    )
+    private void clearClientLevel(Screen screen, CallbackInfo ci){
+        ClientTargetPositions.clear();
     }
 
     @Inject(
