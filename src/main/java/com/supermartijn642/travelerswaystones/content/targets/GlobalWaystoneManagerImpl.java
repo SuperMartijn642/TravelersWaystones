@@ -303,6 +303,16 @@ public class GlobalWaystoneManagerImpl {
                 target = WaystoneTargetImpl.deserialize(targetJson, registryAccess);
             }catch(Exception e){
                 exceptions.add(e);
+                // Keep target for saving
+                if(targetElement.isJsonObject()){
+                    UNLOADED_TARGETS.add(targetElement.getAsJsonObject());
+                    try{
+                        int id = targetElement.getAsJsonObject().get("id").getAsInt();
+                        if(id >= nextTargetIndex)
+                            nextTargetIndex = id + 1;
+                    }catch(Exception ignored){
+                    }
+                }
                 continue;
             }
             if(WaystoneType.get(target.block().getBlock()) == null){
@@ -340,7 +350,6 @@ public class GlobalWaystoneManagerImpl {
             for(int i = 1; i < exceptions.size(); i++)
                 first.addSuppressed(exceptions.get(i));
             TravelersWaystones.LOGGER.error(message, first);
-            throw new RuntimeException(message, first);
         }
     }
 
