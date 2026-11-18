@@ -281,6 +281,13 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
         return this.forDimensionImpl(dimension);
     }
 
+    @Override
+    public @Nullable DiscoveredWaystoneTarget getTargetAt(ResourceKey<Level> dimension, BlockPos pos){
+        // Don't use #forDimensionImpl as this gets called from chunk render threads
+        DimensionalImpl targets = this.byDimension.get(dimension);
+        return targets == null ? null : targets.getTargetAt(pos);
+    }
+
     private DimensionalImpl forDimensionImpl(ResourceKey<Level> level){
         // As mods may hold on to the returned instance, we can't return an empty dummy as it may become outdated
         // This may lead to issues if some mod spams this for non-existent levels, but that would be that mod's fault
