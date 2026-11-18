@@ -50,7 +50,7 @@ public class TravelersWaystonesClient {
         eventBus.addListener((Consumer<RegisterKeyMappingsEvent>)e -> {
             KeyMapping.Category category = new KeyMapping.Category(TravelersWaystones.identifier("keys"));
             e.registerCategory(category);
-            e.register(PENDANT_KEYBIND = new KeyMapping("travelerswaystones.keys.pendant", InputConstants.KEY_G, category));
+            e.register(PENDANT_KEYBIND = new KeyMapping("travelerswaystones.keys.pendant", InputConstants.KEY_K, category));
         });
         NeoForge.EVENT_BUS.addListener((Consumer<ClientTickEvent.Post>)_ -> {
             if(PENDANT_KEYBIND.consumeClick()){
