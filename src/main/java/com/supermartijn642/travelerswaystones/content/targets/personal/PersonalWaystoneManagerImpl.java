@@ -164,6 +164,7 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
         DiscoveredWaystoneTarget discoveredTarget = this.add(target, showEffects);
         GlobalWaystoneManagerImpl.addDiscovered(target, this.player.getUUID());
         TravelersWaystones.CHANNEL.sendToPlayer(this.player, new DiscoverTargetPacket(target, showEffects));
+        WaystoneEventsImpl.Discover.invoke(discoveredTarget, CommonUtils.getLevel(target.dimension()), this.player);
         return discoveredTarget;
     }
 
@@ -201,7 +202,8 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
             BlockState state = this.player.level().getBlockState(target.pos());
             this.player.level().setBlocksDirty(target.pos(), state, Blocks.AIR.defaultBlockState());
         }
-        WaystoneEventsImpl.Discover.invoke(discoveredTarget, this.player.level(), this.player);
+        if(this.isClient)
+            WaystoneEventsImpl.Discover.invoke(discoveredTarget, this.player.level(), this.player);
         if(showEffects)
             this.showDiscoverEffects(discoveredTarget);
         return discoveredTarget;
