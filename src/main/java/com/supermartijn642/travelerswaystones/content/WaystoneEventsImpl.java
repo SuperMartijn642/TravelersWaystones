@@ -207,15 +207,15 @@ public class WaystoneEventsImpl {
 
         private static final ResultlessEventHandler<WaystoneEvents.Undiscover.Context> HANDLER = new ResultlessEventHandler<>(WaystoneEvents.Undiscover.class.getSimpleName());
 
-        public static void invoke(DiscoveredWaystoneTarget target, Player player){
-            HANDLER.invoke(new ContextImpl(target, player));
+        public static void invoke(DiscoveredWaystoneTarget target, Player player, boolean removed){
+            HANDLER.invoke(new ContextImpl(target, player, removed));
         }
 
         public static void addListener(Identifier identifier, Consumer<WaystoneEvents.Undiscover.Context> listener){
             HANDLER.addListener(identifier, listener);
         }
 
-        public record ContextImpl(DiscoveredWaystoneTarget target, Player player) implements WaystoneEvents.Undiscover.Context {
+        public record ContextImpl(DiscoveredWaystoneTarget target, Player player, boolean removed) implements WaystoneEvents.Undiscover.Context {
             @Override
             public boolean isClient(){
                 return this.player.level().isClientSide();
