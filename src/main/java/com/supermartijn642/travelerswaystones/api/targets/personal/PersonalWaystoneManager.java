@@ -54,7 +54,16 @@ public interface PersonalWaystoneManager {
      * Discovers the given target.
      * @throws IllegalStateException if the player has already discovered the target
      */
-    DiscoveredWaystoneTarget discover(WaystoneTarget target);
+    default DiscoveredWaystoneTarget discover(WaystoneTarget target){
+        return this.discover(target, true);
+    }
+
+    /**
+     * Discovers the given target.
+     * @param showEffects whether to show the discovery title and particles
+     * @throws IllegalStateException if the player has already discovered the target
+     */
+    DiscoveredWaystoneTarget discover(WaystoneTarget target, boolean showEffects);
 
     /**
      * Opens the teleport screen for the player.
