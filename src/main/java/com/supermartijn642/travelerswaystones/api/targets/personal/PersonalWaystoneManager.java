@@ -1,8 +1,10 @@
 package com.supermartijn642.travelerswaystones.api.targets.personal;
 
+import com.supermartijn642.travelerswaystones.api.WaystoneEvents;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import com.supermartijn642.travelerswaystones.content.targets.personal.PersonalWaystoneManagerImpl;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
@@ -61,8 +63,20 @@ public interface PersonalWaystoneManager {
      * Teleporting is only allowed when the player is close to {@code from}, or when {@code from} is null and the player carries a warp pendant.
      * @param from target that the player teleports from, or null when not teleporting from a waystone
      * @throws IllegalArgumentException if {@code from} was not discovered by the player
+     * @see #openTrustedTeleportScreen(Identifier)
      */
     void openTeleportScreen(@Nullable DiscoveredWaystoneTarget from);
+
+    /**
+     * Opens the teleport screen for the player and allows one teleport from it without the player being at a waystone or carrying a warp pendant.
+     * May only be called on the server.
+     * <p>
+     * The teleport fires the {@link WaystoneEvents.AllowTeleport} and {@link WaystoneEvents.Teleport} events with the given source.
+     * The permission ends after one successful teleport or when the player logs out. Opening another trusted screen replaces it.
+     * @param source what opened the screen, used as the source of the teleport
+     * @throws IllegalStateException if called on the client
+     */
+    void openTrustedTeleportScreen(Identifier source);
 
     /**
      * All targets discovered by the player.
