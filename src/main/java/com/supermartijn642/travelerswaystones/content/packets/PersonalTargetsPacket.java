@@ -4,6 +4,7 @@ import com.supermartijn642.core.network.BasePacket;
 import com.supermartijn642.core.network.PacketContext;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
+import com.supermartijn642.travelerswaystones.content.WaystoneEventsImpl;
 import com.supermartijn642.travelerswaystones.content.targets.personal.DiscoveredWaystoneTargetImpl;
 import com.supermartijn642.travelerswaystones.content.targets.personal.PersonalWaystoneManagerImpl;
 import net.minecraft.network.FriendlyByteBuf;
@@ -58,6 +59,8 @@ public class PersonalTargetsPacket implements BasePacket {
 
     @Override
     public void handle(PacketContext context){
-        ((PersonalWaystoneManagerImpl)PersonalWaystoneManager.get(context.getPlayer())).updateContents(this.targets, this.recents);
+        PersonalWaystoneManager manager = PersonalWaystoneManager.get(context.getPlayer());
+        ((PersonalWaystoneManagerImpl)manager).updateContents(this.targets, this.recents);
+        WaystoneEventsImpl.Sync.invoke(context.getPlayer(), manager);
     }
 }
