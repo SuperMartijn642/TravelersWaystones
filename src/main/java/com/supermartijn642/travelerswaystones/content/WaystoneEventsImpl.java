@@ -157,6 +157,31 @@ public class WaystoneEventsImpl {
         }
     }
 
+    public static final class AllowDiscover {
+
+        private static final WaystoneEvents.AllowDiscover.Result.Allow ALLOW = new WaystoneEvents.AllowDiscover.Result.Allow() {};
+        private static final EventHandler<WaystoneEvents.AllowDiscover.Context,WaystoneEvents.AllowDiscover.Result> HANDLER = new EventHandler<>(WaystoneEvents.AllowDiscover.class.getSimpleName(), _ -> ALLOW);
+
+        public static WaystoneEvents.AllowDiscover.Result invoke(ServerPlayer player, WaystoneTarget target){
+            return HANDLER.invoke(new ContextImpl(player, target));
+        }
+
+        public static void addListener(Identifier identifier, Function<WaystoneEvents.AllowDiscover.Context,WaystoneEvents.AllowDiscover.Result> listener){
+            HANDLER.addListener(identifier, listener);
+        }
+
+        public record ContextImpl(ServerPlayer player, WaystoneTarget target) implements WaystoneEvents.AllowDiscover.Context {
+        }
+
+        public static WaystoneEvents.AllowDiscover.Result.Allow allow(){
+            return ALLOW;
+        }
+
+        public static WaystoneEvents.AllowDiscover.Result.Deny deny(@Nullable Component reason){
+            return () -> reason;
+        }
+    }
+
     public static final class Discover {
 
         private static final ResultlessEventHandler<WaystoneEvents.Discover.Context> HANDLER = new ResultlessEventHandler<>(WaystoneEvents.Discover.class.getSimpleName());
