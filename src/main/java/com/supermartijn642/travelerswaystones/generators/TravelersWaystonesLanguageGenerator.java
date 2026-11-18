@@ -100,6 +100,7 @@ public class TravelersWaystonesLanguageGenerator extends LanguageGenerator {
         this.translation("travelerswaystones.teleport.dangerous", "Destination may be dangerous");
         this.translation("travelerswaystones.teleport.no_space", "Space around waystone is obstructed");
         this.translation("travelerswaystones.teleport.denied", "Cannot teleport to waystone");
+        this.translation("travelerswaystones.teleport.no_pendant", "Teleporting without a waystone requires a warp pendant");
 
         // Tags
         this.translation("tag.block.travelerswaystones.waystones", "Waystones");
