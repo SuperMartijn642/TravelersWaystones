@@ -56,7 +56,7 @@ public class TravelersWaystonesClient {
                 if(manager.all().isEmpty())
                     player.sendOverlayMessage(TextComponents.translation("travelerswaystones.pendant.no_targets").get());
                 else
-                    openTeleportScreen(null, false);
+                    openTeleportScreen(null, null, false);
             }
         });
     }
@@ -76,9 +76,9 @@ public class TravelersWaystonesClient {
         ));
     }
 
-    public static void openTeleportScreen(@Nullable DiscoveredWaystoneTarget current, boolean trusted){
+    public static void openTeleportScreen(@Nullable DiscoveredWaystoneTarget current, @Nullable DiscoveredWaystoneTarget selected, boolean trusted){
         PersonalWaystoneManager manager = PersonalWaystoneManager.get(ClientUtils.getPlayer());
-        ClientUtils.displayScreen(WaystoneTeleportScreen.create(current, trusted, manager));
+        ClientUtils.displayScreen(WaystoneTeleportScreen.create(current, selected, trusted, manager));
     }
 
     public static void showDangerousWarning(DiscoveredWaystoneTarget target, Component warning){

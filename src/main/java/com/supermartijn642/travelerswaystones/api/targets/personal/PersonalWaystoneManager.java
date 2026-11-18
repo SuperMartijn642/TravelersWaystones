@@ -65,7 +65,18 @@ public interface PersonalWaystoneManager {
      * @throws IllegalArgumentException if {@code from} was not discovered by the player
      * @see #openTrustedTeleportScreen(Identifier)
      */
-    void openTeleportScreen(@Nullable DiscoveredWaystoneTarget from);
+    default void openTeleportScreen(@Nullable DiscoveredWaystoneTarget from){
+        this.openTeleportScreen(from, null);
+    }
+
+    /**
+     * Opens the teleport screen for the player with the given target selected.
+     * @param from     target that the player teleports from, or null when not teleporting from a waystone
+     * @param selected target to select, or null to select the first entry
+     * @throws IllegalArgumentException if {@code from} or {@code selected} was not discovered by the player
+     * @see #openTeleportScreen(DiscoveredWaystoneTarget)
+     */
+    void openTeleportScreen(@Nullable DiscoveredWaystoneTarget from, @Nullable DiscoveredWaystoneTarget selected);
 
     /**
      * Opens the teleport screen for the player and allows one teleport from it without the player being at a waystone or carrying a warp pendant.
@@ -76,7 +87,19 @@ public interface PersonalWaystoneManager {
      * @param source what opened the screen, used as the source of the teleport
      * @throws IllegalStateException if called on the client
      */
-    void openTrustedTeleportScreen(Identifier source);
+    default void openTrustedTeleportScreen(Identifier source){
+        this.openTrustedTeleportScreen(source, null);
+    }
+
+    /**
+     * Opens a trusted teleport screen for the player with the given target selected.
+     * @param source   what opened the screen, used as the source of the teleport
+     * @param selected target to select, or null to select the first entry
+     * @throws IllegalArgumentException if {@code selected} was not discovered by the player
+     * @throws IllegalStateException    if called on the client
+     * @see #openTrustedTeleportScreen(Identifier)
+     */
+    void openTrustedTeleportScreen(Identifier source, @Nullable DiscoveredWaystoneTarget selected);
 
     /**
      * All targets discovered by the player.
