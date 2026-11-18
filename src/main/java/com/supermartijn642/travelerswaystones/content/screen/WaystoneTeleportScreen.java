@@ -23,19 +23,21 @@ import java.util.function.BiConsumer;
 
 public class WaystoneTeleportScreen extends BaseWidget {
 
-    public static Screen create(@Nullable DiscoveredWaystoneTarget current, boolean trusted, PersonalWaystoneManager waystones){
-        return WidgetScreen.of(StackedWidget.create(new WaystoneTeleportScreen(current, trusted, waystones)));
+    public static Screen create(@Nullable DiscoveredWaystoneTarget current, @Nullable DiscoveredWaystoneTarget selected, boolean trusted, PersonalWaystoneManager waystones){
+        return WidgetScreen.of(StackedWidget.create(new WaystoneTeleportScreen(current, selected, trusted, waystones)));
     }
 
     private final @Nullable DiscoveredWaystoneTarget current;
+    private final @Nullable DiscoveredWaystoneTarget selected;
     private final boolean trusted;
     private final PersonalWaystoneManager waystones;
     private SearchWidget searchWidget;
     private ButtonWidget teleportButton;
 
-    private WaystoneTeleportScreen(@Nullable DiscoveredWaystoneTarget current, boolean trusted, PersonalWaystoneManager waystones){
+    private WaystoneTeleportScreen(@Nullable DiscoveredWaystoneTarget current, @Nullable DiscoveredWaystoneTarget selected, boolean trusted, PersonalWaystoneManager waystones){
         super(0, 0, 415, 194);
         this.current = current;
+        this.selected = selected;
         this.trusted = trusted;
         this.waystones = waystones;
     }
@@ -57,7 +59,7 @@ public class WaystoneTeleportScreen extends BaseWidget {
     @Override
     protected void addWidgets(){
         boolean hasCurrent = this.current != null;
-        SearchWidget searchWidget = new SearchWidget(hasCurrent ? 142 : 0, 0, this.waystones);
+        SearchWidget searchWidget = new SearchWidget(hasCurrent ? 142 : 0, 0, this.waystones, this.selected);
         int cardY = Math.max((searchWidget.height() - 80) / 2 - 20, 10);
         BiConsumer<DiscoveredWaystoneTarget,String> nameUpdater = (target, name) -> {
             name = name.trim();
