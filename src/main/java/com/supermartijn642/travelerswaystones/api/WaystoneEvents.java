@@ -549,4 +549,28 @@ public final class WaystoneEvents {
             boolean isClient();
         }
     }
+
+    /**
+     * Invoked when the client has received all targets discovered by the player after joining a world.
+     * <p>
+     * This event is only fired on the client.
+     */
+    public static final class Sync {
+        public static void addListener(Identifier identifier, Consumer<Context> listener){
+            WaystoneEventsImpl.Sync.addListener(identifier, listener);
+        }
+
+        @ApiStatus.NonExtendable
+        public interface Context {
+            /**
+             * Player that received the targets.
+             */
+            Player player();
+
+            /**
+             * Waystone manager of the player, which contains the received targets.
+             */
+            PersonalWaystoneManager manager();
+        }
+    }
 }
