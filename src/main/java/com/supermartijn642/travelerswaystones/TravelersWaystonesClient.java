@@ -40,7 +40,7 @@ public class TravelersWaystonesClient implements ClientModInitializer {
         ParticleProviderRegistry.getInstance().register(TravelersWaystones.discoverParticle, ScanParticleProvider::new);
         ParticleProviderRegistry.getInstance().register(TravelersWaystones.teleportParticle, ScanParticleProvider::new);
 
-        PENDANT_KEYBIND = new KeyMapping("travelerswaystones.keys.pendant", GLFW.GLFW_KEY_G, KeyMapping.Category.register(TravelersWaystones.identifier("keys")));
+        PENDANT_KEYBIND = new KeyMapping("travelerswaystones.keys.pendant", GLFW.GLFW_KEY_K, KeyMapping.Category.register(TravelersWaystones.identifier("keys")));
         KeyMappingHelper.registerKeyMapping(PENDANT_KEYBIND);
         ClientTickEvents.END_CLIENT_TICK.register(_ -> {
             if(PENDANT_KEYBIND.consumeClick()){
