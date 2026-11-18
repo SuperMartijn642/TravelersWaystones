@@ -86,6 +86,7 @@
   "travelerswaystones.teleport.dangerous": "Destination may be dangerous",
   "travelerswaystones.teleport.no_space": "Space around waystone is obstructed",
   "travelerswaystones.teleport.denied": "Cannot teleport to waystone",
+  "travelerswaystones.teleport.no_pendant": "Teleporting without a waystone requires a warp pendant",
   "tag.block.travelerswaystones.waystones": "Waystones",
   "tag.item.travelerswaystones.waystones": "Waystones",
   "dimension.minecraft.overworld": "Overworld",
