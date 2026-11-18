@@ -13,6 +13,7 @@ import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWayst
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -27,7 +28,7 @@ public class SearchWidget extends BaseWidget {
     private DiscoveredWaystoneTarget selectedTarget;
     private float scrollOffset, scrollTarget;
 
-    public SearchWidget(int x, int y, PersonalWaystoneManager manager){
+    public SearchWidget(int x, int y, PersonalWaystoneManager manager, @Nullable DiscoveredWaystoneTarget selected){
         super(x, y, 134, MIN_HEIGHT);
         // Create categories
         this.categories = new ArrayList<>();
@@ -67,6 +68,34 @@ public class SearchWidget extends BaseWidget {
                     entries.getFirst().setSelected(true);
                     break;
                 }
+            }
+        }
+        if(selected != null)
+            this.selectTarget(selected);
+    }
+
+    private void selectTarget(DiscoveredWaystoneTarget target){
+        for(CategoryWidget category : this.categories){
+            for(TargetEntryWidget entry : category.getEntries()){
+                if(entry.getTarget() != target)
+                    continue;
+                if(!category.isExpanded())
+                    category.setExpanded(true, false, true, false);
+                this.selectTargetEntry(entry);
+                // Scroll to the entry
+                int offset = 0;
+                for(CategoryWidget c : this.categories){
+                    if(c == category)
+                        break;
+                    offset += c.height();
+                }
+                for(TargetEntryWidget e : category.getEntries()){
+                    if(e == entry)
+                        break;
+                    offset += e.height();
+                }
+                this.setScrollOffset(offset, true);
+                return;
             }
         }
     }

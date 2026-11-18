@@ -94,21 +94,27 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
     }
 
     @Override
-    public void openTeleportScreen(@Nullable DiscoveredWaystoneTarget from){
-        if(from != null && this.getTargetForId(from.id()) != from)
-            throw new IllegalArgumentException("Target '" + from.name() + "' was not discovered by player '" + this.player.getName().getString() + "'!");
+    public void openTeleportScreen(@Nullable DiscoveredWaystoneTarget from, @Nullable DiscoveredWaystoneTarget selected){
+        this.checkDiscovered(from);
+        this.checkDiscovered(selected);
         if(this.isClient)
-            TravelersWaystonesClient.openTeleportScreen(from, false);
+            TravelersWaystonesClient.openTeleportScreen(from, selected, false);
         else
-            TravelersWaystones.CHANNEL.sendToPlayer(this.player, new OpenTeleportScreenPacket(from == null ? null : from.id(), false));
+            TravelersWaystones.CHANNEL.sendToPlayer(this.player, new OpenTeleportScreenPacket(from == null ? null : from.id(), selected == null ? null : selected.id(), false));
     }
 
     @Override
-    public void openTrustedTeleportScreen(Identifier source){
+    public void openTrustedTeleportScreen(Identifier source, @Nullable DiscoveredWaystoneTarget selected){
         if(this.isClient)
             throw new IllegalStateException("Trusted teleport screens can only be opened from the server!");
+        this.checkDiscovered(selected);
         this.trustedTeleportSource = source;
-        TravelersWaystones.CHANNEL.sendToPlayer(this.player, new OpenTeleportScreenPacket(null, true));
+        TravelersWaystones.CHANNEL.sendToPlayer(this.player, new OpenTeleportScreenPacket(null, selected == null ? null : selected.id(), true));
+    }
+
+    private void checkDiscovered(@Nullable DiscoveredWaystoneTarget target){
+        if(target != null && this.getTargetForId(target.id()) != target)
+            throw new IllegalArgumentException("Target '" + target.name() + "' was not discovered by player '" + this.player.getName().getString() + "'!");
     }
 
     @Nullable
