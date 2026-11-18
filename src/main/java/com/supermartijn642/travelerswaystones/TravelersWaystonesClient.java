@@ -41,7 +41,7 @@ public class TravelersWaystonesClient {
         });
 
         RegisterKeyMappingsEvent.BUS.addListener(e -> {
-            e.register(PENDANT_KEYBIND = new KeyMapping("travelerswaystones.keys.pendant", GLFW.GLFW_KEY_G, KeyMapping.Category.register(TravelersWaystones.identifier("keys"))));
+            e.register(PENDANT_KEYBIND = new KeyMapping("travelerswaystones.keys.pendant", GLFW.GLFW_KEY_K, KeyMapping.Category.register(TravelersWaystones.identifier("keys"))));
         });
         TickEvent.ClientTickEvent.Post.BUS.addListener(_ -> {
             if(PENDANT_KEYBIND.consumeClick()){
