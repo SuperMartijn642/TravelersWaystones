@@ -65,7 +65,7 @@ public class TravelersWaystonesClient {
                 if(manager.all().isEmpty())
                     player.sendOverlayMessage(TextComponents.translation("travelerswaystones.pendant.no_targets").get());
                 else
-                    openTeleportScreen(null);
+                    openTeleportScreen(null, false);
             }
         });
     }
@@ -85,9 +85,9 @@ public class TravelersWaystonesClient {
         ));
     }
 
-    public static void openTeleportScreen(@Nullable DiscoveredWaystoneTarget current){
+    public static void openTeleportScreen(@Nullable DiscoveredWaystoneTarget current, boolean trusted){
         PersonalWaystoneManager manager = PersonalWaystoneManager.get(ClientUtils.getPlayer());
-        ClientUtils.displayScreen(WaystoneTeleportScreen.create(current, manager));
+        ClientUtils.displayScreen(WaystoneTeleportScreen.create(current, trusted, manager));
     }
 
     public static void showDangerousWarning(DiscoveredWaystoneTarget target, Component warning){
@@ -100,6 +100,7 @@ public class TravelersWaystonesClient {
         stack.push(new DangerousWarningWidget(
             widget.width() / 2, widget.height() / 2,
             widget.getCurrentTarget(),
+            widget.isTrusted(),
             target,
             warning,
             stack::pop

@@ -36,7 +36,7 @@ public class WarpPendant extends BaseItem {
         if(manager.all().isEmpty())
             player.sendOverlayMessage(TextComponents.translation("travelerswaystones.pendant.no_targets").get());
         else if(level.isClientSide())
-            TravelersWaystonesClient.openTeleportScreen(null);
+            TravelersWaystonesClient.openTeleportScreen(null, false);
         return ItemUseResult.success(stack);
     }
 
