@@ -2,6 +2,7 @@ package com.supermartijn642.travelerswaystones.content.block;
 
 import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.util.Pair;
+import com.supermartijn642.travelerswaystones.api.WaystoneType;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
 import com.supermartijn642.travelerswaystones.content.targets.personal.PersonalWaystoneManagerImpl;
 import net.minecraft.client.renderer.block.BlockAndTintGetter;
@@ -27,10 +28,11 @@ public class WaystoneBlockStateModel implements BlockStateModel {
 
     private static final ThreadLocal<Boolean> BYPASS = new ThreadLocal<>();
 
-    private static boolean isDiscovered(BlockAndTintGetter level, BlockPos pos, BlockState state){
-        if(!(state.getBlock() instanceof WaystoneBlock waystone))
+    public static boolean isDiscovered(BlockAndTintGetter level, BlockPos pos, BlockState state){
+        WaystoneType type = WaystoneType.get(state.getBlock());
+        if(type == null)
             return false;
-        if(state.getValue(WaystoneBlock.DISCOVERED))
+        if(state.getBlock() instanceof WaystoneBlock && state.getValue(WaystoneBlock.DISCOVERED))
             return true;
         Player player = ClientUtils.getPlayer();
         if(player == null)
@@ -39,7 +41,7 @@ public class WaystoneBlockStateModel implements BlockStateModel {
         if(manager == null)
             return false;
         ResourceKey<Level> dimension = level instanceof Level ? ((Level)level).dimension() : player.level().dimension();
-        return manager.getTargetAt(dimension, waystone.getTargetPos(state, pos)) != null;
+        return manager.getTargetAt(dimension, type.getTargetPos(state, pos)) != null;
     }
 
     private static final ModelProperty<Pair<BlockStateModel,ModelData>> PROPER_MODEL = new ModelProperty<>();
