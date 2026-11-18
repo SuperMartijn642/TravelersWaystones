@@ -3,7 +3,6 @@ package com.supermartijn642.travelerswaystones.mixin;
 import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
 import com.supermartijn642.travelerswaystones.content.packets.PersonalTargetsPacket;
-import com.supermartijn642.travelerswaystones.content.targets.personal.PersonalWaystoneManagerImpl;
 import net.minecraft.network.Connection;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.CommonListenerCookie;
@@ -25,8 +24,7 @@ public class PlayerListMixin {
         )
     )
     private void placeNewPlayer(Connection connection, ServerPlayer player, CommonListenerCookie cookie, CallbackInfo ci) {
-        PersonalWaystoneManager manager = PersonalWaystoneManagerImpl.get(player, false);
-        if(manager != null)
-            TravelersWaystones.CHANNEL.sendToClient(connection, new PersonalTargetsPacket(manager));
+        PersonalWaystoneManager manager = PersonalWaystoneManager.get(player);
+        TravelersWaystones.CHANNEL.sendToClient(connection, new PersonalTargetsPacket(manager));
     }
 }
