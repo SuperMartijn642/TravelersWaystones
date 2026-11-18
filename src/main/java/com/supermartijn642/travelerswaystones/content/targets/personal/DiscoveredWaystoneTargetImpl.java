@@ -165,6 +165,8 @@ public class DiscoveredWaystoneTargetImpl implements DiscoveredWaystoneTarget {
 
     @Override
     public TeleportResult teleport(ServerPlayer player, @Nullable DiscoveredWaystoneTarget from, Identifier source, boolean allowDangerous){
+        this.manager.checkDiscovered(this);
+        this.manager.checkDiscovered(from);
         ServerLevel targetLevel = player.level().getServer().getLevel(this.dimension());
         if(targetLevel == null){
             return new TeleportResultImpl.Error(TextComponents.translation(
