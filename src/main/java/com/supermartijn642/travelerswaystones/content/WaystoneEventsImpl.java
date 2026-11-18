@@ -5,6 +5,7 @@ import com.supermartijn642.travelerswaystones.api.WaystoneEvents;
 import com.supermartijn642.travelerswaystones.api.WaystoneType;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
+import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -276,6 +277,22 @@ public class WaystoneEventsImpl {
         }
 
         public record ContextImpl(WaystoneTarget target, @Nullable Player player, String oldName, boolean isClient) implements WaystoneEvents.Rename.Context {
+        }
+    }
+
+    public static final class Sync {
+
+        private static final ResultlessEventHandler<WaystoneEvents.Sync.Context> HANDLER = new ResultlessEventHandler<>(WaystoneEvents.Sync.class.getSimpleName());
+
+        public static void invoke(Player player, PersonalWaystoneManager manager){
+            HANDLER.invoke(new ContextImpl(player, manager));
+        }
+
+        public static void addListener(Identifier identifier, Consumer<WaystoneEvents.Sync.Context> listener){
+            HANDLER.addListener(identifier, listener);
+        }
+
+        public record ContextImpl(Player player, PersonalWaystoneManager manager) implements WaystoneEvents.Sync.Context {
         }
     }
 
