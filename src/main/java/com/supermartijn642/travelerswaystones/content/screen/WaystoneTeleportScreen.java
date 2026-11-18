@@ -23,24 +23,30 @@ import java.util.function.BiConsumer;
 
 public class WaystoneTeleportScreen extends BaseWidget {
 
-    public static Screen create(@Nullable DiscoveredWaystoneTarget current, PersonalWaystoneManager waystones){
-        return WidgetScreen.of(StackedWidget.create(new WaystoneTeleportScreen(current, waystones)));
+    public static Screen create(@Nullable DiscoveredWaystoneTarget current, boolean trusted, PersonalWaystoneManager waystones){
+        return WidgetScreen.of(StackedWidget.create(new WaystoneTeleportScreen(current, trusted, waystones)));
     }
 
     private final @Nullable DiscoveredWaystoneTarget current;
+    private final boolean trusted;
     private final PersonalWaystoneManager waystones;
     private SearchWidget searchWidget;
     private ButtonWidget teleportButton;
 
-    private WaystoneTeleportScreen(@Nullable DiscoveredWaystoneTarget current, PersonalWaystoneManager waystones){
+    private WaystoneTeleportScreen(@Nullable DiscoveredWaystoneTarget current, boolean trusted, PersonalWaystoneManager waystones){
         super(0, 0, 415, 194);
         this.current = current;
+        this.trusted = trusted;
         this.waystones = waystones;
     }
 
     @Nullable
     public DiscoveredWaystoneTarget getCurrentTarget(){
         return this.current;
+    }
+
+    public boolean isTrusted(){
+        return this.trusted;
     }
 
     @Override
@@ -68,7 +74,7 @@ public class WaystoneTeleportScreen extends BaseWidget {
             () -> {
                 DiscoveredWaystoneTarget target = this.searchWidget.getSelectedTarget();
                 if(target != null)
-                    TravelersWaystones.CHANNEL.sendToServer(new TeleportPacket(this.current == null ? null : this.current.id(), target.id(), target.suppressDangerousWarning()));
+                    TravelersWaystones.CHANNEL.sendToServer(new TeleportPacket(this.current == null ? null : this.current.id(), target.id(), target.suppressDangerousWarning(), this.trusted));
             }
         ));
     }

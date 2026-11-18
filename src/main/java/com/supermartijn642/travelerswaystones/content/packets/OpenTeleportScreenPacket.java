@@ -11,9 +11,11 @@ import org.jetbrains.annotations.Nullable;
 public class OpenTeleportScreenPacket implements BasePacket {
 
     private @Nullable Integer fromId;
+    private boolean trusted;
 
-    public OpenTeleportScreenPacket(@Nullable Integer fromId){
+    public OpenTeleportScreenPacket(@Nullable Integer fromId, boolean trusted){
         this.fromId = fromId;
+        this.trusted = trusted;
     }
 
     public OpenTeleportScreenPacket(){
@@ -24,11 +26,13 @@ public class OpenTeleportScreenPacket implements BasePacket {
         buffer.writeBoolean(this.fromId != null);
         if(this.fromId != null)
             buffer.writeInt(this.fromId);
+        buffer.writeBoolean(this.trusted);
     }
 
     @Override
     public void read(FriendlyByteBuf buffer){
         this.fromId = buffer.readBoolean() ? buffer.readInt() : null;
+        this.trusted = buffer.readBoolean();
     }
 
     @Override
@@ -39,6 +43,6 @@ public class OpenTeleportScreenPacket implements BasePacket {
             if(from == null)
                 return;
         }
-        TravelersWaystonesClient.openTeleportScreen(from);
+        TravelersWaystonesClient.openTeleportScreen(from, this.trusted);
     }
 }
