@@ -156,14 +156,14 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
     }
 
     @Override
-    public DiscoveredWaystoneTarget discover(WaystoneTarget target){
+    public DiscoveredWaystoneTarget discover(WaystoneTarget target, boolean showEffects){
         if(this.get(target) != null)
             throw new IllegalStateException("Target has already been discovered!");
         if(this.isClient)
             throw new AssertionError();
-        DiscoveredWaystoneTarget discoveredTarget = this.add(target, true);
+        DiscoveredWaystoneTarget discoveredTarget = this.add(target, showEffects);
         GlobalWaystoneManagerImpl.addDiscovered(target, this.player.getUUID());
-        TravelersWaystones.CHANNEL.sendToPlayer(this.player, new DiscoverTargetPacket(target, true));
+        TravelersWaystones.CHANNEL.sendToPlayer(this.player, new DiscoverTargetPacket(target, showEffects));
         return discoveredTarget;
     }
 
