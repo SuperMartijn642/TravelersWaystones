@@ -57,7 +57,7 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
             ResourceKey.create(Registries.DIMENSION, Identifier.parse(json.get("dimension").getAsString())),
             ResourceKey.create(Registries.BIOME, Identifier.parse(json.get("biome").getAsString())),
             BlockPos.of(json.get("pos").getAsLong()),
-            BlockState.CODEC.decode(ops, json.get("block")).getOrThrow().getFirst());
+            BlockState.CODEC.decode(ops, updateBlockState(json.get("block"))).getOrThrow().getFirst());
         JsonArray discoverers = json.getAsJsonArray("discoverers");
         for(int i = 0; i + 1 < discoverers.size(); i += 2)
             target.discoverers.add(new UUID(discoverers.get(i).getAsLong(), discoverers.get(i + 1).getAsLong()));
@@ -70,8 +70,19 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
     }
 
     public static String blockName(JsonObject json){
-        JsonElement block = json.get("block");
+        JsonElement block = updateBlockState(json.get("block"));
         return block.isJsonPrimitive() ? block.getAsString() : block.getAsJsonObject().get("id").getAsString();
+    }
+
+    private static JsonElement updateBlockState(JsonElement block){
+        // Block states from before Minecraft 26.3 use 'Name' and 'Properties'
+        if(!block.isJsonObject() || !block.getAsJsonObject().has("Name"))
+            return block;
+        JsonObject json = new JsonObject();
+        json.add("id", block.getAsJsonObject().get("Name"));
+        if(block.getAsJsonObject().has("Properties"))
+            json.add("properties", block.getAsJsonObject().get("Properties"));
+        return json;
     }
 
     public static void encode(WaystoneTarget target, FriendlyByteBuf buffer){
