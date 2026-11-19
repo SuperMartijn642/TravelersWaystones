@@ -46,12 +46,15 @@ public class WaystoneManagerSavedData extends SavedData {
 
     @Override
     public void save(File file, HolderLookup.Provider provider){
+        if(!this.isDirty())
+            return;
         JsonElement json = GlobalWaystoneManagerImpl.serialize(this.registryAccess);
         CompoundTag tag = new CompoundTag();
         tag.put("data", JsonOps.INSTANCE.convertTo(NbtOps.INSTANCE, json));
         NbtUtils.addCurrentDataVersion(tag);
         try{
             NbtIo.writeCompressed(tag, file.toPath());
+            this.setDirty(false);
         }catch(IOException e){
             TravelersWaystones.LOGGER.error("Encountered an exception whilst saving waystones to '{}'!", file, e);
         }
@@ -64,7 +67,12 @@ public class WaystoneManagerSavedData extends SavedData {
     }
 
     @Override
+    public void setDirty(boolean dirty){
+        GlobalWaystoneManagerImpl.setDirty(dirty);
+    }
+
+    @Override
     public boolean isDirty(){
-        return true;
+        return GlobalWaystoneManagerImpl.isDirty();
     }
 }
