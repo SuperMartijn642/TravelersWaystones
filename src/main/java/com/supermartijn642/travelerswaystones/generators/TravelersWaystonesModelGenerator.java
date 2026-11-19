@@ -33,6 +33,9 @@ public class TravelersWaystonesModelGenerator extends ModelGenerator {
                 .parent("block/waystone_top_off")
                 .texture("waystone", "block/" + material.identifier() + "_waystone_top")
                 .particleTexture("#waystone");
+            // Replaced by TwoBlockItemModel
+            this.model("item/" + material.identifier() + "_waystone")
+                .parent("block/" + material.identifier() + "_waystone_top");
         }
     }
 }

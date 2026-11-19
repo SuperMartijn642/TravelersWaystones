@@ -18,6 +18,7 @@ import com.supermartijn642.travelerswaystones.util.TwoBlockItemModel;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
@@ -39,8 +40,12 @@ public class TravelersWaystonesClient {
         for(WaystoneMaterial material : WaystoneMaterial.values()){
             handler.registerBlockModelTranslucentRenderType(material::block);
             handler.registerBlockModelOverwrite(material::block, WaystoneBlockStateModel::new);
+            ResourceLocation top = TravelersWaystones.identifier("block/" + material.identifier() + "_waystone_top");
+            ResourceLocation bottom = TravelersWaystones.identifier("block/" + material.identifier() + "_waystone_bottom");
+            handler.registerModel(top);
+            handler.registerModel(bottom);
+            handler.registerItemModelOverwrite(material::item, () -> new TwoBlockItemModel(top, bottom, 0.75f));
         }
-        handler.registerItemModelType("two_block", TwoBlockItemModel.CODEC);
         context.getModEventBus().addListener((Consumer<RegisterParticleProvidersEvent>)e -> {
             e.registerSpriteSet(TravelersWaystones.discoverParticle, ScanParticleProvider::new);
             e.registerSpriteSet(TravelersWaystones.teleportParticle, ScanParticleProvider::new);
