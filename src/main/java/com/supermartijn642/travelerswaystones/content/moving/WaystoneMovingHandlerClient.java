@@ -1,6 +1,8 @@
 package com.supermartijn642.travelerswaystones.content.moving;
 
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.travelerswaystones.TravelersWaystones;
@@ -13,12 +15,10 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.block.BlockModelShaper;
-import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.BlockPos;
@@ -43,15 +43,19 @@ public class WaystoneMovingHandlerClient {
      */
     private static final RenderType VALID_RENDER_TYPE = RenderType.create(
         "travelerswaystones_valid_placement",
+        DefaultVertexFormat.NEW_ENTITY,
+        VertexFormat.Mode.QUADS,
         1536,
         true,
         true,
-        RenderPipelines.ITEM_ENTITY_TRANSLUCENT_CULL,
         RenderType.CompositeState.builder()
+            .setShaderState(RenderStateShard.RENDERTYPE_ITEM_ENTITY_TRANSLUCENT_CULL_SHADER)
             .setTextureState(new RenderStateShard.TextureStateShard(TextureAtlas.LOCATION_BLOCKS, TriState.FALSE, false))
+            .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
             .setOutputState(RenderStateShard.ITEM_ENTITY_TARGET)
             .setLightmapState(RenderStateShard.LIGHTMAP)
             .setOverlayState(RenderStateShard.OVERLAY)
+            .setWriteMaskState(RenderStateShard.COLOR_DEPTH_WRITE)
             .createCompositeState(true)
     );
     /**
@@ -59,15 +63,19 @@ public class WaystoneMovingHandlerClient {
      */
     private static final RenderType INVALID_RENDER_TYPE = RenderType.create(
         "travelerswaystones_invalid_placement",
+        DefaultVertexFormat.NEW_ENTITY,
+        VertexFormat.Mode.QUADS,
         1536,
         true,
         true,
-        RenderPipelines.ITEM_ENTITY_TRANSLUCENT_CULL,
         RenderType.CompositeState.builder()
+            .setShaderState(RenderStateShard.RENDERTYPE_ITEM_ENTITY_TRANSLUCENT_CULL_SHADER)
             .setTextureState(new RenderStateShard.TextureStateShard(TextureAtlas.LOCATION_BLOCKS, TriState.FALSE, false))
+            .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
             .setOutputState(RenderStateShard.ITEM_ENTITY_TARGET)
             .setLightmapState(RenderStateShard.LIGHTMAP)
             .setOverlayState(RenderStateShard.OVERLAY)
+            .setWriteMaskState(RenderStateShard.COLOR_DEPTH_WRITE)
             .createCompositeState(true)
     );
 
@@ -192,7 +200,7 @@ public class WaystoneMovingHandlerClient {
             float red = (color >> 16 & 255) / 255f, green = (color >> 8 & 255) / 255f, blue = (color & 255) / 255f;
             poseStack.pushPose();
             poseStack.translate(pos.getX() - cameraPos.x, pos.getY() - cameraPos.y, pos.getZ() - cameraPos.z);
-            ModelBlockRenderer.renderModel(poseStack.last(), type -> bufferSource.getBuffer(renderType), blockModels.getBlockModel(state), red, green, blue, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, level, pos, state);
+            ClientUtils.getBlockRenderer().getModelRenderer().renderModel(poseStack.last(), bufferSource.getBuffer(renderType), state, blockModels.getBlockModel(state), red, green, blue, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
             poseStack.popPose();
         }
     }

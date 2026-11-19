@@ -4,18 +4,11 @@ import com.mojang.math.Transformation;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.block.model.TextureSlots;
 import net.minecraft.client.renderer.item.BlockModelWrapper;
 import net.minecraft.client.renderer.item.CompositeModel;
 import net.minecraft.client.renderer.item.ItemModel;
-import net.minecraft.client.renderer.item.ModelRenderProperties;
-import net.minecraft.client.resources.model.BlockModelRotation;
-import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ModelState;
-import net.minecraft.client.resources.model.ResolvedModel;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.client.model.ComposedModelState;
 import org.joml.Vector3f;
 
 import java.util.List;
@@ -52,19 +45,19 @@ public class TwoBlockItemModel implements ItemModel.Unbaked {
     }
 
     private static ItemModel bakeBlockStateModel(ResourceLocation identifier, ItemModel.BakingContext context, Transformation transformation){
-        ModelBaker baker = context.blockModelBaker();
-        ResolvedModel resolvedModel = baker.getModel(identifier);
-        TextureSlots textureSlots = resolvedModel.getTopTextureSlots();
-        ModelState modelTransform = new ComposedModelState(BlockModelRotation.X0_Y0, transformation);
-        List<BakedQuad> quads = resolvedModel.bakeTopGeometry(textureSlots, baker, modelTransform).getAll();
-        ModelRenderProperties properties = ModelRenderProperties.fromResolvedModel(baker, resolvedModel, textureSlots);
-        return new BlockModelWrapper(List.of(), quads, properties);
+        ModelState modelTransform = new ModelState() {
+            @Override
+            public Transformation getRotation(){
+                return transformation;
+            }
+        };
+        return new BlockModelWrapper(context.blockModelBaker().bake(identifier, modelTransform), List.of());
     }
 
     @Override
     public void resolveDependencies(Resolver resolver){
-        resolver.markDependency(this.top);
-        resolver.markDependency(this.bottom);
+        resolver.resolve(this.top);
+        resolver.resolve(this.bottom);
     }
 
     @Override

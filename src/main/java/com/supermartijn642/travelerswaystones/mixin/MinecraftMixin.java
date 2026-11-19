@@ -41,7 +41,8 @@ public class MinecraftMixin {
         method = "<init>",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/client/tutorial/Tutorial;<init>(Lnet/minecraft/client/Minecraft;Lnet/minecraft/client/Options;)V"
+            target = "Lnet/neoforged/neoforge/client/loading/ClientModLoader;begin(Lnet/minecraft/client/Minecraft;)V",
+            shift = At.Shift.AFTER
         )
     )
     private void freezeWaystoneRegistry(CallbackInfo ci){

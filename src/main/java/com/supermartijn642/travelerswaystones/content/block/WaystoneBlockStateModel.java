@@ -4,24 +4,28 @@ import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.travelerswaystones.api.WaystoneType;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
 import com.supermartijn642.travelerswaystones.content.targets.personal.PersonalWaystoneManagerImpl;
-import net.minecraft.client.renderer.block.model.BlockModelPart;
-import net.minecraft.client.renderer.block.model.BlockStateModel;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.DelegateBakedModel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.client.model.data.ModelProperty;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.function.BiFunction;
 
-public class WaystoneBlockStateModel implements BlockStateModel {
+public class WaystoneBlockStateModel extends DelegateBakedModel {
 
-    private static final ThreadLocal<Boolean> BYPASS = new ThreadLocal<>();
+    private static final ModelProperty<BlockState> PROPER_STATE = new ModelProperty<>();
 
     public static boolean isDiscovered(BlockAndTintGetter level, BlockPos pos, BlockState state){
         WaystoneType type = WaystoneType.get(state.getBlock());
@@ -39,60 +43,34 @@ public class WaystoneBlockStateModel implements BlockStateModel {
         return manager.getTargetAt(dimension, type.getTargetPos(state, pos)) != null;
     }
 
-    private final BlockStateModel original;
-
-    public WaystoneBlockStateModel(BlockStateModel original){
-        this.original = original;
+    public WaystoneBlockStateModel(BakedModel original){
+        super(original);
     }
 
-    private <T> T forProperModel(BlockAndTintGetter level, BlockPos pos, BlockState state, BiFunction<BlockStateModel,BlockState,T> function){
-        if(BYPASS.get() != null)
-            return function.apply(this.original, state);
+    @Override
+    public ModelData getModelData(BlockAndTintGetter level, BlockPos pos, BlockState state, ModelData modelData){
         if(state.getBlock() instanceof WaystoneBlock)
             state = state.setValue(WaystoneBlock.DISCOVERED, isDiscovered(level, pos, state));
-        BlockStateModel model = ClientUtils.getMinecraft().getModelManager().getBlockModelShaper().getBlockModel(state);
-        BYPASS.set(true);
-        try{
-            return function.apply(model, state);
-        }finally{
-            BYPASS.remove();
-        }
+        return modelData.derive().with(PROPER_STATE, state).build();
     }
 
     @Override
-    public void collectParts(RandomSource random, List<BlockModelPart> output){
-        this.original.collectParts(random, output);
+    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, RandomSource random, ModelData data, @Nullable RenderType renderType){
+        BlockState properState = data.get(PROPER_STATE);
+        if(properState == null || properState == state)
+            return this.parent.getQuads(state, side, random, data, renderType);
+        BakedModel model = ClientUtils.getMinecraft().getModelManager().getBlockModelShaper().getBlockModel(properState);
+        return model.getQuads(properState, side, random, data, renderType);
     }
 
     @Override
-    public void collectParts(BlockAndTintGetter level, BlockPos pos, BlockState state, RandomSource random, List<BlockModelPart> parts){
-        this.forProperModel(
-            level, pos, state,
-            (model, properState) -> {
-                model.collectParts(level, pos, properState, random, parts);
-                return null;
-            }
-        );
-    }
-
-    @Override
-    public @Nullable Object createGeometryKey(BlockAndTintGetter level, BlockPos pos, BlockState state, RandomSource random){
-        return this.forProperModel(
-            level, pos, state,
-            (model, properState) -> model.createGeometryKey(level, pos, properState, random)
-        );
-    }
-
-    @Override
-    public TextureAtlasSprite particleIcon(){
-        return this.original.particleIcon();
-    }
-
-    @Override
-    public TextureAtlasSprite particleIcon(BlockAndTintGetter level, BlockPos pos, BlockState state){
-        return this.forProperModel(
-            level, pos, state,
-            (model, properState) -> model.particleIcon(level, pos, properState)
-        );
+    public TextureAtlasSprite getParticleIcon(ModelData data){
+        BlockState properState = data.get(PROPER_STATE);
+        if(properState == null)
+            return this.parent.getParticleIcon(data);
+        BakedModel model = ClientUtils.getMinecraft().getModelManager().getBlockModelShaper().getBlockModel(properState);
+        if(model instanceof WaystoneBlockStateModel waystoneModel)
+            return waystoneModel.parent.getParticleIcon(data);
+        return model.getParticleIcon(data);
     }
 }
