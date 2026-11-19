@@ -53,7 +53,7 @@ public class WaystoneTeleportScreen extends BaseWidget {
 
     @Override
     public Component getNarrationMessage(){
-        return TextComponents.translation("travelerswaystones.screen.teleport.preview.narrate").get();
+        return TextComponents.translation("travelerswaystones.screen.teleport.narrate").get();
     }
 
     @Override
