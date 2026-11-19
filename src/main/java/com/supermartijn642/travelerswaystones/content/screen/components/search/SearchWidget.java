@@ -146,6 +146,10 @@ public class SearchWidget extends BaseWidget {
         return Math.max(0, contentHeight - contentArea);
     }
 
+    public boolean isInView(int y, int height){
+        return y + height > this.y + 23 && y < this.y + this.height - 4;
+    }
+
     public void updateContentPositions(){
         int y = this.y + 23 - (int)this.scrollOffset;
         for(CategoryWidget category : this.categories){
