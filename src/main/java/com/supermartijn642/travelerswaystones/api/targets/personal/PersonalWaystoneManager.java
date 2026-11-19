@@ -27,7 +27,7 @@ public interface PersonalWaystoneManager {
 
     /**
      * Gets the waystone manager for the given player.
-     * The instance will stay relevant for as long as the player remains online.
+     * A new instance is created when the player respawns or changes dimension, so don't keep a reference to it.
      */
     static PersonalWaystoneManager get(Player player){
         return PersonalWaystoneManagerImpl.get(player, true);
@@ -123,7 +123,7 @@ public interface PersonalWaystoneManager {
     Set<DiscoveredWaystoneTarget> favorites();
 
     /**
-     * Targets that the player recently teleported to.
+     * Targets that the player recently teleported from.
      */
     List<DiscoveredWaystoneTarget> recents();
 
