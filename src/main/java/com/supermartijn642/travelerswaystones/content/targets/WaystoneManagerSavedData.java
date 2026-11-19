@@ -25,7 +25,12 @@ public class WaystoneManagerSavedData extends SavedData {
     }
 
     @Override
+    public void setDirty(boolean dirty){
+        GlobalWaystoneManagerImpl.setDirty(dirty);
+    }
+
+    @Override
     public boolean isDirty(){
-        return true;
+        return GlobalWaystoneManagerImpl.isDirty();
     }
 }
