@@ -13,14 +13,13 @@ import net.minecraft.client.Options;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
-import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
-import net.minecraft.client.renderer.block.model.BlockStateModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.BlockPos;
@@ -78,7 +77,6 @@ public class WaystoneMovingHandlerClient {
     }
 
     private static final RenderState RENDER_STATE = new RenderState();
-    private static final PoseStack POSE_STACK = new PoseStack();
     private static WaystoneTarget movingTarget;
 
     public static boolean isMoving(){
@@ -184,7 +182,7 @@ public class WaystoneMovingHandlerClient {
         }
     }
 
-    public static void submitPreview(SubmitNodeCollector output, Vec3 cameraPos){
+    public static void renderPreview(PoseStack poseStack, MultiBufferSource bufferSource, Vec3 cameraPos){
         ClientLevel level = ClientUtils.getMinecraft().level;
         BlockModelShaper blockModels = ClientUtils.getMinecraft().getModelManager().getBlockModelShaper();
         RenderType renderType = RENDER_STATE.isValid ? VALID_RENDER_TYPE : INVALID_RENDER_TYPE;
@@ -193,11 +191,10 @@ public class WaystoneMovingHandlerClient {
             BlockState state = RENDER_STATE.states.get(i);
             int color = ClientUtils.getMinecraft().getBlockColors().getColor(state, level, pos, 0);
             float red = (color >> 16 & 255) / 255f, green = (color >> 8 & 255) / 255f, blue = (color & 255) / 255f;
-            POSE_STACK.pushPose();
-            POSE_STACK.translate(pos.getX() - cameraPos.x, pos.getY() - cameraPos.y, pos.getZ() - cameraPos.z);
-            BlockStateModel model = blockModels.getBlockModel(state);
-            output.submitCustomGeometry(POSE_STACK, renderType, (pose, buffer) -> ModelBlockRenderer.renderModel(pose, type -> buffer, model, red, green, blue, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, level, pos, state));
-            POSE_STACK.popPose();
+            poseStack.pushPose();
+            poseStack.translate(pos.getX() - cameraPos.x, pos.getY() - cameraPos.y, pos.getZ() - cameraPos.z);
+            ModelBlockRenderer.renderModel(poseStack.last(), type -> bufferSource.getBuffer(renderType), blockModels.getBlockModel(state), red, green, blue, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, level, pos, state);
+            poseStack.popPose();
         }
     }
 

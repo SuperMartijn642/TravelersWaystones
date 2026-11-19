@@ -49,11 +49,7 @@ public class TravelersWaystonesClient {
             e.registerSpriteSet(TravelersWaystones.teleportParticle, ScanParticleProvider::new);
         });
 
-        eventBus.addListener((Consumer<RegisterKeyMappingsEvent>)e -> {
-            KeyMapping.Category category = new KeyMapping.Category(TravelersWaystones.identifier("keys"));
-            e.registerCategory(category);
-            e.register(PENDANT_KEYBIND = new KeyMapping("travelerswaystones.keys.pendant", GLFW.GLFW_KEY_K, category));
-        });
+        eventBus.addListener((Consumer<RegisterKeyMappingsEvent>)e -> e.register(PENDANT_KEYBIND = new KeyMapping("travelerswaystones.keys.pendant", GLFW.GLFW_KEY_K, "key.category.travelerswaystones.keys")));
         NeoForge.EVENT_BUS.addListener((Consumer<ClientTickEvent.Post>)e -> {
             if(PENDANT_KEYBIND.consumeClick()){
                 Player player = ClientUtils.getPlayer();
