@@ -334,7 +334,7 @@ public abstract class CategoryWidget extends AbstractButtonWidget {
             if(!this.enabled)
                 return;
             super.render(context, mouseX, mouseY);
-            ScreenUtils.drawGuiSprite(ICON, context.poseStack(), this.x + 12, this.y + 4, 10, 10);
+            GuiSprites.draw(context.poseStack(), ICON, this.x + 12, this.y + 4, 10, 10);
             PoseStack poseStack = context.poseStack();
             poseStack.pushPose();
             poseStack.translate(0, 0.5f, 0);

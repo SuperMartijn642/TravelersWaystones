@@ -6,9 +6,15 @@
     " D "
   ],
   "key": {
-    "S": "#c:nether_stars",
-    "D": "travelerswaystones:dimensional_pearl",
-    "G": "#c:ingots/gold"
+    "S": {
+      "tag": "c:nether_stars"
+    },
+    "D": {
+      "item": "travelerswaystones:dimensional_pearl"
+    },
+    "G": {
+      "tag": "c:ingots/gold"
+    }
   },
   "result": {
     "id": "travelerswaystones:warp_pendant"

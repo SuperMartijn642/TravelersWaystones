@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.DelegateBakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
@@ -17,13 +16,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.client.model.BakedModelWrapper;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import net.neoforged.neoforge.client.model.data.ModelProperty;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class WaystoneBlockStateModel extends DelegateBakedModel {
+public class WaystoneBlockStateModel extends BakedModelWrapper<BakedModel> {
 
     private static final ModelProperty<BlockState> PROPER_STATE = new ModelProperty<>();
 
@@ -58,7 +58,7 @@ public class WaystoneBlockStateModel extends DelegateBakedModel {
     public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, RandomSource random, ModelData data, @Nullable RenderType renderType){
         BlockState properState = data.get(PROPER_STATE);
         if(properState == null || properState == state)
-            return this.parent.getQuads(state, side, random, data, renderType);
+            return this.originalModel.getQuads(state, side, random, data, renderType);
         BakedModel model = ClientUtils.getMinecraft().getModelManager().getBlockModelShaper().getBlockModel(properState);
         return model.getQuads(properState, side, random, data, renderType);
     }
@@ -67,10 +67,10 @@ public class WaystoneBlockStateModel extends DelegateBakedModel {
     public TextureAtlasSprite getParticleIcon(ModelData data){
         BlockState properState = data.get(PROPER_STATE);
         if(properState == null)
-            return this.parent.getParticleIcon(data);
+            return this.originalModel.getParticleIcon(data);
         BakedModel model = ClientUtils.getMinecraft().getModelManager().getBlockModelShaper().getBlockModel(properState);
         if(model instanceof WaystoneBlockStateModel waystoneModel)
-            return waystoneModel.parent.getParticleIcon(data);
+            return waystoneModel.originalModel.getParticleIcon(data);
         return model.getParticleIcon(data);
     }
 }

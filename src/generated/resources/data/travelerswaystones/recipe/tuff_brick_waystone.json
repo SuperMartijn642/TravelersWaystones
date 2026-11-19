@@ -6,8 +6,12 @@
     "SSS"
   ],
   "key": {
-    "S": "minecraft:tuff_bricks",
-    "D": "travelerswaystones:dimensional_pearl"
+    "S": {
+      "item": "minecraft:tuff_bricks"
+    },
+    "D": {
+      "item": "travelerswaystones:dimensional_pearl"
+    }
   },
   "result": {
     "id": "travelerswaystones:tuff_brick_waystone"

@@ -21,5 +21,8 @@ public class TravelersWaystonesTagGenerator extends TagGenerator {
             for(TagKey<Block> tag : material.tags())
                 this.blockTag(tag).add(material.block());
         }
+
+        // Curios API slot
+        this.itemTag("curios", "necklace").add(TravelersWaystones.warpPendant);
     }
 }

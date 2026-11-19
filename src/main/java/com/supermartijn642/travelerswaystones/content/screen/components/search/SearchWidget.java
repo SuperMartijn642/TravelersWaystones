@@ -1,7 +1,6 @@
 package com.supermartijn642.travelerswaystones.content.screen.components.search;
 
 import com.supermartijn642.core.ClientUtils;
-import com.supermartijn642.core.gui.ScreenUtils;
 import com.supermartijn642.core.gui.widget.BaseWidget;
 import com.supermartijn642.core.gui.widget.WidgetRenderContext;
 import com.supermartijn642.core.gui.widget.premade.ScissorWidget;
@@ -10,6 +9,7 @@ import com.supermartijn642.core.util.playerprofile.PlayerProfileCache;
 import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
+import com.supermartijn642.travelerswaystones.util.GuiSprites;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -262,7 +262,7 @@ public class SearchWidget extends BaseWidget {
             this.updateContentPositions();
         }
 
-        ScreenUtils.drawGuiSprite(BACKGROUND, context.poseStack(), this.x, this.y, this.width, this.height);
+        GuiSprites.draw(context.poseStack(), BACKGROUND, this.x, this.y, this.width, this.height);
         super.renderBackground(context, mouseX, mouseY);
     }
 
