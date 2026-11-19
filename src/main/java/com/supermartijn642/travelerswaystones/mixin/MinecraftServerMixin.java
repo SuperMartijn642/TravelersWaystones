@@ -6,7 +6,6 @@ import com.supermartijn642.travelerswaystones.content.targets.WaystoneManagerSav
 import net.minecraft.FileUtil;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.saveddata.SavedDataType;
 import net.minecraft.world.level.storage.LevelStorageSource;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.io.IOException;
+import java.nio.file.Path;
 
 @Mixin(MinecraftServer.class)
 public class MinecraftServerMixin {
@@ -31,20 +31,13 @@ public class MinecraftServerMixin {
     private void loadWaystoneData(CallbackInfo ci){
         //noinspection DataFlowIssue
         MinecraftServer server = (MinecraftServer)(Object)this;
-        // Use the same file as Minecraft 26.1+ so waystones are kept when updating a world
+        Path folder = this.storageSource.getDimensionPath(Level.OVERWORLD).resolve("data").resolve(TravelersWaystones.MODID);
         try{
-            FileUtil.createDirectoriesSafe(this.storageSource.getDimensionPath(Level.OVERWORLD).resolve("data").resolve(TravelersWaystones.MODID));
+            FileUtil.createDirectoriesSafe(folder);
         }catch(IOException e){
             TravelersWaystones.LOGGER.error("Failed to create waystones data directory!", e);
         }
-        server.overworld().getDataStorage().computeIfAbsent(
-            new SavedDataType<>(
-                TravelersWaystones.MODID + "/waystones",
-                () -> WaystoneManagerSavedData.INSTANCE,
-                WaystoneManagerSavedData.codec(server),
-                null
-            )
-        );
+        server.overworld().getDataStorage().set(TravelersWaystones.MODID + "/waystones", WaystoneManagerSavedData.load(server, folder.resolve("waystones.dat")));
     }
 
     @Inject(

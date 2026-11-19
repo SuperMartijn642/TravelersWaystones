@@ -10,15 +10,11 @@ import com.supermartijn642.core.gui.widget.Widget;
 import com.supermartijn642.core.gui.widget.WidgetRenderContext;
 import com.supermartijn642.core.render.RenderUtils;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
-import net.fabricmc.fabric.api.renderer.v1.render.FabricBlockModelRenderer;
-import net.fabricmc.fabric.api.renderer.v1.render.RenderLayerHelper;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.BlockStateModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.EmptyBlockAndTintGetter;
 import net.minecraft.world.level.EmptyBlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -138,9 +134,6 @@ public class WaystonePreviewWidget extends BaseWidget {
     }
 
     public static void renderBlock(PoseStack poseStack, MultiBufferSource bufferSource, BlockState state, BlockPos pos){
-        BlockStateModel model = ClientUtils.getMinecraft().getModelManager().getBlockModelShaper().getBlockModel(state);
-        int color = ClientUtils.getMinecraft().getBlockColors().getColor(state, null, null, 0);
-        float red = (color >> 16 & 255) / 255f, green = (color >> 8 & 255) / 255f, blue = (color & 255) / 255f;
-        FabricBlockModelRenderer.render(poseStack.last(), RenderLayerHelper.entityDelegate(bufferSource), model, red, green, blue, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, EmptyBlockAndTintGetter.INSTANCE, pos, state);
+        ClientUtils.getBlockRenderer().renderSingleBlock(state, poseStack, bufferSource, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
     }
 }
