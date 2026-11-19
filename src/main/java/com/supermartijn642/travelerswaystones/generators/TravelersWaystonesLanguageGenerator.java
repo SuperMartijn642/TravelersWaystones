@@ -65,7 +65,6 @@ public class TravelersWaystonesLanguageGenerator extends LanguageGenerator {
         this.translation("travelerswaystones.screen.teleport.warning_icon.narrate", "Warnings suppressed icon");
         this.translation("travelerswaystones.screen.teleport.narrate", "Waystone teleport screen");
         this.translation("travelerswaystones.screen.teleport.preview.narrate", "Waystone preview");
-        this.translation("travelerswaystones.screen.teleport.warning.narrate", "Waystone preview");
         this.translation("travelerswaystones.screen.claim.title", "Waystone");
         this.translation("travelerswaystones.screen.claim.claim", "Claim");
         this.translation("travelerswaystones.screen.claim.create", "Create");
