@@ -5,21 +5,22 @@ import com.supermartijn642.core.util.Pair;
 import com.supermartijn642.travelerswaystones.api.WaystoneType;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
 import com.supermartijn642.travelerswaystones.content.targets.personal.PersonalWaystoneManagerImpl;
-import net.minecraft.client.renderer.block.BlockAndTintGetter;
-import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
-import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
-import net.minecraft.client.resources.model.geometry.BakedQuad;
-import net.minecraft.client.resources.model.sprite.Material;
+import net.minecraft.client.renderer.block.model.BlockModelPart;
+import net.minecraft.client.renderer.block.model.BlockStateModel;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.extensions.IForgeBlockStateModel;
 import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.client.model.data.ModelProperty;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.BiFunction;
@@ -58,7 +59,7 @@ public class WaystoneBlockStateModel implements BlockStateModel {
             return ModelData.EMPTY;
         if(state.getBlock() instanceof WaystoneBlock)
             state = state.setValue(WaystoneBlock.DISCOVERED, isDiscovered(level, pos, state));
-        BlockStateModel model = ClientUtils.getMinecraft().getModelManager().getBlockStateModelSet().get(state);
+        BlockStateModel model = ClientUtils.getMinecraft().getModelManager().getBlockModelShaper().getBlockModel(state);
         BYPASS.set(true);
         try{
             return ModelData.builder()
@@ -87,41 +88,31 @@ public class WaystoneBlockStateModel implements BlockStateModel {
     }
 
     @Override
-    public void collectParts(RandomSource random, List<BlockStateModelPart> output){
+    public void collectParts(RandomSource random, List<BlockModelPart> output){
         this.original.collectParts(random, output);
     }
 
     @Override
-    public void collectParts(RandomSource random, List<BlockStateModelPart> output, ModelData data){
+    public void collectParts(RandomSource random, List<BlockModelPart> output, ModelData data, @Nullable ChunkSectionLayer renderType){
         this.forProperModel(
             data,
             (model, properData) -> {
-                model.collectParts(random, output, properData);
+                model.collectParts(random, output, properData, renderType);
                 return null;
             }
         );
     }
 
     @Override
-    public @BakedQuad.MaterialFlags int materialFlags(){
-        return this.original.materialFlags();
+    public TextureAtlasSprite particleIcon(){
+        return this.original.particleIcon();
     }
 
     @Override
-    public boolean hasMaterialFlag(@BakedQuad.MaterialFlags int flag){
-        return this.original.hasMaterialFlag(flag);
-    }
-
-    @Override
-    public Material.Baked particleMaterial(){
-        return this.original.particleMaterial();
-    }
-
-    @Override
-    public Material.Baked particleMaterial(@NotNull ModelData data){
+    public TextureAtlasSprite particleIcon(@NotNull ModelData data){
         return this.forProperModel(
             data,
-            IForgeBlockStateModel::particleMaterial
+            IForgeBlockStateModel::particleIcon
         );
     }
 }

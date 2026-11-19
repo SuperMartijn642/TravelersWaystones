@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "id": "travelerswaystones:deepslate_brick_waystone"
+      "id": "travelerswaystones:blackstone_waystone"
     },
     "title": {
-      "translate": "travelerswaystones.advancement.recipes/deepslate_brick_waystone.title"
+      "translate": "travelerswaystones.advancement.recipes/misc/blackstone_waystone.title"
     },
     "description": {
-      "translate": "travelerswaystones.advancement.recipes/deepslate_brick_waystone.description"
+      "translate": "travelerswaystones.advancement.recipes/misc/blackstone_waystone.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "travelerswaystones:deepslate_brick_waystone"
+        "recipe": "travelerswaystones:blackstone_waystone"
       }
     },
     "recipe_condition": {
@@ -41,7 +41,7 @@
   ],
   "rewards": {
     "recipes": [
-      "travelerswaystones:deepslate_brick_waystone"
+      "travelerswaystones:blackstone_waystone"
     ]
   }
 }

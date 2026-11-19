@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "id": "travelerswaystones:netherrack_waystone"
+      "id": "travelerswaystones:tuff_brick_waystone"
     },
     "title": {
-      "translate": "travelerswaystones.advancement.recipes/netherrack_waystone.title"
+      "translate": "travelerswaystones.advancement.recipes/misc/tuff_brick_waystone.title"
     },
     "description": {
-      "translate": "travelerswaystones.advancement.recipes/netherrack_waystone.description"
+      "translate": "travelerswaystones.advancement.recipes/misc/tuff_brick_waystone.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "travelerswaystones:netherrack_waystone"
+        "recipe": "travelerswaystones:tuff_brick_waystone"
       }
     },
     "recipe_condition": {
@@ -41,7 +41,7 @@
   ],
   "rewards": {
     "recipes": [
-      "travelerswaystones:netherrack_waystone"
+      "travelerswaystones:tuff_brick_waystone"
     ]
   }
 }

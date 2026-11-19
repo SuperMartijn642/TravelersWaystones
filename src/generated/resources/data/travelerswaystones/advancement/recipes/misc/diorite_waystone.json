@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "id": "travelerswaystones:end_stone_waystone"
+      "id": "travelerswaystones:diorite_waystone"
     },
     "title": {
-      "translate": "travelerswaystones.advancement.recipes/end_stone_waystone.title"
+      "translate": "travelerswaystones.advancement.recipes/misc/diorite_waystone.title"
     },
     "description": {
-      "translate": "travelerswaystones.advancement.recipes/end_stone_waystone.description"
+      "translate": "travelerswaystones.advancement.recipes/misc/diorite_waystone.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "travelerswaystones:end_stone_waystone"
+        "recipe": "travelerswaystones:diorite_waystone"
       }
     },
     "recipe_condition": {
@@ -41,7 +41,7 @@
   ],
   "rewards": {
     "recipes": [
-      "travelerswaystones:end_stone_waystone"
+      "travelerswaystones:diorite_waystone"
     ]
   }
 }

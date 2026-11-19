@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "id": "travelerswaystones:nether_brick_waystone"
+      "id": "travelerswaystones:granite_waystone"
     },
     "title": {
-      "translate": "travelerswaystones.advancement.recipes/nether_brick_waystone.title"
+      "translate": "travelerswaystones.advancement.recipes/misc/granite_waystone.title"
     },
     "description": {
-      "translate": "travelerswaystones.advancement.recipes/nether_brick_waystone.description"
+      "translate": "travelerswaystones.advancement.recipes/misc/granite_waystone.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "travelerswaystones:nether_brick_waystone"
+        "recipe": "travelerswaystones:granite_waystone"
       }
     },
     "recipe_condition": {
@@ -41,7 +41,7 @@
   ],
   "rewards": {
     "recipes": [
-      "travelerswaystones:nether_brick_waystone"
+      "travelerswaystones:granite_waystone"
     ]
   }
 }

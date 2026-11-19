@@ -189,7 +189,7 @@ public class GlobalWaystoneManagerImpl {
         ((WaystoneTargetImpl)target).setBiomePosAndBlock(biome, to, block);
         // Re-add target
         forDimensionImpl(target.dimension()).add(target);
-        ChunkPos oldChunk = ChunkPos.containing(oldPos), newChunk = ((WaystoneTargetImpl)target).chunkPos();
+        ChunkPos oldChunk = new ChunkPos(oldPos), newChunk = ((WaystoneTargetImpl)target).chunkPos();
         sendChunkTargets(oldDimension, oldChunk);
         if(!newChunk.equals(oldChunk))
             sendChunkTargets(target.dimension(), newChunk);
@@ -208,7 +208,7 @@ public class GlobalWaystoneManagerImpl {
     public static void addDiscovered(WaystoneTarget target, UUID discoverer){
         if(target.discoverers().contains(discoverer))
             return;
-        BY_DISCOVERER.computeIfAbsent(discoverer, _ -> new ObjectOpenHashSet<>()).add(target);
+        BY_DISCOVERER.computeIfAbsent(discoverer, o -> new ObjectOpenHashSet<>()).add(target);
         ((WaystoneTargetImpl)target).addDiscoverer(discoverer);
     }
 
@@ -245,7 +245,7 @@ public class GlobalWaystoneManagerImpl {
     private static DimensionalImpl forDimensionImpl(ResourceKey<Level> dimension){
         // As mods may hold on to the returned instance, we can't return an empty dummy as it may become outdated
         // This may lead to issues if some mod spams this for non-existent levels, but that would be that mod's fault
-        return BY_DIMENSION.computeIfAbsent(dimension, _ -> new DimensionalImpl());
+        return BY_DIMENSION.computeIfAbsent(dimension, o -> new DimensionalImpl());
     }
 
     public static Map<UUID,Set<WaystoneTarget>> byOwner(){
@@ -337,7 +337,7 @@ public class GlobalWaystoneManagerImpl {
             BY_ID.put(target.id(), target);
             BY_OWNER.add(target);
             for(UUID discoverer : target.discoverers())
-                BY_DISCOVERER.computeIfAbsent(discoverer, _ -> new ObjectOpenHashSet<>()).add(target);
+                BY_DISCOVERER.computeIfAbsent(discoverer, o -> new ObjectOpenHashSet<>()).add(target);
             forDimensionImpl(target.dimension()).add(target);
         }
         if(missingBlockTargets > 0)

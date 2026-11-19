@@ -201,14 +201,16 @@ public interface WaystoneType {
         );
     }
 
-    /// Result for {@link #getTeleportPosition(BlockState, Level, BlockPos, Player)}.
-    /// Will be one of the following:
-    ///  - {@link Success} if there is a safe teleport position
-    ///  - {@link Dangerous} if the teleport position is dangerous
-    ///  - {@link Failure} if no teleport position is available
-    /// @see #success(Vector3dc)
-    /// @see #dangerous(Vector3dc, Component)
-    /// @see #failure(Component)
+    /**
+     * Result for {@link #getTeleportPosition(BlockState, Level, BlockPos, Player)}.
+     * Will be one of the following:<br>
+     * - {@link Success} if there is a safe teleport position<br>
+     * - {@link Dangerous} if the teleport position is dangerous<br>
+     * - {@link Failure} if no teleport position is available
+     * @see #success(Vector3dc)
+     * @see #dangerous(Vector3dc, Component)
+     * @see #failure(Component)
+     */
     @ApiStatus.NonExtendable
     sealed interface TeleportPositionResult {
         /**
@@ -272,12 +274,14 @@ public interface WaystoneType {
         }
     }
 
-    /// Result for {@link #moveWaystone(BlockState, Level, Player, WaystoneTarget, Level, BlockHitResult)}.
-    /// Will be one of the following:
-    ///  - {@link Success} if the waystone was moved successfully
-    ///  - {@link Failure} if the waystone could not be moved
-    /// @see #success(BlockPos, BlockState)
-    /// @see #failure(Component)
+    /**
+     * Result for {@link #moveWaystone(BlockState, Level, Player, WaystoneTarget, Level, BlockHitResult)}.
+     * Will be one of the following:<br>
+     * - {@link Success} if the waystone was moved successfully<br>
+     * - {@link Failure} if the waystone could not be moved
+     * @see #success(BlockPos, BlockState)
+     * @see #failure(Component)
+     */
     @ApiStatus.NonExtendable
     sealed interface MoveResult {
         /**

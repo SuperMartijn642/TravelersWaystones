@@ -128,18 +128,20 @@ public interface DiscoveredWaystoneTarget {
      */
     TeleportResult teleport(ServerPlayer player, @Nullable DiscoveredWaystoneTarget from, Identifier source, boolean allowDangerous);
 
-    /// Result for {@link #teleport(ServerPlayer, DiscoveredWaystoneTarget, Identifier, boolean)}.
-    /// Will be one of the following:
-    ///  - {@link Success} if the player is teleported successfully
-    ///  - {@link Dangerous} if the destination is dangerous and the {@code allowDangerous} argument was {@code false}
-    ///  - {@link NoTeleportPosition} if no teleport position was available
-    ///  - {@link Denied} if teleportation was denied by the {@link WaystoneEvents.AllowTeleport} event
-    ///  - {@link Error} if there was some unexpected error like the destination level not being present
-    /// @see Success
-    /// @see Dangerous
-    /// @see NoTeleportPosition
-    /// @see Denied
-    /// @see Error
+    /**
+     * Result for {@link #teleport(ServerPlayer, DiscoveredWaystoneTarget, Identifier, boolean)}.
+     * Will be one of the following:<br>
+     * - {@link Success} if the player is teleported successfully<br>
+     * - {@link Dangerous} if the destination is dangerous and the {@code allowDangerous} argument was {@code false}<br>
+     * - {@link NoTeleportPosition} if no teleport position was available<br>
+     * - {@link Denied} if teleportation was denied by the {@link WaystoneEvents.AllowTeleport} event<br>
+     * - {@link Error} if there was some unexpected error like the destination level not being present
+     * @see Success
+     * @see Dangerous
+     * @see NoTeleportPosition
+     * @see Denied
+     * @see Error
+     */
     @ApiStatus.NonExtendable
     sealed interface TeleportResult {
         /**

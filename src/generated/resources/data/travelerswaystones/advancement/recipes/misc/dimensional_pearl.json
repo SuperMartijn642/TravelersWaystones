@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "id": "travelerswaystones:red_nether_brick_waystone"
+      "id": "travelerswaystones:dimensional_pearl"
     },
     "title": {
-      "translate": "travelerswaystones.advancement.recipes/red_nether_brick_waystone.title"
+      "translate": "travelerswaystones.advancement.recipes/misc/dimensional_pearl.title"
     },
     "description": {
-      "translate": "travelerswaystones.advancement.recipes/red_nether_brick_waystone.description"
+      "translate": "travelerswaystones.advancement.recipes/misc/dimensional_pearl.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "travelerswaystones:red_nether_brick_waystone"
+        "recipe": "travelerswaystones:dimensional_pearl"
       }
     },
     "recipe_condition": {
@@ -27,7 +27,7 @@
       "conditions": {
         "items": [
           {
-            "items": "travelerswaystones:dimensional_pearl"
+            "items": "#c:ender_pearls"
           }
         ]
       }
@@ -41,7 +41,7 @@
   ],
   "rewards": {
     "recipes": [
-      "travelerswaystones:red_nether_brick_waystone"
+      "travelerswaystones:dimensional_pearl"
     ]
   }
 }

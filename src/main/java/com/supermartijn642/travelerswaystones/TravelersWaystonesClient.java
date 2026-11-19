@@ -32,8 +32,10 @@ public class TravelersWaystonesClient {
 
     public static void init(){
         ClientRegistrationHandler handler = ClientRegistrationHandler.get(TravelersWaystones.MODID);
-        for(WaystoneMaterial material : WaystoneMaterial.values())
-            handler.registerBlockStateModelOverwrite(material::block, WaystoneBlockStateModel::new);
+        for(WaystoneMaterial material : WaystoneMaterial.values()){
+            handler.registerBlockModelTranslucentRenderType(material::block);
+            handler.registerBlockModelOverwrite(material::block, WaystoneBlockStateModel::new);
+        }
         handler.registerItemModelType("two_block", TwoBlockItemModel.CODEC);
         RegisterParticleProvidersEvent.BUS.addListener(e -> {
             e.registerSpriteSet(TravelersWaystones.discoverParticle, ScanParticleProvider::new);
@@ -43,7 +45,7 @@ public class TravelersWaystonesClient {
         RegisterKeyMappingsEvent.BUS.addListener(e -> {
             e.register(PENDANT_KEYBIND = new KeyMapping("travelerswaystones.keys.pendant", GLFW.GLFW_KEY_K, KeyMapping.Category.register(TravelersWaystones.identifier("keys"))));
         });
-        TickEvent.ClientTickEvent.Post.BUS.addListener(_ -> {
+        TickEvent.ClientTickEvent.Post.BUS.addListener(e -> {
             if(PENDANT_KEYBIND.consumeClick()){
                 Player player = ClientUtils.getPlayer();
                 if(ClientUtils.getWorld() == null || player == null
@@ -54,7 +56,7 @@ public class TravelersWaystonesClient {
                     return;
                 PersonalWaystoneManager manager = PersonalWaystoneManager.get(player);
                 if(manager.all().isEmpty())
-                    player.sendOverlayMessage(TextComponents.translation("travelerswaystones.pendant.no_targets").get());
+                    player.displayClientMessage(TextComponents.translation("travelerswaystones.pendant.no_targets").get(), true);
                 else
                     openTeleportScreen(null, null, false);
             }
@@ -80,7 +82,7 @@ public class TravelersWaystonesClient {
         Player player = ClientUtils.getPlayer();
         PersonalWaystoneManager manager = PersonalWaystoneManager.get(player);
         if(manager.all().isEmpty()){
-            player.sendOverlayMessage(TextComponents.translation("travelerswaystones.pendant.no_targets").get());
+            player.displayClientMessage(TextComponents.translation("travelerswaystones.pendant.no_targets").get(), true);
             return;
         }
         ClientUtils.displayScreen(WaystoneTeleportScreen.create(current, selected, trusted, manager));
