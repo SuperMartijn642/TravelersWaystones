@@ -48,6 +48,7 @@ public class WaystoneManagerSavedData extends SavedData {
         CompoundTag tag = new CompoundTag();
         tag.put("data", JsonOps.INSTANCE.convertTo(NbtOps.INSTANCE, json));
         NbtUtils.addCurrentDataVersion(tag);
+        this.setDirty(false);
         return tag;
     }
 
@@ -58,7 +59,12 @@ public class WaystoneManagerSavedData extends SavedData {
     }
 
     @Override
+    public void setDirty(boolean dirty){
+        GlobalWaystoneManagerImpl.setDirty(dirty);
+    }
+
+    @Override
     public boolean isDirty(){
-        return true;
+        return GlobalWaystoneManagerImpl.isDirty();
     }
 }
