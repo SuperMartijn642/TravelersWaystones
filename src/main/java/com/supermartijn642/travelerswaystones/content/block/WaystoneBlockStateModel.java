@@ -9,7 +9,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.DelegateBakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
@@ -19,6 +18,7 @@ import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.extensions.IForgeBakedModel;
+import net.minecraftforge.client.model.BakedModelWrapper;
 import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.client.model.data.ModelProperty;
 import org.jetbrains.annotations.NotNull;
@@ -27,7 +27,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.function.BiFunction;
 
-public class WaystoneBlockStateModel extends DelegateBakedModel {
+public class WaystoneBlockStateModel extends BakedModelWrapper<BakedModel> {
 
     private static final ThreadLocal<Boolean> BYPASS = new ThreadLocal<>();
 
@@ -72,7 +72,7 @@ public class WaystoneBlockStateModel extends DelegateBakedModel {
 
     private <T> T forProperModel(ModelData modelData, BiFunction<BakedModel,ModelData,T> function){
         if(BYPASS.get() != null)
-            return function.apply(this.parent, ModelData.EMPTY);
+            return function.apply(this.originalModel, ModelData.EMPTY);
         Pair<BakedModel,ModelData> properModel = modelData.get(PROPER_MODEL);
         BakedModel model = this;
         if(properModel != null){

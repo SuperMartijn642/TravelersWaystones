@@ -6,8 +6,12 @@
     " D "
   ],
   "key": {
-    "D": "#c:gems/diamond",
-    "E": "#c:ender_pearls"
+    "D": {
+      "tag": "c:gems/diamond"
+    },
+    "E": {
+      "tag": "c:ender_pearls"
+    }
   },
   "result": {
     "id": "travelerswaystones:dimensional_pearl"

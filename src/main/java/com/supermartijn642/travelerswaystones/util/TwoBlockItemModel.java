@@ -3,6 +3,7 @@ package com.supermartijn642.travelerswaystones.util;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.supermartijn642.core.ClientUtils;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
@@ -35,7 +36,7 @@ public class TwoBlockItemModel implements BakedModel {
     }
 
     private BakedModel topModel(){
-        return ClientUtils.getMinecraft().getModelManager().getModel(new ModelResourceLocation(this.top, "standalone"));
+        return ClientUtils.getMinecraft().getModelManager().getModel(new ModelResourceLocation(this.top, ""));
     }
 
     @Override
@@ -45,7 +46,7 @@ public class TwoBlockItemModel implements BakedModel {
         if(this.quads == null){
             List<BakedQuad> quads = new ArrayList<>();
             this.addQuads(this.topModel(), 0.5f * this.scale, quads);
-            this.addQuads(ClientUtils.getMinecraft().getModelManager().getModel(new ModelResourceLocation(this.bottom, "standalone")), -0.5f * this.scale, quads);
+            this.addQuads(ClientUtils.getMinecraft().getModelManager().getModel(new ModelResourceLocation(this.bottom, "")), -0.5f * this.scale, quads);
             this.quads = quads;
         }
         return this.quads;
@@ -63,7 +64,7 @@ public class TwoBlockItemModel implements BakedModel {
                     vertices[offset + 1] = Float.floatToRawIntBits(0.5f + (Float.intBitsToFloat(vertices[offset + 1]) - 0.5f) * this.scale + yOffset);
                     vertices[offset + 2] = Float.floatToRawIntBits(0.5f + (Float.intBitsToFloat(vertices[offset + 2]) - 0.5f) * this.scale);
                 }
-                output.add(new BakedQuad(vertices, quad.getTintIndex(), quad.getDirection(), quad.getSprite(), quad.isShade(), quad.getLightEmission()));
+                output.add(new BakedQuad(vertices, quad.getTintIndex(), quad.getDirection(), quad.getSprite(), quad.isShade()));
             }
         }
     }
@@ -96,5 +97,10 @@ public class TwoBlockItemModel implements BakedModel {
     @Override
     public ItemTransforms getTransforms(){
         return this.topModel().getTransforms();
+    }
+
+    @Override
+    public ItemOverrides getOverrides(){
+        return ItemOverrides.EMPTY;
     }
 }

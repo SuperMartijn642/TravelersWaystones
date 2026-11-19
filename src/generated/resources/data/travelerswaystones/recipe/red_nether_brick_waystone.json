@@ -6,8 +6,12 @@
     "SSS"
   ],
   "key": {
-    "S": "minecraft:red_nether_bricks",
-    "D": "travelerswaystones:dimensional_pearl"
+    "S": {
+      "item": "minecraft:red_nether_bricks"
+    },
+    "D": {
+      "item": "travelerswaystones:dimensional_pearl"
+    }
   },
   "result": {
     "id": "travelerswaystones:red_nether_brick_waystone"

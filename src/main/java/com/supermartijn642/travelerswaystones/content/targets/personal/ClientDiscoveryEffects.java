@@ -60,6 +60,8 @@ public class ClientDiscoveryEffects {
         if(found.isEmpty())
             return;
         PlayerProfileCache.Skin skin = PlayerProfileCache.get(true).getSkinOrDefault(owner);
-        PlayerFaceRenderer.draw(guiGraphics, skin.body(), -font.width(subtitle) / 2 + offset[0], 5, 8, true, false, color);
+        guiGraphics.setColor(1, 1, 1, (color >>> 24) / 255f);
+        PlayerFaceRenderer.draw(guiGraphics, skin.body(), -font.width(subtitle) / 2 + offset[0], 5, 8, true, false);
+        guiGraphics.setColor(1, 1, 1, 1);
     }
 }

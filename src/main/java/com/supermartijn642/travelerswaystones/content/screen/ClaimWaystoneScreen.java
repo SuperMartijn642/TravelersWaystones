@@ -14,6 +14,7 @@ import com.supermartijn642.travelerswaystones.content.packets.ClaimWaystonePacke
 import com.supermartijn642.travelerswaystones.content.screen.components.InfoCardWidget;
 import com.supermartijn642.travelerswaystones.content.targets.WaystoneTargetImpl;
 import com.supermartijn642.travelerswaystones.content.targets.personal.DiscoveredWaystoneTargetImpl;
+import com.supermartijn642.travelerswaystones.util.GuiSprites;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -79,7 +80,7 @@ public class ClaimWaystoneScreen extends BaseWidget {
         boolean isValidName = name.length() >= WaystoneTarget.MIN_NAME_LENGTH && name.length() <= WaystoneTarget.MAX_NAME_LENGTH;
         this.confirmButton.setActive(isValidName);
 
-        ScreenUtils.drawGuiSprite(BUTTON_TAB, context.poseStack(), 26, 82, 88, 24);
+        GuiSprites.draw(context.poseStack(), BUTTON_TAB, 26, 82, 88, 24);
         super.renderBackground(context, mouseX, mouseY);
     }
 

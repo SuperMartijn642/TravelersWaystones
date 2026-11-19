@@ -23,7 +23,6 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.TriState;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -50,7 +49,7 @@ public class WaystoneMovingHandlerClient {
         true,
         RenderType.CompositeState.builder()
             .setShaderState(RenderStateShard.RENDERTYPE_ITEM_ENTITY_TRANSLUCENT_CULL_SHADER)
-            .setTextureState(new RenderStateShard.TextureStateShard(TextureAtlas.LOCATION_BLOCKS, TriState.FALSE, false))
+            .setTextureState(new RenderStateShard.TextureStateShard(TextureAtlas.LOCATION_BLOCKS, false, false))
             .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
             .setOutputState(RenderStateShard.ITEM_ENTITY_TARGET)
             .setLightmapState(RenderStateShard.LIGHTMAP)
@@ -70,7 +69,7 @@ public class WaystoneMovingHandlerClient {
         true,
         RenderType.CompositeState.builder()
             .setShaderState(RenderStateShard.RENDERTYPE_ITEM_ENTITY_TRANSLUCENT_CULL_SHADER)
-            .setTextureState(new RenderStateShard.TextureStateShard(TextureAtlas.LOCATION_BLOCKS, TriState.FALSE, false))
+            .setTextureState(new RenderStateShard.TextureStateShard(TextureAtlas.LOCATION_BLOCKS, false, false))
             .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
             .setOutputState(RenderStateShard.ITEM_ENTITY_TARGET)
             .setLightmapState(RenderStateShard.LIGHTMAP)
@@ -127,7 +126,7 @@ public class WaystoneMovingHandlerClient {
             stopMoving(TextComponents.translation("travelerswaystones.moving.cancelled").color(ChatFormatting.WHITE).get());
         }else if(options.keyUse.consumeClick()){
             ClientUtils.getMinecraft().rightClickDelay = 10;
-            if(!(ClientUtils.getMinecraft().hitResult instanceof BlockHitResult hitResult) || hitResult.getType() == HitResult.Type.MISS || hitResult.isWorldBorderHit())
+            if(!(ClientUtils.getMinecraft().hitResult instanceof BlockHitResult hitResult) || hitResult.getType() == HitResult.Type.MISS)
                 return;
             Map<BlockPos,BlockState> placement = movingTarget.waystoneType().getPlacementPreview(movingTarget.block(), player.level(), player, hitResult);
             if(placement.isEmpty()){
@@ -170,7 +169,7 @@ public class WaystoneMovingHandlerClient {
         if(!isMoving())
             return;
         Player player = ClientUtils.getPlayer();
-        if(!(ClientUtils.getMinecraft().hitResult instanceof BlockHitResult hitResult) || hitResult.getType() == HitResult.Type.MISS || hitResult.isWorldBorderHit())
+        if(!(ClientUtils.getMinecraft().hitResult instanceof BlockHitResult hitResult) || hitResult.getType() == HitResult.Type.MISS)
             return;
         Map<BlockPos,BlockState> placement = movingTarget.waystoneType().getPlacementPreview(movingTarget.block(), player.level(), player, hitResult);
         if(placement.isEmpty())

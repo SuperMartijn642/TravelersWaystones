@@ -6,8 +6,12 @@
     "SSS"
   ],
   "key": {
-    "S": "minecraft:cobbled_deepslate",
-    "D": "travelerswaystones:dimensional_pearl"
+    "S": {
+      "item": "minecraft:cobbled_deepslate"
+    },
+    "D": {
+      "item": "travelerswaystones:dimensional_pearl"
+    }
   },
   "result": {
     "id": "travelerswaystones:cobbled_deepslate_waystone"

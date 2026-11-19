@@ -6,8 +6,12 @@
     "SSS"
   ],
   "key": {
-    "S": "minecraft:diorite",
-    "D": "travelerswaystones:dimensional_pearl"
+    "S": {
+      "item": "minecraft:diorite"
+    },
+    "D": {
+      "item": "travelerswaystones:dimensional_pearl"
+    }
   },
   "result": {
     "id": "travelerswaystones:diorite_waystone"

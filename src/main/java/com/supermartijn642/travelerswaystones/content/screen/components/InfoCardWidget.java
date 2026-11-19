@@ -12,6 +12,7 @@ import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
 import com.supermartijn642.travelerswaystones.content.moving.WaystoneMovingHandlerClient;
+import com.supermartijn642.travelerswaystones.util.GuiSprites;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
@@ -125,7 +126,7 @@ public class InfoCardWidget extends BaseWidget {
             this.selectNameField = false;
         }
 
-        ScreenUtils.drawGuiSprite(this.standalone ? BACKGROUND_STANDALONE : BACKGROUND_ATTACHED, context.poseStack(), this.x, this.y, this.width, this.height);
+        GuiSprites.draw(context.poseStack(), this.standalone ? BACKGROUND_STANDALONE : BACKGROUND_ATTACHED, this.x, this.y, this.width, this.height);
         super.renderBackground(context, mouseX, mouseY);
     }
 
@@ -135,17 +136,17 @@ public class InfoCardWidget extends BaseWidget {
         if(!ScreenUtils.drawPlayerHead(this.target.get().owner(), poseStack, this.x + 31, this.y + 35, 8, 8, false)){
             poseStack.pushPose();
             poseStack.translate(0.5f, 0, 0);
-            ScreenUtils.drawGuiSprite(OWNER_ICON, poseStack, this.x + 30, this.y + 35, 8, 8);
+            GuiSprites.draw(poseStack, OWNER_ICON, this.x + 30, this.y + 35, 8, 8);
             poseStack.popPose();
         }
         renderDimensionIcon(poseStack, this.x + 31, this.y + 46, this.target.get().dimension());
         poseStack.pushPose();
         poseStack.translate(0.5f, 0.5f, 0);
-        ScreenUtils.drawGuiSprite(BIOME_ICON, poseStack, this.x + 30, this.y + 57, 8, 8);
+        GuiSprites.draw(poseStack, BIOME_ICON, this.x + 30, this.y + 57, 8, 8);
         poseStack.popPose();
         poseStack.pushPose();
         poseStack.translate(0.5f, 0.5f, 0);
-        ScreenUtils.drawGuiSprite(POSITION_ICON, poseStack, this.x + 31, this.y + 68, 7, 7);
+        GuiSprites.draw(poseStack, POSITION_ICON, this.x + 31, this.y + 68, 7, 7);
         poseStack.popPose();
         DiscoveredWaystoneTarget waystone = this.target.get();
         ScreenUtils.drawStringWithShadow(poseStack, TextComponents.string(waystone.name()).get(), this.x + 7, this.y + 19, 0xffffff);
@@ -206,7 +207,7 @@ public class InfoCardWidget extends BaseWidget {
         else if(Level.END.equals(dimension))
             block = Blocks.END_STONE;
         if(block == null){
-            ScreenUtils.drawGuiSprite(DIMENSION_ICON, poseStack, x, y, 8, 8);
+            GuiSprites.draw(poseStack, DIMENSION_ICON, x, y, 8, 8);
             return;
         }
         BlockState state = block.defaultBlockState();

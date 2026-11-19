@@ -6,7 +6,7 @@ import com.supermartijn642.travelerswaystones.content.block.WaystoneTypeImpl;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -65,10 +65,10 @@ public interface WaystoneType {
      * @param player player using the waystone
      * @param level  level that the waystone is in
      * @param pos    position of the block that was used
-     * @return {@link InteractionResult#CONSUME} if the player is in a different level, otherwise {@link InteractionResult#SUCCESS}
+     * @return {@link ItemInteractionResult#CONSUME} if the player is in a different level, otherwise {@link ItemInteractionResult#SUCCESS}
      * @throws IllegalStateException if the block at the given position has no registered waystone type
      */
-    static InteractionResult interact(Player player, Level level, BlockPos pos){
+    static ItemInteractionResult interact(Player player, Level level, BlockPos pos){
         return WaystoneTypeImpl.interact(player, level, pos);
     }
 

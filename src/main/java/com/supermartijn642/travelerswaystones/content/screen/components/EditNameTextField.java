@@ -2,14 +2,14 @@ package com.supermartijn642.travelerswaystones.content.screen.components;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.supermartijn642.core.TextComponents;
-import com.supermartijn642.core.gui.ScreenUtils;
 import com.supermartijn642.core.gui.widget.WidgetRenderContext;
 import com.supermartijn642.core.gui.widget.premade.TextFieldWidget;
 import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
+import com.supermartijn642.travelerswaystones.util.GuiSprites;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.ARGB;
+import net.minecraft.util.FastColor;
 
 import java.util.function.Consumer;
 
@@ -27,7 +27,7 @@ public class EditNameTextField extends TextFieldWidget {
         this.properWidth = width;
         this.properHeight = height;
         this.confirmListener = confirmListener;
-        this.setTextColors(-1, -1, ARGB.color(200, 200, 200));
+        this.setTextColors(-1, -1, FastColor.ARGB32.color(255, 200, 200, 200));
         this.textShadow = true;
     }
 
@@ -65,7 +65,7 @@ public class EditNameTextField extends TextFieldWidget {
         if(this.hasHadText){
             String name = this.getText().trim();
             boolean isValidName = name.length() >= WaystoneTarget.MIN_NAME_LENGTH && name.length() <= WaystoneTarget.MAX_NAME_LENGTH;
-            this.setTextColors(isValidName ? -1 : ARGB.color(255, 100, 100), -1);
+            this.setTextColors(isValidName ? -1 : FastColor.ARGB32.color(255, 255, 100, 100), -1);
         }
         super.renderBackground(context, mouseX, mouseY);
     }
@@ -78,7 +78,7 @@ public class EditNameTextField extends TextFieldWidget {
 
     @Override
     protected void drawBackground(PoseStack poseStack){
-        ScreenUtils.drawGuiSprite(BACKGROUND, poseStack, this.x, this.y, this.width, this.height);
+        GuiSprites.draw(poseStack, BACKGROUND, this.x, this.y, this.width, this.height);
     }
 
     @Override

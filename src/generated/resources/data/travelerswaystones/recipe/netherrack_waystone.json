@@ -6,8 +6,12 @@
     "SSS"
   ],
   "key": {
-    "S": "minecraft:netherrack",
-    "D": "travelerswaystones:dimensional_pearl"
+    "S": {
+      "item": "minecraft:netherrack"
+    },
+    "D": {
+      "item": "travelerswaystones:dimensional_pearl"
+    }
   },
   "result": {
     "id": "travelerswaystones:netherrack_waystone"
