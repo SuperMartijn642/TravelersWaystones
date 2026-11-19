@@ -114,7 +114,7 @@ public class MinecraftMixin {
         Player player = ClientUtils.getPlayer();
         BlockHitResult result = (BlockHitResult)ClientUtils.getMinecraft().hitResult;
         BlockPos pos = result.getBlockPos();
-        ClientLevel level = ClientUtils.getWorld();
+        ClientLevel level = ClientUtils.getMinecraft().level;
         if(!level.getWorldBorder().isWithinBounds(pos))
             return;
         BlockState state = level.getBlockState(pos);
@@ -125,14 +125,14 @@ public class MinecraftMixin {
             DiscoveredWaystoneTarget target = PersonalWaystoneManager.get(player).getTargetAt(level, pos);
             boolean isOwner = target != null && target.owner().equals(player.getUUID());
             String messageKey = isOwner ? "travelerswaystones.break.warning.owner" : "travelerswaystones.break.warning";
-            player.sendSystemMessage(TextComponents.translation(
+            player.displayClientMessage(TextComponents.translation(
                 messageKey,
                 TextComponents.number(WaystoneMovingHandler.MAX_DISTANCE).color(ChatFormatting.GOLD).get()
-            ).color(ChatFormatting.WHITE).get());
-            player.sendSystemMessage(TextComponents.translation(
+            ).color(ChatFormatting.WHITE).get(), false);
+            player.displayClientMessage(TextComponents.translation(
                 "travelerswaystones.break.warning.bypass",
                 TextComponents.translation("key.keyboard.left.shift").color(ChatFormatting.GOLD).get()
-            ).color(ChatFormatting.GRAY).italic().get());
+            ).color(ChatFormatting.GRAY).italic().get(), false);
             player.swing(InteractionHand.MAIN_HAND);
             this.waystoneMineWarningDelay = 40;
         }

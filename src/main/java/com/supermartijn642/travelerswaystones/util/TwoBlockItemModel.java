@@ -4,21 +4,18 @@ import com.mojang.math.Transformation;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.supermartijn642.core.util.Pair;
-import net.minecraft.client.renderer.block.dispatch.BlockModelRotation;
-import net.minecraft.client.renderer.block.dispatch.ModelState;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.TextureSlots;
+import net.minecraft.client.renderer.item.BlockModelWrapper;
 import net.minecraft.client.renderer.item.CompositeModel;
-import net.minecraft.client.renderer.item.CuboidItemModelWrapper;
 import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.client.renderer.item.ModelRenderProperties;
+import net.minecraft.client.resources.model.BlockModelRotation;
 import net.minecraft.client.resources.model.ModelBaker;
+import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.client.resources.model.ResolvedModel;
-import net.minecraft.client.resources.model.geometry.QuadCollection;
-import net.minecraft.client.resources.model.sprite.TextureSlots;
 import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.client.model.ComposedModelState;
-import org.joml.Matrix4f;
-import org.joml.Matrix4fc;
 import org.joml.Vector3f;
 
 import java.util.List;
@@ -45,29 +42,23 @@ public class TwoBlockItemModel implements ItemModel.Unbaked {
     }
 
     @Override
-    public ItemModel bake(ItemModel.BakingContext context, Matrix4fc transformation){
-        Transformation blockModelScaling = new Transformation(null, null, new Vector3f(this.scale), null);
-        Pair<QuadCollection,ModelRenderProperties> top = bakeBlockStateModel(this.top, context, blockModelScaling);
-        Pair<QuadCollection,ModelRenderProperties> bottom = bakeBlockStateModel(this.bottom, context, blockModelScaling);
-        Matrix4f topTransform = new Matrix4f().identity().translate(0, 0.5f * this.scale, 0);
-        Matrix4f bottomTransform = new Matrix4f().identity().translate(0, -0.5f * this.scale, 0);
-        transformation.mul(topTransform, topTransform);
-        transformation.mul(bottomTransform, bottomTransform);
+    public ItemModel bake(ItemModel.BakingContext context){
+        Transformation topTransformation = new Transformation(new Vector3f(0, 0.5f * this.scale, 0), null, new Vector3f(this.scale), null);
+        Transformation bottomTransformation = new Transformation(new Vector3f(0, -0.5f * this.scale, 0), null, new Vector3f(this.scale), null);
         return new CompositeModel(List.of(
-            new CuboidItemModelWrapper(List.of(), top.left(), top.right(), topTransform),
-            new CuboidItemModelWrapper(List.of(), bottom.left(), bottom.right(), bottomTransform)
+            bakeBlockStateModel(this.top, context, topTransformation),
+            bakeBlockStateModel(this.bottom, context, bottomTransformation)
         ));
     }
 
-    private static Pair<QuadCollection,ModelRenderProperties> bakeBlockStateModel(Identifier identifier, ItemModel.BakingContext context, Transformation transformation){
+    private static ItemModel bakeBlockStateModel(Identifier identifier, ItemModel.BakingContext context, Transformation transformation){
         ModelBaker baker = context.blockModelBaker();
         ResolvedModel resolvedModel = baker.getModel(identifier);
         TextureSlots textureSlots = resolvedModel.getTopTextureSlots();
         ModelState modelTransform = new ComposedModelState(BlockModelRotation.IDENTITY, transformation);
-        QuadCollection quads = resolvedModel.bakeTopGeometry(textureSlots, baker, modelTransform);
+        List<BakedQuad> quads = resolvedModel.bakeTopGeometry(textureSlots, baker, modelTransform).getAll();
         ModelRenderProperties properties = ModelRenderProperties.fromResolvedModel(baker, resolvedModel, textureSlots);
-        CuboidItemModelWrapper.validateAtlasUsage(quads.getAll());
-        return Pair.of(quads, properties);
+        return new BlockModelWrapper(List.of(), quads, properties, BlockModelWrapper.detectRenderType(quads));
     }
 
     @Override

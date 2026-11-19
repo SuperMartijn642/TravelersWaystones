@@ -216,8 +216,11 @@ public abstract class CategoryWidget extends AbstractButtonWidget {
         private final UUID owner;
 
         public Owner(int x, int y, Collection<DiscoveredWaystoneTarget> targets, SearchWidget searchWidget, UUID owner){
-            this.owner = owner;
             super(x, y, TargetEntryWidget.Icon.DIMENSION, targets, true, searchWidget);
+            this.owner = owner;
+            // Owner is not available yet in the super constructor
+            if(!targets.isEmpty() && !this.getManuallyExpanded())
+                this.setExpanded(false, false, true, false);
         }
 
         public UUID getOwner(){

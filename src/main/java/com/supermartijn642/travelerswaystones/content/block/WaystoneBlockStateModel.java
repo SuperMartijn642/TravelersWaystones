@@ -4,15 +4,14 @@ import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.travelerswaystones.api.WaystoneType;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
 import com.supermartijn642.travelerswaystones.content.targets.personal.PersonalWaystoneManagerImpl;
-import net.minecraft.client.renderer.block.BlockAndTintGetter;
-import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
-import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
-import net.minecraft.client.resources.model.geometry.BakedQuad;
-import net.minecraft.client.resources.model.sprite.Material;
+import net.minecraft.client.renderer.block.model.BlockModelPart;
+import net.minecraft.client.renderer.block.model.BlockStateModel;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
@@ -51,7 +50,7 @@ public class WaystoneBlockStateModel implements BlockStateModel {
             return function.apply(this.original, state);
         if(state.getBlock() instanceof WaystoneBlock)
             state = state.setValue(WaystoneBlock.DISCOVERED, isDiscovered(level, pos, state));
-        BlockStateModel model = ClientUtils.getMinecraft().getModelManager().getBlockStateModelSet().get(state);
+        BlockStateModel model = ClientUtils.getMinecraft().getModelManager().getBlockModelShaper().getBlockModel(state);
         BYPASS.set(true);
         try{
             return function.apply(model, state);
@@ -61,12 +60,12 @@ public class WaystoneBlockStateModel implements BlockStateModel {
     }
 
     @Override
-    public void collectParts(RandomSource random, List<BlockStateModelPart> output){
+    public void collectParts(RandomSource random, List<BlockModelPart> output){
         this.original.collectParts(random, output);
     }
 
     @Override
-    public void collectParts(BlockAndTintGetter level, BlockPos pos, BlockState state, RandomSource random, List<BlockStateModelPart> parts){
+    public void collectParts(BlockAndTintGetter level, BlockPos pos, BlockState state, RandomSource random, List<BlockModelPart> parts){
         this.forProperModel(
             level, pos, state,
             (model, properState) -> {
@@ -85,41 +84,15 @@ public class WaystoneBlockStateModel implements BlockStateModel {
     }
 
     @Override
-    public @BakedQuad.MaterialFlags int materialFlags(){
-        return this.original.materialFlags();
+    public TextureAtlasSprite particleIcon(){
+        return this.original.particleIcon();
     }
 
     @Override
-    public @BakedQuad.MaterialFlags int materialFlags(BlockAndTintGetter level, BlockPos pos, BlockState state){
+    public TextureAtlasSprite particleIcon(BlockAndTintGetter level, BlockPos pos, BlockState state){
         return this.forProperModel(
             level, pos, state,
-            (model, properState) -> model.materialFlags(level, pos, properState)
-        );
-    }
-
-    @Override
-    public boolean hasMaterialFlag(@BakedQuad.MaterialFlags int flag){
-        return this.original.hasMaterialFlag(flag);
-    }
-
-    @Override
-    public boolean hasMaterialFlag(BlockAndTintGetter level, BlockPos pos, BlockState state, @BakedQuad.MaterialFlags int flag){
-        return this.forProperModel(
-            level, pos, state,
-            (model, properState) -> model.hasMaterialFlag(level, pos, properState, flag)
-        );
-    }
-
-    @Override
-    public Material.Baked particleMaterial(){
-        return this.original.particleMaterial();
-    }
-
-    @Override
-    public Material.Baked particleMaterial(BlockAndTintGetter level, BlockPos pos, BlockState state){
-        return this.forProperModel(
-            level, pos, state,
-            (model, properState) -> model.particleMaterial(level, pos, properState)
+            (model, properState) -> model.particleIcon(level, pos, properState)
         );
     }
 }

@@ -34,8 +34,6 @@ dependencies {
     // Config library
 //    implementation "curse.maven:supermartijn642s-config-lib-438332:${config_library_file}"
 
-    // Trinkets Updated
-    implementation "curse.maven:trinkets-updated-1509777:${trinkets_updated_file}"
     // Curios API
     implementation "curse.maven:curios-309927:${curios_api_file}"
 

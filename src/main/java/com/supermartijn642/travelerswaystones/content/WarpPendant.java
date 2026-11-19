@@ -8,7 +8,6 @@ import com.supermartijn642.travelerswaystones.TravelersWaystonesClient;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
 import com.supermartijn642.travelerswaystones.integration.CuriosApiIntegration;
 import com.supermartijn642.travelerswaystones.integration.Integration;
-import com.supermartijn642.travelerswaystones.integration.TrinketsUpdatedIntegration;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -22,7 +21,6 @@ public class WarpPendant extends BaseItem {
 
     public static boolean hasPendant(Player player){
         return player.getInventory().contains(s -> s.is(TravelersWaystones.warpPendant))
-            || (Integration.isTrinketsUpdatedLoaded && TrinketsUpdatedIntegration.hasPendantInTrinketsSlot(player))
             || (Integration.isCuriosAPILoaded && CuriosApiIntegration.hasPendantInCuriosSlot(player));
     }
 
@@ -34,7 +32,7 @@ public class WarpPendant extends BaseItem {
     public ItemUseResult interact(ItemStack stack, Player player, InteractionHand hand, Level level){
         PersonalWaystoneManager manager = PersonalWaystoneManager.get(player);
         if(manager.all().isEmpty())
-            player.sendOverlayMessage(TextComponents.translation("travelerswaystones.pendant.no_targets").get());
+            player.displayClientMessage(TextComponents.translation("travelerswaystones.pendant.no_targets").get(), true);
         else if(level.isClientSide())
             TravelersWaystonesClient.openTeleportScreen(null, null, false);
         return ItemUseResult.success(stack);

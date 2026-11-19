@@ -41,7 +41,7 @@ public class WaystoneEventsImpl {
     public static final class AllowClaim {
 
         private static final WaystoneEvents.AllowClaim.Result.Allow ALLOW = new WaystoneEvents.AllowClaim.Result.Allow() {};
-        private static final EventHandler<WaystoneEvents.AllowClaim.Context,WaystoneEvents.AllowClaim.Result> HANDLER = new EventHandler<>(WaystoneEvents.AllowClaim.class.getSimpleName(), _ -> ALLOW);
+        private static final EventHandler<WaystoneEvents.AllowClaim.Context,WaystoneEvents.AllowClaim.Result> HANDLER = new EventHandler<>(WaystoneEvents.AllowClaim.class.getSimpleName(), o -> ALLOW);
 
         public static WaystoneEvents.AllowClaim.Result invoke(ServerPlayer player, ServerLevel level, BlockPos pos, BlockState waystone){
             if(WaystoneType.get(waystone.getBlock()) == null)
@@ -100,7 +100,7 @@ public class WaystoneEventsImpl {
     public static final class AllowMove {
 
         private static final WaystoneEvents.AllowMove.Result.Allow ALLOW = new WaystoneEvents.AllowMove.Result.Allow() {};
-        private static final EventHandler<WaystoneEvents.AllowMove.Context,WaystoneEvents.AllowMove.Result> HANDLER = new EventHandler<>(WaystoneEvents.AllowMove.class.getSimpleName(), _ -> ALLOW);
+        private static final EventHandler<WaystoneEvents.AllowMove.Context,WaystoneEvents.AllowMove.Result> HANDLER = new EventHandler<>(WaystoneEvents.AllowMove.class.getSimpleName(), o -> ALLOW);
 
         public static WaystoneEvents.AllowMove.Result invoke(WaystoneTarget target, ServerLevel level, ServerPlayer player, BlockHitResult to){
             return HANDLER.invoke(new ContextImpl(target, level, player, to));
@@ -161,7 +161,7 @@ public class WaystoneEventsImpl {
     public static final class AllowDiscover {
 
         private static final WaystoneEvents.AllowDiscover.Result.Allow ALLOW = new WaystoneEvents.AllowDiscover.Result.Allow() {};
-        private static final EventHandler<WaystoneEvents.AllowDiscover.Context,WaystoneEvents.AllowDiscover.Result> HANDLER = new EventHandler<>(WaystoneEvents.AllowDiscover.class.getSimpleName(), _ -> ALLOW);
+        private static final EventHandler<WaystoneEvents.AllowDiscover.Context,WaystoneEvents.AllowDiscover.Result> HANDLER = new EventHandler<>(WaystoneEvents.AllowDiscover.class.getSimpleName(), o -> ALLOW);
 
         public static WaystoneEvents.AllowDiscover.Result invoke(ServerPlayer player, WaystoneTarget target){
             return HANDLER.invoke(new ContextImpl(player, target));
@@ -226,7 +226,7 @@ public class WaystoneEventsImpl {
     public static final class AllowTeleport {
 
         private static final WaystoneEvents.AllowTeleport.Result.Allow ALLOW = new WaystoneEvents.AllowTeleport.Result.Allow() {};
-        private static final EventHandler<WaystoneEvents.AllowTeleport.Context,WaystoneEvents.AllowTeleport.Result> HANDLER = new EventHandler<>(WaystoneEvents.AllowTeleport.class.getSimpleName(), _ -> ALLOW);
+        private static final EventHandler<WaystoneEvents.AllowTeleport.Context,WaystoneEvents.AllowTeleport.Result> HANDLER = new EventHandler<>(WaystoneEvents.AllowTeleport.class.getSimpleName(), o -> ALLOW);
 
         public static WaystoneEvents.AllowTeleport.Result invoke(DiscoveredWaystoneTarget target, ServerPlayer player, ServerLevel level, Vector3dc position, float yaw, @Nullable DiscoveredWaystoneTarget from, Identifier source){
             return HANDLER.invoke(new ContextImpl(target, player, level, position, yaw, from, source));
@@ -356,7 +356,7 @@ public class WaystoneEventsImpl {
 
     private static final class ResultlessEventHandler<C> extends EventHandler<C,Void> {
         private ResultlessEventHandler(String name){
-            super(name, _ -> null);
+            super(name, o -> null);
         }
 
         public void addListener(Identifier identifier, Consumer<C> listener){

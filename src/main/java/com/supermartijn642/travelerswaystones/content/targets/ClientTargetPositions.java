@@ -22,9 +22,9 @@ public class ClientTargetPositions {
     public static void setChunk(Level level, ChunkPos chunk, Collection<BlockPos> positions){
         updateLevel(level);
         if(positions.isEmpty())
-            BY_CHUNK.remove(chunk.pack());
+            BY_CHUNK.remove(chunk.toLong());
         else
-            BY_CHUNK.put(chunk.pack(), new ObjectOpenHashSet<>(positions));
+            BY_CHUNK.put(chunk.toLong(), new ObjectOpenHashSet<>(positions));
     }
 
     /**
@@ -32,13 +32,13 @@ public class ClientTargetPositions {
      */
     public static void clearChunk(Level level, ChunkPos chunk){
         updateLevel(level);
-        BY_CHUNK.remove(chunk.pack());
+        BY_CHUNK.remove(chunk.toLong());
     }
 
     public static boolean hasTarget(Level level, BlockPos pos){
         if(level != ClientTargetPositions.level)
             return false;
-        Set<BlockPos> positions = BY_CHUNK.get(ChunkPos.pack(pos));
+        Set<BlockPos> positions = BY_CHUNK.get(ChunkPos.asLong(pos));
         return positions != null && positions.contains(pos);
     }
 

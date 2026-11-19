@@ -67,7 +67,7 @@ public class TeleportPacket implements BasePacket {
                 return;
         }else if(this.fromId == null){
             if(!WarpPendant.hasPendant(player)){
-                player.sendSystemMessage(TextComponents.translation("travelerswaystones.teleport.no_pendant").color(ChatFormatting.RED).get());
+                player.displayClientMessage(TextComponents.translation("travelerswaystones.teleport.no_pendant").color(ChatFormatting.RED).get(), false);
                 return;
             }
             source = DiscoveredWaystoneTarget.SOURCE_PENDANT;
@@ -81,13 +81,13 @@ public class TeleportPacket implements BasePacket {
         DiscoveredWaystoneTarget.TeleportResult result = to.teleport((ServerPlayer)player, from, source, this.allowDangerous);
         switch(result){
             case DiscoveredWaystoneTarget.TeleportResult.Dangerous dangerous -> TravelersWaystones.CHANNEL.sendToPlayer(player, new WarnDangerousPacket(to.id(), dangerous.warningOrDefault()));
-            case DiscoveredWaystoneTarget.TeleportResult.Success _ -> {
+            case DiscoveredWaystoneTarget.TeleportResult.Success success -> {
                 if(this.trusted)
                     ((PersonalWaystoneManagerImpl)manager).clearTrustedTeleportSource();
             }
-            case DiscoveredWaystoneTarget.TeleportResult.NoTeleportPosition error -> player.sendSystemMessage(error.reasonOrDefault());
-            case DiscoveredWaystoneTarget.TeleportResult.Denied error -> player.sendSystemMessage(error.reasonOrDefault());
-            case DiscoveredWaystoneTarget.TeleportResult.Error error -> player.sendSystemMessage(TextComponents.translation("travelerswaystones.teleport.error", error.reason()).color(ChatFormatting.RED).get());
+            case DiscoveredWaystoneTarget.TeleportResult.NoTeleportPosition error -> player.displayClientMessage(error.reasonOrDefault(), false);
+            case DiscoveredWaystoneTarget.TeleportResult.Denied error -> player.displayClientMessage(error.reasonOrDefault(), false);
+            case DiscoveredWaystoneTarget.TeleportResult.Error error -> player.displayClientMessage(TextComponents.translation("travelerswaystones.teleport.error", error.reason()).color(ChatFormatting.RED).get(), false);
             default -> throw new IllegalStateException("Unexpected result: " + result.getClass().getName());
         }
     }
