@@ -41,7 +41,7 @@ public class MinecraftMixin {
         method = "<init>",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/neoforged/neoforge/client/loading/ClientModLoader;begin(Lnet/minecraft/client/Minecraft;)V",
+            target = "Lnet/neoforged/neoforge/client/loading/ClientModLoader;begin(Lnet/minecraft/client/Minecraft;Lnet/minecraft/server/packs/repository/PackRepository;Lnet/minecraft/server/packs/resources/ReloadableResourceManager;)V",
             shift = At.Shift.AFTER
         )
     )

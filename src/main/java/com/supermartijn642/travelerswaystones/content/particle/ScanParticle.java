@@ -92,12 +92,12 @@ public class ScanParticle extends TextureSheetParticle {
         this.rotation.setAngleAxis(-Math.toRadians(side.toYRot()), 0, 1, 0);
         if(this.height < 0){
             if(side.getAxis() == Direction.Axis.X)
-                this.rotation.rotateX(org.joml.Math.PI_f);
+                this.rotation.rotateX((float)Math.PI);
             else
-                this.rotation.rotateZ(org.joml.Math.PI_f);
+                this.rotation.rotateZ((float)Math.PI);
         }
         this.renderRotatedQuad(vertexConsumer, camera, this.rotation, partialTicks);
-        this.rotation.rotateY(org.joml.Math.PI_f);
+        this.rotation.rotateY((float)Math.PI);
         this.renderRotatedQuad(vertexConsumer, camera, this.rotation, partialTicks);
         this.xo = oldOldX;
         this.zo = oldOldZ;

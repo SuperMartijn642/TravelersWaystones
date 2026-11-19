@@ -100,7 +100,6 @@ public class TravelersWaystones {
         GeneratorRegistrationHandler handler = GeneratorRegistrationHandler.get(MODID);
         handler.addGenerator(TravelersWaystonesAtlasSourceGenerator::new);
         handler.addGenerator(TravelersWaystonesBlockStateGenerator::new);
-        handler.addGenerator(TravelersWaystonesItemInfoGenerator::new);
         handler.addGenerator(TravelersWaystonesLanguageGenerator::new);
         handler.addGenerator(TravelersWaystonesLootTableGenerator::new);
         handler.addGenerator(TravelersWaystonesModelGenerator::new);

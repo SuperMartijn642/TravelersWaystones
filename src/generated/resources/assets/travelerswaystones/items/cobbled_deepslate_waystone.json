@@ -1,8 +1,0 @@
-{
-  "model": {
-    "top": "travelerswaystones:block/cobbled_deepslate_waystone_top",
-    "bottom": "travelerswaystones:block/cobbled_deepslate_waystone_bottom",
-    "scale": 0.75,
-    "type": "travelerswaystones:two_block"
-  }
-}

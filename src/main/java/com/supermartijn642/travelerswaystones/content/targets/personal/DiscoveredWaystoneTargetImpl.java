@@ -195,7 +195,7 @@ public class DiscoveredWaystoneTargetImpl implements DiscoveredWaystoneTarget {
         player.closeContainer();
         ServerLevel oldLevel = player.serverLevel();
         Vec3 oldPosition = player.position();
-        Teleporter.Result result = Teleporter.create(TeleportTarget.dimension(targetLevel).pos(new Vector3f(teleportPos)).headYaw(yaw))
+        Teleporter.Result result = Teleporter.create(TeleportTarget.dimension(targetLevel).pos(teleportPos.get(new Vector3f())).headYaw(yaw))
             .includeMount(true, true, true, false)
             .includePassengers(true, false)
             .resetFallDistance()
