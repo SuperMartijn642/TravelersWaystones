@@ -58,6 +58,7 @@ public class GlobalWaystoneManagerImpl {
      */
     private static final List<JsonObject> UNLOADED_TARGETS = new ArrayList<>();
     private static int nextTargetIndex = 0;
+    private static boolean dirty = false;
 
     public static GlobalWaystoneManager.ClaimScreenResult displayClaimScreen(ServerPlayer player, ServerLevel level, BlockPos pos, boolean isNewlyPlaced, @Nullable Component nameSuggestion){
         if(GlobalWaystoneManager.getTargetAt(level, pos) != null)
@@ -106,6 +107,7 @@ public class GlobalWaystoneManagerImpl {
         BY_ID.put(id, target);
         BY_OWNER.add(target);
         forDimensionImpl(dimension).add(target);
+        dirty = true;
         sendChunkTargets(dimension, target.chunkPos());
         WaystoneEventsImpl.Claim.invoke(target, level, player);
         return target;
@@ -123,6 +125,7 @@ public class GlobalWaystoneManagerImpl {
         DimensionalImpl dimensional = forDimensionImpl(target.dimension());
         if(dimensional != null)
             dimensional.remove(target);
+        dirty = true;
         sendChunkTargets(target.dimension(), ((WaystoneTargetImpl)target).chunkPos());
         for(UUID discoverer : target.discoverers()){
             Set<WaystoneTarget> targets = BY_DISCOVERER.get(discoverer);
@@ -166,6 +169,7 @@ public class GlobalWaystoneManagerImpl {
             throw new IllegalArgumentException("Target has been removed!");
         String oldName = target.name();
         ((WaystoneTargetImpl)target).setName(name);
+        dirty = true;
         RenameTargetPacket renamePacket = new RenameTargetPacket(target.id(), name);
         forAllOnlinePlayers(target.discoverers(), p -> TravelersWaystones.CHANNEL.sendToPlayer(p, renamePacket));
         WaystoneEventsImpl.Rename.invoke(target, player, oldName, false);
@@ -187,6 +191,7 @@ public class GlobalWaystoneManagerImpl {
         });
         // Update position
         ((WaystoneTargetImpl)target).setBiomePosAndBlock(biome, to, block);
+        dirty = true;
         // Re-add target
         forDimensionImpl(target.dimension()).add(target);
         ChunkPos oldChunk = ChunkPos.containing(oldPos), newChunk = ((WaystoneTargetImpl)target).chunkPos();
@@ -210,6 +215,7 @@ public class GlobalWaystoneManagerImpl {
             return;
         BY_DISCOVERER.computeIfAbsent(discoverer, _ -> new ObjectOpenHashSet<>()).add(target);
         ((WaystoneTargetImpl)target).addDiscoverer(discoverer);
+        dirty = true;
     }
 
     public static void removeDiscovered(DiscoveredWaystoneTarget target, UUID discoverer){
@@ -223,6 +229,7 @@ public class GlobalWaystoneManagerImpl {
                 BY_DISCOVERER.remove(discoverer);
         }
         ((WaystoneTargetImpl)target.target()).removeDiscoverer(discoverer);
+        dirty = true;
     }
 
     @Nullable
@@ -269,6 +276,15 @@ public class GlobalWaystoneManagerImpl {
         BY_DISCOVERER.clear();
         UNLOADED_TARGETS.clear();
         nextTargetIndex = 0;
+        dirty = false;
+    }
+
+    public static boolean isDirty(){
+        return dirty;
+    }
+
+    public static void setDirty(boolean dirty){
+        GlobalWaystoneManagerImpl.dirty = dirty;
     }
 
     public static JsonElement serialize(RegistryAccess registryAccess){
@@ -351,6 +367,8 @@ public class GlobalWaystoneManagerImpl {
                 first.addSuppressed(exceptions.get(i));
             TravelersWaystones.LOGGER.error(message, first);
         }
+        // Make sure any upgraded data gets saved
+        dirty = true;
     }
 
     /**
