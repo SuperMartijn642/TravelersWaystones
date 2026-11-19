@@ -14,8 +14,8 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -28,12 +28,12 @@ import java.util.function.Supplier;
 
 public class InfoCardWidget extends BaseWidget {
 
-    public static final Identifier BACKGROUND_STANDALONE = TravelersWaystones.identifier("gui/card_standalone");
-    public static final Identifier BACKGROUND_ATTACHED = TravelersWaystones.identifier("gui/card_attached");
-    public static final Identifier OWNER_ICON = TravelersWaystones.identifier("gui/owner_icon");
-    public static final Identifier DIMENSION_ICON = TravelersWaystones.identifier("gui/dimension_icon");
-    public static final Identifier BIOME_ICON = TravelersWaystones.identifier("gui/biome_icon");
-    public static final Identifier POSITION_ICON = TravelersWaystones.identifier("gui/position_icon");
+    public static final ResourceLocation BACKGROUND_STANDALONE = TravelersWaystones.identifier("gui/card_standalone");
+    public static final ResourceLocation BACKGROUND_ATTACHED = TravelersWaystones.identifier("gui/card_attached");
+    public static final ResourceLocation OWNER_ICON = TravelersWaystones.identifier("gui/owner_icon");
+    public static final ResourceLocation DIMENSION_ICON = TravelersWaystones.identifier("gui/dimension_icon");
+    public static final ResourceLocation BIOME_ICON = TravelersWaystones.identifier("gui/biome_icon");
+    public static final ResourceLocation POSITION_ICON = TravelersWaystones.identifier("gui/position_icon");
 
     private final boolean standalone;
     private final Component title;
@@ -162,12 +162,12 @@ public class InfoCardWidget extends BaseWidget {
             TextComponents.translation("travelerswaystones.screen.teleport.owner.unknown").get() :
             TextComponents.string(username).get();
         graphics.submitText(owner, this.x + 43, this.y + 35);
-        Identifier dimension = waystone.dimension().identifier();
+        ResourceLocation dimension = waystone.dimension().location();
         Component dimensionName = Language.getInstance().getOrDefault(dimension.toLanguageKey("dimension"), null) == null ?
             TextComponents.string(dimension.getPath()).get() :
             TextComponents.translation(dimension.toLanguageKey("dimension")).get();
         graphics.submitText(dimensionName, this.x + 43, this.y + 46);
-        Identifier biome = waystone.biome().identifier();
+        ResourceLocation biome = waystone.biome().location();
         Component biomeName = Language.getInstance().getOrDefault(biome.toLanguageKey("biome"), null) == null ?
             TextComponents.string(biome.getPath()).get() :
             TextComponents.translation(biome.toLanguageKey("biome")).get();
@@ -190,9 +190,9 @@ public class InfoCardWidget extends BaseWidget {
             if(PlayerProfileCache.get(true).getUsername(waystone.owner()) == null)
                 graphics.submitTooltipForTopStratum(t -> t.literal(waystone.owner().toString()), mouseX + this.x, mouseY + this.y);
         }else if(mouseX >= 41 && mouseX < 41 + 94 && mouseY >= 43 && mouseY < 43 + 10)
-            graphics.submitTooltipForTopStratum(t -> t.literal(waystone.dimension().identifier().toString()), mouseX + this.x, mouseY + this.y);
+            graphics.submitTooltipForTopStratum(t -> t.literal(waystone.dimension().location().toString()), mouseX + this.x, mouseY + this.y);
         else if(mouseX >= 41 && mouseX < 41 + 94 && mouseY >= 54 && mouseY < 54 + 10)
-            graphics.submitTooltipForTopStratum(t -> t.literal(waystone.biome().identifier().toString()), mouseX + this.x, mouseY + this.y);
+            graphics.submitTooltipForTopStratum(t -> t.literal(waystone.biome().location().toString()), mouseX + this.x, mouseY + this.y);
     }
 
     public static void renderDimensionIcon(GuiGraphicsHelper graphics, int x, int y, ResourceKey<Level> dimension){

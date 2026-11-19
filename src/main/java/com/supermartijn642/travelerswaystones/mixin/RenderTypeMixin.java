@@ -1,28 +1,21 @@
 package com.supermartijn642.travelerswaystones.mixin;
 
 import com.supermartijn642.travelerswaystones.extension.TravelersWaystonesRenderType;
-import net.minecraft.client.renderer.rendertype.RenderSetup;
-import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.RenderType;
 import org.joml.Vector4f;
 import org.joml.Vector4fc;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
-@Mixin(RenderType.class)
+@Mixin(RenderType.CompositeRenderType.class)
 public class RenderTypeMixin implements TravelersWaystonesRenderType {
 
     @Unique
     private Vector4f colorModulator;
     @Unique
     private Vector4f dummyColor;
-
-    @Final
-    @Shadow
-    private RenderSetup state;
 
     @Override
     public void travelerswaystones_setColorModulator(Vector4f color){
@@ -33,7 +26,7 @@ public class RenderTypeMixin implements TravelersWaystonesRenderType {
         method = "draw",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/client/renderer/DynamicUniforms;writeTransform(Lorg/joml/Matrix4fc;Lorg/joml/Vector4fc;Lorg/joml/Vector3fc;Lorg/joml/Matrix4fc;)Lcom/mojang/blaze3d/buffers/GpuBufferSlice;"
+            target = "Lnet/minecraft/client/renderer/DynamicUniforms;writeTransform(Lorg/joml/Matrix4fc;Lorg/joml/Vector4fc;Lorg/joml/Vector3fc;Lorg/joml/Matrix4fc;F)Lcom/mojang/blaze3d/buffers/GpuBufferSlice;"
         ),
         index = 1
     )

@@ -18,7 +18,7 @@ import com.supermartijn642.travelerswaystones.content.block.WaystoneMaterial;
 import com.supermartijn642.travelerswaystones.content.packets.*;
 import com.supermartijn642.travelerswaystones.content.particle.ScanParticleType;
 import com.supermartijn642.travelerswaystones.generators.*;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
@@ -30,8 +30,8 @@ public class TravelersWaystones {
 
     public static final String MODID = "travelerswaystones";
 
-    public static Identifier identifier(String path){
-        return Identifier.fromNamespaceAndPath(MODID, path);
+    public static ResourceLocation identifier(String path){
+        return ResourceLocation.fromNamespaceAndPath(MODID, path);
     }
 
     public static final Logger LOGGER = CommonUtils.getLogger(MODID);

@@ -6,11 +6,11 @@ import com.supermartijn642.core.gui.widget.WidgetRenderContext;
 import com.supermartijn642.core.gui.widget.premade.AbstractButtonWidget;
 import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public class EditNameButton extends AbstractButtonWidget {
 
-    public static final Identifier EDIT_ICON = TravelersWaystones.identifier("gui/edit_icon");
+    public static final ResourceLocation EDIT_ICON = TravelersWaystones.identifier("gui/edit_icon");
 
     public EditNameButton(int x, int y, Runnable onPress){
         super(x, y, 8, 8, onPress);

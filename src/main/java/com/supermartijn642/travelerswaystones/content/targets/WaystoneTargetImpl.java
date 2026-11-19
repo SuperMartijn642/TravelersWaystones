@@ -11,9 +11,9 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
@@ -32,8 +32,8 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
         json.addProperty("name", target.name());
         json.addProperty("ownerLower", target.owner().getLeastSignificantBits());
         json.addProperty("ownerHigher", target.owner().getMostSignificantBits());
-        json.addProperty("dimension", target.dimension().identifier().toShortString());
-        json.addProperty("biome", target.biome().identifier().toShortString());
+        json.addProperty("dimension", target.dimension().location().toString());
+        json.addProperty("biome", target.biome().location().toString());
         json.addProperty("pos", target.pos().asLong());
         RegistryOps<JsonElement> ops = registryAccess.createSerializationContext(JsonOps.INSTANCE);
         json.add("block", BlockState.CODEC.encodeStart(ops, target.block()).getOrThrow());
@@ -53,8 +53,8 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
             json.get("id").getAsInt(),
             json.get("name").getAsString(),
             new UUID(json.get("ownerHigher").getAsLong(), json.get("ownerLower").getAsLong()),
-            ResourceKey.create(Registries.DIMENSION, Identifier.parse(json.get("dimension").getAsString())),
-            ResourceKey.create(Registries.BIOME, Identifier.parse(json.get("biome").getAsString())),
+            ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(json.get("dimension").getAsString())),
+            ResourceKey.create(Registries.BIOME, ResourceLocation.parse(json.get("biome").getAsString())),
             BlockPos.of(json.get("pos").getAsLong()),
             BlockState.CODEC.decode(ops, json.get("block")).getOrThrow().getFirst());
         JsonArray discoverers = json.getAsJsonArray("discoverers");
@@ -64,7 +64,7 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
     }
 
     public static boolean hasMissingBlock(JsonObject json){
-        Identifier block = Identifier.tryParse(blockName(json));
+        ResourceLocation block = ResourceLocation.tryParse(blockName(json));
         return block != null && !BuiltInRegistries.BLOCK.containsKey(block);
     }
 

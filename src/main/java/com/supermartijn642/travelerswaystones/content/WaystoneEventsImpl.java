@@ -8,8 +8,8 @@ import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWay
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -49,7 +49,7 @@ public class WaystoneEventsImpl {
             return HANDLER.invoke(new ContextImpl(player, level, pos, waystone));
         }
 
-        public static void addListener(Identifier identifier, Function<WaystoneEvents.AllowClaim.Context,WaystoneEvents.AllowClaim.Result> listener){
+        public static void addListener(ResourceLocation identifier, Function<WaystoneEvents.AllowClaim.Context,WaystoneEvents.AllowClaim.Result> listener){
             HANDLER.addListener(identifier, listener);
         }
 
@@ -73,7 +73,7 @@ public class WaystoneEventsImpl {
             HANDLER.invoke(new ContextImpl(target, level, player));
         }
 
-        public static void addListener(Identifier identifier, Consumer<WaystoneEvents.Claim.Context> listener){
+        public static void addListener(ResourceLocation identifier, Consumer<WaystoneEvents.Claim.Context> listener){
             HANDLER.addListener(identifier, listener);
         }
 
@@ -89,7 +89,7 @@ public class WaystoneEventsImpl {
             HANDLER.invoke(new ContextImpl(target));
         }
 
-        public static void addListener(Identifier identifier, Consumer<WaystoneEvents.Remove.Context> listener){
+        public static void addListener(ResourceLocation identifier, Consumer<WaystoneEvents.Remove.Context> listener){
             HANDLER.addListener(identifier, listener);
         }
 
@@ -106,7 +106,7 @@ public class WaystoneEventsImpl {
             return HANDLER.invoke(new ContextImpl(target, level, player, to));
         }
 
-        public static void addListener(Identifier identifier, Function<WaystoneEvents.AllowMove.Context,WaystoneEvents.AllowMove.Result> listener){
+        public static void addListener(ResourceLocation identifier, Function<WaystoneEvents.AllowMove.Context,WaystoneEvents.AllowMove.Result> listener){
             HANDLER.addListener(identifier, listener);
         }
 
@@ -132,7 +132,7 @@ public class WaystoneEventsImpl {
             HANDLER.invoke(new ContextImpl(target, level, player, oldLevel, oldPos, oldBlock, oldBiome));
         }
 
-        public static void addListener(Identifier identifier, Consumer<WaystoneEvents.Move.Context> listener){
+        public static void addListener(ResourceLocation identifier, Consumer<WaystoneEvents.Move.Context> listener){
             HANDLER.addListener(identifier, listener);
         }
 
@@ -150,7 +150,7 @@ public class WaystoneEventsImpl {
             HANDLER.invoke(new ContextImpl(target, oldDimension, oldPos, oldBlock, oldBiome, isClient));
         }
 
-        public static void addListener(Identifier identifier, Consumer<WaystoneEvents.UpdateLocation.Context> listener){
+        public static void addListener(ResourceLocation identifier, Consumer<WaystoneEvents.UpdateLocation.Context> listener){
             HANDLER.addListener(identifier, listener);
         }
 
@@ -167,7 +167,7 @@ public class WaystoneEventsImpl {
             return HANDLER.invoke(new ContextImpl(player, target));
         }
 
-        public static void addListener(Identifier identifier, Function<WaystoneEvents.AllowDiscover.Context,WaystoneEvents.AllowDiscover.Result> listener){
+        public static void addListener(ResourceLocation identifier, Function<WaystoneEvents.AllowDiscover.Context,WaystoneEvents.AllowDiscover.Result> listener){
             HANDLER.addListener(identifier, listener);
         }
 
@@ -191,7 +191,7 @@ public class WaystoneEventsImpl {
             HANDLER.invoke(new ContextImpl(target, level, player));
         }
 
-        public static void addListener(Identifier identifier, Consumer<WaystoneEvents.Discover.Context> listener){
+        public static void addListener(ResourceLocation identifier, Consumer<WaystoneEvents.Discover.Context> listener){
             HANDLER.addListener(identifier, listener);
         }
 
@@ -211,7 +211,7 @@ public class WaystoneEventsImpl {
             HANDLER.invoke(new ContextImpl(target, player, removed));
         }
 
-        public static void addListener(Identifier identifier, Consumer<WaystoneEvents.Undiscover.Context> listener){
+        public static void addListener(ResourceLocation identifier, Consumer<WaystoneEvents.Undiscover.Context> listener){
             HANDLER.addListener(identifier, listener);
         }
 
@@ -228,15 +228,15 @@ public class WaystoneEventsImpl {
         private static final WaystoneEvents.AllowTeleport.Result.Allow ALLOW = new WaystoneEvents.AllowTeleport.Result.Allow() {};
         private static final EventHandler<WaystoneEvents.AllowTeleport.Context,WaystoneEvents.AllowTeleport.Result> HANDLER = new EventHandler<>(WaystoneEvents.AllowTeleport.class.getSimpleName(), o -> ALLOW);
 
-        public static WaystoneEvents.AllowTeleport.Result invoke(DiscoveredWaystoneTarget target, ServerPlayer player, ServerLevel level, Vector3dc position, float yaw, @Nullable DiscoveredWaystoneTarget from, Identifier source){
+        public static WaystoneEvents.AllowTeleport.Result invoke(DiscoveredWaystoneTarget target, ServerPlayer player, ServerLevel level, Vector3dc position, float yaw, @Nullable DiscoveredWaystoneTarget from, ResourceLocation source){
             return HANDLER.invoke(new ContextImpl(target, player, level, position, yaw, from, source));
         }
 
-        public static void addListener(Identifier identifier, Function<WaystoneEvents.AllowTeleport.Context,WaystoneEvents.AllowTeleport.Result> listener){
+        public static void addListener(ResourceLocation identifier, Function<WaystoneEvents.AllowTeleport.Context,WaystoneEvents.AllowTeleport.Result> listener){
             HANDLER.addListener(identifier, listener);
         }
 
-        public record ContextImpl(DiscoveredWaystoneTarget target, ServerPlayer player, ServerLevel level, Vector3dc position, float yaw, @Nullable DiscoveredWaystoneTarget from, Identifier source) implements WaystoneEvents.AllowTeleport.Context {
+        public record ContextImpl(DiscoveredWaystoneTarget target, ServerPlayer player, ServerLevel level, Vector3dc position, float yaw, @Nullable DiscoveredWaystoneTarget from, ResourceLocation source) implements WaystoneEvents.AllowTeleport.Context {
         }
 
         public static WaystoneEvents.AllowTeleport.Result.Allow allow(){
@@ -252,15 +252,15 @@ public class WaystoneEventsImpl {
 
         private static final ResultlessEventHandler<WaystoneEvents.Teleport.Context> HANDLER = new ResultlessEventHandler<>(WaystoneEvents.Teleport.class.getSimpleName());
 
-        public static void invoke(DiscoveredWaystoneTarget target, ServerPlayer player, ServerLevel level, @Nullable DiscoveredWaystoneTarget from, ServerLevel oldLevel, Vector3dc oldPosition, Identifier source){
+        public static void invoke(DiscoveredWaystoneTarget target, ServerPlayer player, ServerLevel level, @Nullable DiscoveredWaystoneTarget from, ServerLevel oldLevel, Vector3dc oldPosition, ResourceLocation source){
             HANDLER.invoke(new ContextImpl(target, player, level, from, oldLevel, oldPosition, source));
         }
 
-        public static void addListener(Identifier identifier, Consumer<WaystoneEvents.Teleport.Context> listener){
+        public static void addListener(ResourceLocation identifier, Consumer<WaystoneEvents.Teleport.Context> listener){
             HANDLER.addListener(identifier, listener);
         }
 
-        public record ContextImpl(DiscoveredWaystoneTarget target, ServerPlayer player, ServerLevel level, @Nullable DiscoveredWaystoneTarget from, ServerLevel oldLevel, Vector3dc oldPosition, Identifier source) implements WaystoneEvents.Teleport.Context {
+        public record ContextImpl(DiscoveredWaystoneTarget target, ServerPlayer player, ServerLevel level, @Nullable DiscoveredWaystoneTarget from, ServerLevel oldLevel, Vector3dc oldPosition, ResourceLocation source) implements WaystoneEvents.Teleport.Context {
         }
     }
 
@@ -272,7 +272,7 @@ public class WaystoneEventsImpl {
             HANDLER.invoke(new ContextImpl(target, player, oldName, isClient));
         }
 
-        public static void addListener(Identifier identifier, Consumer<WaystoneEvents.Rename.Context> listener){
+        public static void addListener(ResourceLocation identifier, Consumer<WaystoneEvents.Rename.Context> listener){
             HANDLER.addListener(identifier, listener);
         }
 
@@ -288,7 +288,7 @@ public class WaystoneEventsImpl {
             HANDLER.invoke(new ContextImpl(player, manager));
         }
 
-        public static void addListener(Identifier identifier, Consumer<WaystoneEvents.Sync.Context> listener){
+        public static void addListener(ResourceLocation identifier, Consumer<WaystoneEvents.Sync.Context> listener){
             HANDLER.addListener(identifier, listener);
         }
 
@@ -298,14 +298,14 @@ public class WaystoneEventsImpl {
 
     private static class EventHandler<C, R> {
 
-        // Identifier#compareTo compares the path before the namespace
-        private static final Comparator<Identifier> IDENTIFIER_ORDER = Comparator.comparing(Identifier::getNamespace).thenComparing(Identifier::getPath);
+        // ResourceLocation#compareTo compares the path before the namespace
+        private static final Comparator<ResourceLocation> IDENTIFIER_ORDER = Comparator.comparing(ResourceLocation::getNamespace).thenComparing(ResourceLocation::getPath);
 
         private final String name;
         private final Function<C,R> defaultResult;
         @SuppressWarnings("unchecked")
         private Function<C,R>[] listeners = new Function[0]; // Sorted by identifier
-        private Identifier[] identifiers = new Identifier[0];
+        private ResourceLocation[] identifiers = new ResourceLocation[0];
 
         private EventHandler(String name, Function<C,R> defaultResult){
             this.name = name;
@@ -327,10 +327,10 @@ public class WaystoneEventsImpl {
             return defaultResult;
         }
 
-        public synchronized void addListener(Identifier identifier, Function<C,R> listener){
+        public synchronized void addListener(ResourceLocation identifier, Function<C,R> listener){
             if(frozen)
                 throw new IllegalStateException("Listeners must be registered during initialization!");
-            for(Identifier i : this.identifiers){
+            for(ResourceLocation i : this.identifiers){
                 if(i.equals(identifier))
                     throw new IllegalStateException("Duplicate listeners with identifier '" + identifier + "'!");
             }
@@ -342,7 +342,7 @@ public class WaystoneEventsImpl {
             int newLength = this.listeners.length + 1;
             //noinspection unchecked
             Function<C,R>[] listeners = new Function[newLength];
-            Identifier[] identifiers = new Identifier[newLength];
+            ResourceLocation[] identifiers = new ResourceLocation[newLength];
             System.arraycopy(this.listeners, 0, listeners, 0, insertionIndex);
             System.arraycopy(this.identifiers, 0, identifiers, 0, insertionIndex);
             listeners[insertionIndex] = listener;
@@ -359,7 +359,7 @@ public class WaystoneEventsImpl {
             super(name, o -> null);
         }
 
-        public void addListener(Identifier identifier, Consumer<C> listener){
+        public void addListener(ResourceLocation identifier, Consumer<C> listener){
             this.addListener(identifier, c -> {
                 listener.accept(c);
                 return null;
