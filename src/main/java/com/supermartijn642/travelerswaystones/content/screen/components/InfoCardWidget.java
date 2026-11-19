@@ -11,6 +11,7 @@ import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
 import com.supermartijn642.travelerswaystones.content.moving.WaystoneMovingHandlerClient;
 import net.minecraft.client.renderer.block.BlockModelRenderState;
+import net.minecraft.client.renderer.block.BlockStateModelSet;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
@@ -25,6 +26,8 @@ import net.minecraft.world.level.block.Blocks;
 import org.joml.Matrix3x2fStack;
 import org.joml.Quaternionf;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
@@ -36,6 +39,8 @@ public class InfoCardWidget extends BaseWidget {
     public static final Identifier DIMENSION_ICON = TravelersWaystones.identifier("gui/dimension_icon");
     public static final Identifier BIOME_ICON = TravelersWaystones.identifier("gui/biome_icon");
     public static final Identifier POSITION_ICON = TravelersWaystones.identifier("gui/position_icon");
+    private static final Map<Block,BlockModelRenderState> DIMENSION_ICON_RENDER_STATES = new HashMap<>();
+    private static BlockStateModelSet dimensionIconModels;
 
     private final boolean standalone;
     private final Component title;
@@ -209,8 +214,16 @@ public class InfoCardWidget extends BaseWidget {
             graphics.submitSprite(DIMENSION_ICON, x, y, 8, 8);
             return;
         }
-        BlockModelRenderState blockRenderState = new BlockModelRenderState();
-        WaystonePreviewWidget.updateBlockRenderState(blockRenderState, block.defaultBlockState(), BlockPos.ZERO);
+        BlockStateModelSet models = ClientUtils.getMinecraft().getModelManager().getBlockStateModelSet();
+        if(models != dimensionIconModels){
+            DIMENSION_ICON_RENDER_STATES.clear();
+            dimensionIconModels = models;
+        }
+        BlockModelRenderState blockRenderState = DIMENSION_ICON_RENDER_STATES.computeIfAbsent(block, b -> {
+            BlockModelRenderState renderState = new BlockModelRenderState();
+            WaystonePreviewWidget.updateBlockRenderState(renderState, b.defaultBlockState(), BlockPos.ZERO);
+            return renderState;
+        });
         Matrix3x2fStack poseStack2d = graphics.poseStack();
         poseStack2d.pushMatrix();
         poseStack2d.translate(0.5f, 0);
