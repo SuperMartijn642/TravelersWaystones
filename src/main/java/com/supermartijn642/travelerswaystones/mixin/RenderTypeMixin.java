@@ -1,13 +1,15 @@
 package com.supermartijn642.travelerswaystones.mixin;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.MeshData;
 import com.supermartijn642.travelerswaystones.extension.TravelersWaystonesRenderType;
 import net.minecraft.client.renderer.RenderType;
 import org.joml.Vector4f;
-import org.joml.Vector4fc;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(RenderType.CompositeRenderType.class)
 public class RenderTypeMixin implements TravelersWaystonesRenderType {
@@ -15,26 +17,33 @@ public class RenderTypeMixin implements TravelersWaystonesRenderType {
     @Unique
     private Vector4f colorModulator;
     @Unique
-    private Vector4f dummyColor;
+    private Vector4f originalColor;
 
     @Override
     public void travelerswaystones_setColorModulator(Vector4f color){
         this.colorModulator = color;
     }
 
-    @ModifyArg(
+    @Inject(
         method = "draw",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/client/renderer/DynamicUniforms;writeTransform(Lorg/joml/Matrix4fc;Lorg/joml/Vector4fc;Lorg/joml/Vector3fc;Lorg/joml/Matrix4fc;F)Lcom/mojang/blaze3d/buffers/GpuBufferSlice;"
-        ),
-        index = 1
+        at = @At("HEAD")
     )
-    private Vector4fc modifyColorModulator(Vector4fc original){
+    private void applyColorModulator(MeshData meshData, CallbackInfo ci){
         if(this.colorModulator == null)
-            return original;
-        if(this.dummyColor == null)
-            this.dummyColor = new Vector4f();
-        return this.dummyColor.set(original).mul(this.colorModulator);
+            return;
+        if(this.originalColor == null)
+            this.originalColor = new Vector4f();
+        float[] color = RenderSystem.getShaderColor();
+        this.originalColor.set(color[0], color[1], color[2], color[3]);
+        RenderSystem.setShaderColor(color[0] * this.colorModulator.x, color[1] * this.colorModulator.y, color[2] * this.colorModulator.z, color[3] * this.colorModulator.w);
+    }
+
+    @Inject(
+        method = "draw",
+        at = @At("TAIL")
+    )
+    private void resetColorModulator(MeshData meshData, CallbackInfo ci){
+        if(this.colorModulator != null)
+            RenderSystem.setShaderColor(this.originalColor.x, this.originalColor.y, this.originalColor.z, this.originalColor.w);
     }
 }

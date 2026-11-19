@@ -2,7 +2,7 @@ package com.supermartijn642.travelerswaystones.content.screen;
 
 import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.TextComponents;
-import com.supermartijn642.core.gui.GuiGraphicsHelper;
+import com.supermartijn642.core.gui.ScreenUtils;
 import com.supermartijn642.core.gui.WidgetScreen;
 import com.supermartijn642.core.gui.widget.BaseWidget;
 import com.supermartijn642.core.gui.widget.WidgetRenderContext;
@@ -74,24 +74,24 @@ public class ClaimWaystoneScreen extends BaseWidget {
     }
 
     @Override
-    public void renderBackground(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
+    public void renderBackground(WidgetRenderContext context, int mouseX, int mouseY){
         String name = this.dummyTarget.name().trim();
         boolean isValidName = name.length() >= WaystoneTarget.MIN_NAME_LENGTH && name.length() <= WaystoneTarget.MAX_NAME_LENGTH;
         this.confirmButton.setActive(isValidName);
 
-        graphics.submitSprite(BUTTON_TAB, 26, 82, 88, 24);
-        super.renderBackground(context, graphics, mouseX, mouseY);
+        ScreenUtils.drawGuiSprite(BUTTON_TAB, context.poseStack(), 26, 82, 88, 24);
+        super.renderBackground(context, mouseX, mouseY);
     }
 
     @Override
-    public void renderTooltips(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
-        super.renderTooltips(context, graphics, mouseX, mouseY);
+    public void renderTooltips(WidgetRenderContext context, int mouseX, int mouseY){
+        super.renderTooltips(context, mouseX, mouseY);
         if(mouseX >= this.confirmButton.left() && mouseX < this.confirmButton.right()
             && mouseY >= this.confirmButton.top() && mouseY < this.confirmButton.bottom()){
             String name = this.dummyTarget.name().trim();
             boolean isValidName = name.length() >= WaystoneTarget.MIN_NAME_LENGTH && name.length() <= WaystoneTarget.MAX_NAME_LENGTH;
             if(!isValidName)
-                graphics.submitTooltipForTopStratum(t -> t.text(TextComponents.translation("travelerswaystones.screen.claim.name.invalid").get()), mouseX, mouseY);
+                ScreenUtils.drawTooltip(context.poseStack(), TextComponents.translation("travelerswaystones.screen.claim.name.invalid").get(), mouseX, mouseY);
         }
     }
 }

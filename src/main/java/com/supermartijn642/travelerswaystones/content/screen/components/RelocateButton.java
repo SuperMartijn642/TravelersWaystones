@@ -1,15 +1,15 @@
 package com.supermartijn642.travelerswaystones.content.screen.components;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.supermartijn642.core.TextComponents;
-import com.supermartijn642.core.gui.GuiGraphicsHelper;
 import com.supermartijn642.core.gui.widget.WidgetRenderContext;
 import com.supermartijn642.core.gui.widget.premade.AbstractButtonWidget;
 import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import com.supermartijn642.travelerswaystones.content.moving.WaystoneMovingHandler;
+import com.supermartijn642.travelerswaystones.util.GuiSprites;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import org.joml.Matrix3x2fStack;
 
 import java.util.function.Consumer;
 
@@ -36,14 +36,14 @@ public class RelocateButton extends AbstractButtonWidget {
     }
 
     @Override
-    public void renderBackground(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
-        super.renderBackground(context, graphics, mouseX, mouseY);
+    public void renderBackground(WidgetRenderContext context, int mouseX, int mouseY){
+        super.renderBackground(context, mouseX, mouseY);
         if(this.isActive()){
-            Matrix3x2fStack poseStack = graphics.poseStack();
-            poseStack.pushMatrix();
-            poseStack.translate(0, 0.5f);
-            graphics.submitSprite(RELOCATE_ICON, this.x, this.y, 8, 8, p -> p.uv(0, this.isFocused() ? 0.5f : 0, 1, 0.5f));
-            poseStack.popMatrix();
+            PoseStack poseStack = context.poseStack();
+            poseStack.pushPose();
+            poseStack.translate(0, 0.5f, 0);
+            GuiSprites.draw(poseStack, RELOCATE_ICON, this.x, this.y, 8, 8, 0, this.isFocused() ? 0.5f : 0, 1, 0.5f);
+            poseStack.popPose();
         }
     }
 }

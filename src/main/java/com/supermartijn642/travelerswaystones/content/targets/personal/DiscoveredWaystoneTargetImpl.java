@@ -13,6 +13,7 @@ import com.supermartijn642.travelerswaystones.content.WaystoneEventsImpl;
 import com.supermartijn642.travelerswaystones.content.targets.WaystoneTargetImpl;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -24,8 +25,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
@@ -36,14 +35,14 @@ import java.util.UUID;
 
 public class DiscoveredWaystoneTargetImpl implements DiscoveredWaystoneTarget {
 
-    public static void write(DiscoveredWaystoneTarget target, ValueOutput output){
+    public static void write(DiscoveredWaystoneTarget target, CompoundTag output){
         output.putInt("id", target.id());
         output.putBoolean("favorite", target.isFavorite());
         output.putBoolean("suppressDangerous", target.suppressDangerousWarning());
     }
 
     @Nullable
-    public static DiscoveredWaystoneTarget read(ValueInput input){
+    public static DiscoveredWaystoneTarget read(CompoundTag input){
         int id = input.getInt("id").orElseThrow();
         WaystoneTarget target = GlobalWaystoneManager.getTargetForId(id);
         if(target == null) // Target was removed
@@ -194,7 +193,7 @@ public class DiscoveredWaystoneTargetImpl implements DiscoveredWaystoneTarget {
             return new TeleportResultImpl.Denied(deny.reason());
         // Teleport player
         player.closeContainer();
-        ServerLevel oldLevel = player.level();
+        ServerLevel oldLevel = player.serverLevel();
         Vec3 oldPosition = player.position();
         Teleporter.Result result = Teleporter.create(TeleportTarget.dimension(targetLevel).pos(new Vector3f(teleportPos)).headYaw(yaw))
             .includeMount(true, true, true, false)

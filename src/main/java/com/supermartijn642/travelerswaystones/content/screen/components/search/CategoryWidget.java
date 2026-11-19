@@ -1,17 +1,18 @@
 package com.supermartijn642.travelerswaystones.content.screen.components.search;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.TextComponents;
-import com.supermartijn642.core.gui.GuiGraphicsHelper;
+import com.supermartijn642.core.gui.ScreenUtils;
 import com.supermartijn642.core.gui.widget.WidgetRenderContext;
 import com.supermartijn642.core.gui.widget.premade.AbstractButtonWidget;
 import com.supermartijn642.core.gui.widget.premade.ScissorWidget;
 import com.supermartijn642.core.util.playerprofile.PlayerProfileCache;
 import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
+import com.supermartijn642.travelerswaystones.util.GuiSprites;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import org.joml.Matrix3x2fStack;
 
 import java.util.*;
 
@@ -153,7 +154,7 @@ public abstract class CategoryWidget extends AbstractButtonWidget {
     }
 
     @Override
-    public void renderBackground(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
+    public void renderBackground(WidgetRenderContext context, int mouseX, int mouseY){
         if(!this.enabled){
             this.expansionProgress = this.expanded ? 1 : 0;
             this.activeTransition = this.isActive() ? 1 : 0;
@@ -185,10 +186,10 @@ public abstract class CategoryWidget extends AbstractButtonWidget {
         }
         boolean focused = this.isFocused() && this.focusedWidget == null;
         if(this.activeTransition < 1)
-            graphics.submitSprite(BACKGROUND, this.x, this.y, this.width, this.height, p -> p.uv(this.expanded ? 0.5f : 0, 2 / 3f, 0.5f, 1 / 3f).color(255, 255, 255, (int)(255 * (1 - this.activeTransition))));
+            GuiSprites.draw(context.poseStack(), BACKGROUND, this.x, this.y, this.width, this.height, this.expanded ? 0.5f : 0, 2 / 3f, 0.5f, 1 / 3f, (int)(255 * (1 - this.activeTransition)));
         if(this.activeTransition > 0)
-            graphics.submitSprite(BACKGROUND, this.x, this.y, this.width, this.height, p -> p.uv(this.expanded ? 0.5f : 0, focused ? 1 / 3f : 0, 0.5f, 1 / 3f).color(255, 255, 255, (int)(255 * this.activeTransition)));
-        super.renderBackground(context, graphics, mouseX, mouseY);
+            GuiSprites.draw(context.poseStack(), BACKGROUND, this.x, this.y, this.width, this.height, this.expanded ? 0.5f : 0, focused ? 1 / 3f : 0, 0.5f, 1 / 3f, (int)(255 * this.activeTransition));
+        super.renderBackground(context, mouseX, mouseY);
     }
 
     @Override
@@ -259,37 +260,37 @@ public abstract class CategoryWidget extends AbstractButtonWidget {
         }
 
         @Override
-        public void render(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
+        public void render(WidgetRenderContext context, int mouseX, int mouseY){
             if(!this.enabled)
                 return;
-            super.render(context, graphics, mouseX, mouseY);
-            Matrix3x2fStack poseStack = graphics.poseStack();
-            poseStack.pushMatrix();
-            poseStack.translate(this.x + 12, this.y + 4);
-            poseStack.scale(10 / 8f, 10 / 8f);
-            graphics.submitPlayerHead(this.owner, 0, 0, 8, 8, true);
-            poseStack.popMatrix();
+            super.render(context, mouseX, mouseY);
+            PoseStack poseStack = context.poseStack();
+            poseStack.pushPose();
+            poseStack.translate(this.x + 12, this.y + 4, 0);
+            poseStack.scale(10 / 8f, 10 / 8f, 1);
+            ScreenUtils.drawPlayerHead(this.owner, poseStack, 0, 0, 8, 8, true);
+            poseStack.popPose();
             String username = PlayerProfileCache.get(true).getUsername(this.owner);
             Component owner = username == null ?
                 TextComponents.translation("travelerswaystones.screen.teleport.owner.unknown").get() :
                 TextComponents.string(username).get();
-            poseStack.pushMatrix();
-            poseStack.translate(0, 0.5f);
+            poseStack.pushPose();
+            poseStack.translate(0, 0.5f, 0);
             int textBrightness = this.isActive() ? 255 : 180;
-            graphics.submitText(owner, this.x + 24, this.y + 5, p -> p.shadow().color(textBrightness, textBrightness, textBrightness));
-            poseStack.popMatrix();
+            ScreenUtils.drawStringWithShadow(poseStack, owner, this.x + 24, this.y + 5, textBrightness << 16 | textBrightness << 8 | textBrightness);
+            poseStack.popPose();
         }
 
         @Override
-        public void renderTooltips(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
+        public void renderTooltips(WidgetRenderContext context, int mouseX, int mouseY){
             if(!this.enabled)
                 return;
-            super.renderTooltips(context, graphics, mouseX, mouseY);
+            super.renderTooltips(context, mouseX, mouseY);
             if(!this.isFocused() || this.focusedWidget != null)
                 return;
             if(mouseX >= this.x && mouseX < this.x + this.width && mouseY >= this.y && mouseY < this.y + this.height
                 && PlayerProfileCache.get(true).getUsername(this.owner) == null)
-                graphics.submitTooltipForTopStratum(t -> t.literal(this.owner.toString()), mouseX, mouseY);
+                ScreenUtils.drawTooltip(context.poseStack(), this.owner.toString(), mouseX, mouseY);
         }
 
         @Override
@@ -329,17 +330,17 @@ public abstract class CategoryWidget extends AbstractButtonWidget {
         }
 
         @Override
-        public void render(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
+        public void render(WidgetRenderContext context, int mouseX, int mouseY){
             if(!this.enabled)
                 return;
-            super.render(context, graphics, mouseX, mouseY);
-            graphics.submitSprite(ICON, this.x + 12, this.y + 4, 10, 10);
-            Matrix3x2fStack poseStack = graphics.poseStack();
-            poseStack.pushMatrix();
-            poseStack.translate(0, 0.5f);
+            super.render(context, mouseX, mouseY);
+            ScreenUtils.drawGuiSprite(ICON, context.poseStack(), this.x + 12, this.y + 4, 10, 10);
+            PoseStack poseStack = context.poseStack();
+            poseStack.pushPose();
+            poseStack.translate(0, 0.5f, 0);
             int textBrightness = this.isActive() ? 255 : 180;
-            graphics.submitText(TextComponents.translation("travelerswaystones.screen.teleport.category.recents").get(), this.x + 24, this.y + 5, p -> p.shadow().color(textBrightness, textBrightness, textBrightness));
-            poseStack.popMatrix();
+            ScreenUtils.drawStringWithShadow(poseStack, TextComponents.translation("travelerswaystones.screen.teleport.category.recents").get(), this.x + 24, this.y + 5, textBrightness << 16 | textBrightness << 8 | textBrightness);
+            poseStack.popPose();
         }
 
         @Override
@@ -383,7 +384,7 @@ public abstract class CategoryWidget extends AbstractButtonWidget {
         }
 
         @Override
-        public void renderBackground(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
+        public void renderBackground(WidgetRenderContext context, int mouseX, int mouseY){
             if(!this.enabled)
                 return;
             // Check if favorite targets changed
@@ -426,21 +427,21 @@ public abstract class CategoryWidget extends AbstractButtonWidget {
                 else
                     this.searchWidget.updateContentPositions();
             }
-            super.renderBackground(context, graphics, mouseX, mouseY);
+            super.renderBackground(context, mouseX, mouseY);
         }
 
         @Override
-        public void render(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
+        public void render(WidgetRenderContext context, int mouseX, int mouseY){
             if(!this.enabled)
                 return;
-            super.render(context, graphics, mouseX, mouseY);
-            graphics.submitSprite(FavoriteButtonWidget.STAR, this.x + 12, this.y + 4, 10, 10, p -> p.uv(1 / 44f, 1 / 44f, 20 / 44f, 20 / 44f));
-            Matrix3x2fStack poseStack = graphics.poseStack();
-            poseStack.pushMatrix();
-            poseStack.translate(0, 0.5f);
+            super.render(context, mouseX, mouseY);
+            GuiSprites.draw(context.poseStack(), FavoriteButtonWidget.STAR, this.x + 12, this.y + 4, 10, 10, 1 / 44f, 1 / 44f, 20 / 44f, 20 / 44f);
+            PoseStack poseStack = context.poseStack();
+            poseStack.pushPose();
+            poseStack.translate(0, 0.5f, 0);
             int textBrightness = (int)(this.activeTransition * 255 + (1 - this.activeTransition) * 180);
-            graphics.submitText(TextComponents.translation("travelerswaystones.screen.teleport.category.favorites").get(), this.x + 24, this.y + 5, p -> p.shadow().color(textBrightness, textBrightness, textBrightness));
-            poseStack.popMatrix();
+            ScreenUtils.drawStringWithShadow(poseStack, TextComponents.translation("travelerswaystones.screen.teleport.category.favorites").get(), this.x + 24, this.y + 5, textBrightness << 16 | textBrightness << 8 | textBrightness);
+            poseStack.popPose();
         }
 
         @Override
