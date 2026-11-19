@@ -66,7 +66,7 @@ public class WaystoneMovingHandler {
                 if(failure.reason() == null)
                     player.sendSystemMessage(TextComponents.translation("travelerswaystones.moving.failed", target.block()).color(ChatFormatting.RED).get());
                 else
-                    player.sendSystemMessage(TextComponents.translation("travelerswaystones.moving.failed", target.block(), failure.reason()).color(ChatFormatting.RED).get());
+                    player.sendSystemMessage(TextComponents.translation("travelerswaystones.moving.failed.reason", target.block(), failure.reason()).color(ChatFormatting.RED).get());
                 return;
             }
             newPos = ((WaystoneType.MoveResult.Success)result).newPosition();
