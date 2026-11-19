@@ -12,6 +12,7 @@ import com.supermartijn642.travelerswaystones.content.screen.components.search.T
 import com.supermartijn642.travelerswaystones.content.screen.components.warning.CancelButton;
 import com.supermartijn642.travelerswaystones.content.screen.components.warning.DangerousWarningWidget;
 import com.supermartijn642.travelerswaystones.content.screen.components.warning.SuppressCheckbox;
+import net.minecraft.resources.ResourceLocation;
 
 public class TravelersWaystonesAtlasSourceGenerator extends AtlasSourceGenerator {
 
@@ -21,14 +22,13 @@ public class TravelersWaystonesAtlasSourceGenerator extends AtlasSourceGenerator
 
     @Override
     public void generate(){
-        this.guiAtlas().texture(InfoCardWidget.BACKGROUND_STANDALONE)
+        this.atlas(ResourceLocation.withDefaultNamespace("gui")).texture(InfoCardWidget.BACKGROUND_STANDALONE)
             .texture(InfoCardWidget.BACKGROUND_ATTACHED)
             .texture(InfoCardWidget.OWNER_ICON)
             .texture(InfoCardWidget.DIMENSION_ICON)
             .texture(InfoCardWidget.BIOME_ICON)
             .texture(InfoCardWidget.POSITION_ICON)
             .texture(SearchWidget.BACKGROUND)
-            .texture(SearchWidget.SCROLLER)
             .texture(CategoryWidget.BACKGROUND)
             .texture(CategoryWidget.Recents.ICON)
             .texture(FavoriteButtonWidget.STAR)

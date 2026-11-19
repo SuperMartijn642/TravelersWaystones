@@ -2,16 +2,24 @@ package com.supermartijn642.travelerswaystones.content.screen.components.warning
 
 import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.TextComponents;
-import com.supermartijn642.core.gui.GuiGraphicsHelper;
+import com.supermartijn642.core.gui.ScreenUtils;
 import com.supermartijn642.core.gui.widget.BaseWidget;
 import com.supermartijn642.core.gui.widget.WidgetRenderContext;
 import com.supermartijn642.core.gui.widget.premade.ButtonWidget;
+import com.supermartijn642.core.render.RenderUtils;
 import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
 import com.supermartijn642.travelerswaystones.content.packets.TeleportPacket;
+import com.supermartijn642.travelerswaystones.util.GuiSprites;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class DangerousWarningWidget extends BaseWidget {
 
@@ -62,17 +70,25 @@ public class DangerousWarningWidget extends BaseWidget {
     }
 
     @Override
-    public void renderBackground(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
-        graphics.submitSprite(BACKGROUND, this.x, this.y, this.width, this.backgroundHeight);
-        super.renderBackground(context, graphics, mouseX, mouseY);
+    public void renderBackground(WidgetRenderContext context, int mouseX, int mouseY){
+        ScreenUtils.drawGuiSprite(BACKGROUND, context.poseStack(), this.x, this.y, this.width, this.backgroundHeight);
+        super.renderBackground(context, mouseX, mouseY);
     }
 
     @Override
-    public void render(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
-        super.render(context, graphics, mouseX, mouseY);
-        graphics.submitSprite(DANGEROUS_ICON, this.x + 39, this.y + 3, 8, 8, p -> p.uv(0, 0, 1, 0.5f));
-        graphics.submitText(TextComponents.translation("travelerswaystones.screen.teleport.warning.title").get(), this.x + 70, this.y + 8, p -> p.center());
-        graphics.submitText(this.warning, this.x + this.width / 2f, this.y + 21, p -> p.wrap(128).centerHorizontally().color(255, 255, 255).shadow());
-        graphics.submitText(TextComponents.translation("travelerswaystones.screen.teleport.warning.suppress").get(), this.x + 14, this.y + this.backgroundHeight - 12);
+    public void render(WidgetRenderContext context, int mouseX, int mouseY){
+        super.render(context, mouseX, mouseY);
+        GuiSprites.draw(context.poseStack(), DANGEROUS_ICON, this.x + 39, this.y + 3, 8, 8, 0, 0, 1, 0.5f);
+        ScreenUtils.drawCenteredString(context.poseStack(), TextComponents.translation("travelerswaystones.screen.teleport.warning.title").get(), this.x + 70, this.y + 3.5f);
+        Font font = ClientUtils.getFontRenderer();
+        List<FormattedCharSequence> lines = font.split(this.warning, 128);
+        int width = 0;
+        for(FormattedCharSequence line : lines)
+            width = Math.max(width, font.width(line));
+        MultiBufferSource.BufferSource bufferSource = RenderUtils.getMainBufferSource();
+        for(int i = 0; i < lines.size(); i++)
+            font.drawInBatch(lines.get(i), this.x + (this.width - width) / 2f, this.y + 21 + i * font.lineHeight, 0xffffff, true, context.poseStack().last().pose(), bufferSource, Font.DisplayMode.NORMAL, 0, LightTexture.FULL_BRIGHT);
+        bufferSource.endBatch();
+        ScreenUtils.drawString(context.poseStack(), TextComponents.translation("travelerswaystones.screen.teleport.warning.suppress").get(), this.x + 14, this.y + this.backgroundHeight - 12);
     }
 }

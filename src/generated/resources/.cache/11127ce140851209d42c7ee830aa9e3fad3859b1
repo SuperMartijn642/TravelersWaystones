@@ -1,6 +1,6 @@
-// 1.21.8	2026-11-19T06:58:14.3038943	Core Lib Generators
+// 1.21.5	2026-11-19T08:52:30.6248331	Core Lib Generators
 812e8148cfa43e32d236794d097cbdcbb9343ac5 assets/minecraft/atlases/blocks.json
-f3735c8180832ae96659360ef958a436ff720386 assets/minecraft/atlases/gui.json
+d3090e80884fb0391e913cf22f0987fb16200b89 assets/minecraft/atlases/gui.json
 ddf17ccbff063c99965a91385d9689b0eddede7c assets/travelerswaystones/blockstates/andesite_waystone.json
 afe977983f88054bbd3b69ecdf7b6189bcb64e79 assets/travelerswaystones/blockstates/blackstone_waystone.json
 c71f70f5580165be9bef9ca87f6f81ffe9b5b70b assets/travelerswaystones/blockstates/cobbled_deepslate_waystone.json

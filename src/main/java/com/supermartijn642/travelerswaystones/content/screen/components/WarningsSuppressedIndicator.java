@@ -1,11 +1,11 @@
 package com.supermartijn642.travelerswaystones.content.screen.components;
 
 import com.supermartijn642.core.TextComponents;
-import com.supermartijn642.core.gui.GuiGraphicsHelper;
 import com.supermartijn642.core.gui.widget.WidgetRenderContext;
 import com.supermartijn642.core.gui.widget.premade.AbstractButtonWidget;
 import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
+import com.supermartijn642.travelerswaystones.util.GuiSprites;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -52,9 +52,9 @@ public class WarningsSuppressedIndicator extends AbstractButtonWidget {
     }
 
     @Override
-    public void render(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
-        super.render(context, graphics, mouseX, mouseY);
+    public void render(WidgetRenderContext context, int mouseX, int mouseY){
+        super.render(context, mouseX, mouseY);
         if(this.isClickable())
-            graphics.submitSprite(DANGEROUS_ICON, this.x, this.y, this.width, this.height, p -> p.uv(0, this.isFocused() ? 0.5f : 0, 1, 0.5f));
+            GuiSprites.draw(context.poseStack(), DANGEROUS_ICON, this.x, this.y, this.width, this.height, 0, this.isFocused() ? 0.5f : 0, 1, 0.5f);
     }
 }

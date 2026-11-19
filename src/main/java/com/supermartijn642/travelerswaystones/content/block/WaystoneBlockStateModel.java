@@ -5,9 +5,9 @@ import com.supermartijn642.core.util.Pair;
 import com.supermartijn642.travelerswaystones.api.WaystoneType;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
 import com.supermartijn642.travelerswaystones.content.targets.personal.PersonalWaystoneManagerImpl;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BlockModelPart;
 import net.minecraft.client.renderer.block.model.BlockStateModel;
-import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
@@ -93,7 +93,7 @@ public class WaystoneBlockStateModel implements BlockStateModel {
     }
 
     @Override
-    public void collectParts(RandomSource random, List<BlockModelPart> output, ModelData data, @Nullable ChunkSectionLayer renderType){
+    public void collectParts(RandomSource random, List<BlockModelPart> output, ModelData data, @Nullable RenderType renderType){
         this.forProperModel(
             data,
             (model, properData) -> {
