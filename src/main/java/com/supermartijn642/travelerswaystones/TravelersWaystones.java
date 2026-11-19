@@ -67,7 +67,7 @@ public class TravelersWaystones {
 
         register();
         if(CommonUtils.getEnvironmentSide().isClient()){
-            TravelersWaystonesClient.init();
+            TravelersWaystonesClient.init(context);
             registerGenerators();
         }
     }

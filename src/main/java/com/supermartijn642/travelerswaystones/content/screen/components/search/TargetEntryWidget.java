@@ -8,7 +8,6 @@ import com.supermartijn642.core.gui.widget.premade.AbstractButtonWidget;
 import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
 import com.supermartijn642.travelerswaystones.content.screen.components.InfoCardWidget;
-import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix3x2fStack;
@@ -131,8 +130,8 @@ public class TargetEntryWidget extends AbstractButtonWidget {
     }
 
     @Override
-    public boolean mousePressed(int mouseX, int mouseY, MouseButtonInfo info, boolean isDoubleClick, boolean hasBeenHandled){
-        return this.isEnabled() && super.mousePressed(mouseX, mouseY, info, isDoubleClick, hasBeenHandled);
+    public boolean mousePressed(int mouseX, int mouseY, int button, boolean hasBeenHandled){
+        return this.isEnabled() && super.mousePressed(mouseX, mouseY, button, hasBeenHandled);
     }
 
     public enum Icon {

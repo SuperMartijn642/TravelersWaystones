@@ -5,7 +5,6 @@ import com.supermartijn642.core.gui.GuiGraphicsHelper;
 import com.supermartijn642.core.gui.widget.WidgetRenderContext;
 import com.supermartijn642.core.gui.widget.premade.AbstractButtonWidget;
 import com.supermartijn642.travelerswaystones.TravelersWaystones;
-import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -66,7 +65,7 @@ public class FavoriteButtonWidget extends AbstractButtonWidget {
     }
 
     @Override
-    public boolean mousePressed(int mouseX, int mouseY, MouseButtonInfo info, boolean isDoubleClick, boolean hasBeenHandled){
-        return this.enabled && super.mousePressed(mouseX, mouseY, info, isDoubleClick, hasBeenHandled);
+    public boolean mousePressed(int mouseX, int mouseY, int button, boolean hasBeenHandled){
+        return this.enabled && super.mousePressed(mouseX, mouseY, button, hasBeenHandled);
     }
 }

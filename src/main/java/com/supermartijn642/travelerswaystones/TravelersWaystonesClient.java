@@ -23,6 +23,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
@@ -30,20 +31,20 @@ public class TravelersWaystonesClient {
 
     public static KeyMapping PENDANT_KEYBIND;
 
-    public static void init(){
+    public static void init(FMLJavaModLoadingContext context){
         ClientRegistrationHandler handler = ClientRegistrationHandler.get(TravelersWaystones.MODID);
         for(WaystoneMaterial material : WaystoneMaterial.values()){
             handler.registerBlockModelTranslucentRenderType(material::block);
             handler.registerBlockModelOverwrite(material::block, WaystoneBlockStateModel::new);
         }
         handler.registerItemModelType("two_block", TwoBlockItemModel.CODEC);
-        RegisterParticleProvidersEvent.BUS.addListener(e -> {
+        RegisterParticleProvidersEvent.getBus(context.getModBusGroup()).addListener(e -> {
             e.registerSpriteSet(TravelersWaystones.discoverParticle, ScanParticleProvider::new);
             e.registerSpriteSet(TravelersWaystones.teleportParticle, ScanParticleProvider::new);
         });
 
-        RegisterKeyMappingsEvent.BUS.addListener(e -> {
-            e.register(PENDANT_KEYBIND = new KeyMapping("travelerswaystones.keys.pendant", GLFW.GLFW_KEY_K, KeyMapping.Category.register(TravelersWaystones.identifier("keys"))));
+        RegisterKeyMappingsEvent.getBus(context.getModBusGroup()).addListener(e -> {
+            e.register(PENDANT_KEYBIND = new KeyMapping("travelerswaystones.keys.pendant", GLFW.GLFW_KEY_K, "key.category.travelerswaystones.keys"));
         });
         TickEvent.ClientTickEvent.Post.BUS.addListener(e -> {
             if(PENDANT_KEYBIND.consumeClick()){

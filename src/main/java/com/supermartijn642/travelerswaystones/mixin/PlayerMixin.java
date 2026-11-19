@@ -55,7 +55,7 @@ public class PlayerMixin implements TravelersWaystonesPlayer {
             }
         }catch(Exception e){
             //noinspection DataFlowIssue
-            TravelersWaystones.LOGGER.error("Error reading waystones data for player {}!", ((Player)(Object)this).nameAndId().name(), e);
+            TravelersWaystones.LOGGER.error("Error reading waystones data for player {}!", ((Player)(Object)this).getGameProfile().getName(), e);
             this.waystoneManager = null;
         }
     }
