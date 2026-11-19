@@ -61,7 +61,7 @@ public class GlobalWaystoneManagerImpl {
 
     public static GlobalWaystoneManager.ClaimScreenResult displayClaimScreen(ServerPlayer player, ServerLevel level, BlockPos pos, boolean isNewlyPlaced, @Nullable Component nameSuggestion){
         if(GlobalWaystoneManager.getTargetAt(level, pos) != null)
-            throw new IllegalStateException("A target already exists at (" + pos.toShortString() + ") in '" + level.dimension().identifier() + "'!");
+            throw new IllegalStateException("A target already exists at (" + pos.toShortString() + ") in '" + level.dimension().location() + "'!");
         BlockState block = level.getBlockState(pos);
         if(WaystoneType.get(block.getBlock()) == null)
             throw new IllegalStateException("No waystone type registered for block '" + block.getBlock() + "'!");
@@ -78,7 +78,7 @@ public class GlobalWaystoneManagerImpl {
             throw new IllegalArgumentException("Name must be between " + WaystoneTarget.MIN_NAME_LENGTH + " and " + WaystoneTarget.MAX_NAME_LENGTH + " characters, not " + name.length() + "!");
         ResourceKey<Level> dimension = level.dimension();
         if(forDimension(dimension).getTargetAt(pos) != null)
-            throw new IllegalStateException("A target already exists at (" + pos.getX() + "," + pos.getY() + "," + pos.getZ() + ") in " + dimension.identifier() + "!");
+            throw new IllegalStateException("A target already exists at (" + pos.getX() + "," + pos.getY() + "," + pos.getZ() + ") in " + dimension.location() + "!");
         BlockState block = level.getBlockState(pos);
         if(WaystoneType.get(block.getBlock()) == null)
             throw new IllegalStateException("No waystone type registered for block '" + block.getBlock() + "'!");
@@ -95,7 +95,7 @@ public class GlobalWaystoneManagerImpl {
             throw new IllegalArgumentException("Name must be between " + WaystoneTarget.MIN_NAME_LENGTH + " and " + WaystoneTarget.MAX_NAME_LENGTH + " characters, not " + name.length() + "!");
         ResourceKey<Level> dimension = level.dimension();
         if(forDimension(dimension).getTargetAt(pos) != null)
-            throw new IllegalStateException("A target already exists at (" + pos.getX() + "," + pos.getY() + "," + pos.getZ() + ") in " + dimension.identifier() + "!");
+            throw new IllegalStateException("A target already exists at (" + pos.getX() + "," + pos.getY() + "," + pos.getZ() + ") in " + dimension.location() + "!");
         BlockState block = level.getBlockState(pos);
         if(WaystoneType.get(block.getBlock()) == null)
             throw new IllegalStateException("No waystone type registered for block '" + block.getBlock() + "'!");
@@ -328,7 +328,7 @@ public class GlobalWaystoneManagerImpl {
                 continue;
             }
             if(forDimension(target.dimension()).getTargetAt(target.pos()) != null){
-                TravelersWaystones.LOGGER.error("Read duplicate waystone target for position ({}) in dimension '{}'! Duplicate will be ignored", target.pos().toShortString(), target.dimension().identifier());
+                TravelersWaystones.LOGGER.error("Read duplicate waystone target for position ({}) in dimension '{}'! Duplicate will be ignored", target.pos().toShortString(), target.dimension().location());
                 continue;
             }
             if(target.id() >= nextTargetIndex)

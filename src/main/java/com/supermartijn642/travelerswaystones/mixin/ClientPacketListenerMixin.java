@@ -18,7 +18,7 @@ public class ClientPacketListenerMixin {
         method = "handleRespawn",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/client/multiplayer/ClientPacketListener;setClientLoaded(Z)V"
+            target = "Lnet/minecraft/client/multiplayer/ClientLevel;addEntity(Lnet/minecraft/world/entity/Entity;)V"
         )
     )
     private void handleRespawn(ClientboundRespawnPacket packet, CallbackInfo ci, @Local(ordinal = 0) LocalPlayer oldPlayer, @Local(ordinal = 1) LocalPlayer newPlayer){

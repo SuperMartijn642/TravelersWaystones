@@ -17,8 +17,8 @@ import com.supermartijn642.travelerswaystones.content.targets.personal.Discovere
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
@@ -32,7 +32,7 @@ public class ClaimWaystoneScreen extends BaseWidget {
         return WidgetScreen.of(new ClaimWaystoneScreen(owner, dimension, biome, pos, state, isNewlyPlaced, nameSuggestion));
     }
 
-    public static final Identifier BUTTON_TAB = TravelersWaystones.identifier("gui/card_button_tab");
+    public static final ResourceLocation BUTTON_TAB = TravelersWaystones.identifier("gui/card_button_tab");
 
     private final boolean isNewlyPlaced;
     private final DiscoveredWaystoneTarget dummyTarget;

@@ -77,10 +77,10 @@ public class MinecraftMixin {
     }
 
     @Inject(
-        method = "disconnect(Lnet/minecraft/client/gui/screens/Screen;ZZ)V",
+        method = "disconnect(Lnet/minecraft/client/gui/screens/Screen;Z)V",
         at = @At("TAIL")
     )
-    private void disconnect(Screen screen, boolean keepResourcePacks, boolean stopSound, CallbackInfo ci){
+    private void disconnect(Screen screen, boolean keepResourcePacks, CallbackInfo ci){
         ClientTargetPositions.clear();
     }
 

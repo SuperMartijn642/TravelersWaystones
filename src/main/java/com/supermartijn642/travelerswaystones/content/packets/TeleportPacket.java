@@ -10,7 +10,7 @@ import com.supermartijn642.travelerswaystones.content.WarpPendant;
 import com.supermartijn642.travelerswaystones.content.targets.personal.PersonalWaystoneManagerImpl;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.Nullable;
@@ -60,7 +60,7 @@ public class TeleportPacket implements BasePacket {
         if(to == null)
             return;
         // The player must be at the fromId waystone, have a pendant when not teleporting from a waystone or use a trusted screen
-        Identifier source;
+        ResourceLocation source;
         if(this.trusted){
             source = ((PersonalWaystoneManagerImpl)manager).getTrustedTeleportSource();
             if(source == null || this.fromId != null)

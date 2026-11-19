@@ -19,7 +19,7 @@ import com.supermartijn642.travelerswaystones.content.packets.*;
 import com.supermartijn642.travelerswaystones.content.particle.ScanParticleType;
 import com.supermartijn642.travelerswaystones.generators.*;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 
 import java.util.Random;
@@ -28,8 +28,8 @@ public class TravelersWaystones implements ModInitializer {
 
     public static final String MODID = "travelerswaystones";
 
-    public static Identifier identifier(String path){
-        return Identifier.fromNamespaceAndPath(MODID, path);
+    public static ResourceLocation identifier(String path){
+        return ResourceLocation.fromNamespaceAndPath(MODID, path);
     }
 
     public static final Logger LOGGER = CommonUtils.getLogger(MODID);

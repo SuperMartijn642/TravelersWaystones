@@ -6,13 +6,13 @@ import com.supermartijn642.core.gui.widget.WidgetRenderContext;
 import com.supermartijn642.core.gui.widget.premade.AbstractButtonWidget;
 import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Consumer;
 
 public class SuppressCheckbox extends AbstractButtonWidget {
 
-    public static final Identifier ICONS = TravelersWaystones.identifier("gui/checkbox");
+    public static final ResourceLocation ICONS = TravelersWaystones.identifier("gui/checkbox");
 
     private boolean checked;
 

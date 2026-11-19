@@ -25,10 +25,6 @@ repositories {
         filter { includeGroup "maven.modrinth" }
     }
     maven { url = "https://repo.spongepowered.org/maven" }
-    maven {
-        name = "Ladysnake Mods"
-        url = "https://maven.ladysnake.org/releases"
-    }
 }
 
 dependencies {
@@ -46,12 +42,6 @@ dependencies {
     modImplementation "curse.maven:supermartijn642s-core-lib-454372:${core_library_file}"
     // Config library
 //    modImplementation "curse.maven:supermartijn642s-config-lib-438332:${config_library_file}"
-
-    // Trinkets Updated
-    modImplementation "curse.maven:trinkets-updated-1509777:${trinkets_updated_file}"
-    // Cardinal Components
-    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-base:7.3.0"
-    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-entity:7.3.0"
 
     // Just Enough Items
 //    modRuntimeOnly "curse.maven:jei-238222:${just_enough_items_file}"

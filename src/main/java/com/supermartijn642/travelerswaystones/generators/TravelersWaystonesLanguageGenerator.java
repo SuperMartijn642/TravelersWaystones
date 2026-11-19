@@ -110,8 +110,8 @@ public class TravelersWaystonesLanguageGenerator extends LanguageGenerator {
         this.translation("tag.item.travelerswaystones.waystones", "Waystones");
 
         // Vanilla dimension names
-        this.translation(Level.OVERWORLD.identifier().toLanguageKey("dimension"), "Overworld");
-        this.translation(Level.NETHER.identifier().toLanguageKey("dimension"), "Nether");
-        this.translation(Level.END.identifier().toLanguageKey("dimension"), "End");
+        this.translation(Level.OVERWORLD.location().toLanguageKey("dimension"), "Overworld");
+        this.translation(Level.NETHER.location().toLanguageKey("dimension"), "Nether");
+        this.translation(Level.END.location().toLanguageKey("dimension"), "End");
     }
 }

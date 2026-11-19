@@ -12,15 +12,15 @@ import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWay
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
 public class SearchWidget extends BaseWidget {
 
-    public static final Identifier BACKGROUND = TravelersWaystones.identifier("gui/search_background");
-    public static final Identifier SCROLLER = TravelersWaystones.identifier("gui/scroller");
+    public static final ResourceLocation BACKGROUND = TravelersWaystones.identifier("gui/search_background");
+    public static final ResourceLocation SCROLLER = TravelersWaystones.identifier("gui/scroller");
     private static final int MIN_HEIGHT = 92, MAX_HEIGHT = 220;
     private static final float SCROLL_SPEED = 5;
 

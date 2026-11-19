@@ -8,14 +8,14 @@ import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class WarningsSuppressedIndicator extends AbstractButtonWidget {
 
-    public static final Identifier DANGEROUS_ICON = TravelersWaystones.identifier("gui/dangerous_icon");
+    public static final ResourceLocation DANGEROUS_ICON = TravelersWaystones.identifier("gui/dangerous_icon");
 
     private final Supplier<DiscoveredWaystoneTarget> target;
 

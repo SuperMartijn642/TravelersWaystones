@@ -21,8 +21,5 @@ public class TravelersWaystonesTagGenerator extends TagGenerator {
             for(TagKey<Block> tag : material.tags())
                 this.blockTag(tag).add(material.block());
         }
-
-        // Trinkets Updated slot
-        this.itemTag("trinkets", "chest/necklace").add(TravelersWaystones.warpPendant);
     }
 }

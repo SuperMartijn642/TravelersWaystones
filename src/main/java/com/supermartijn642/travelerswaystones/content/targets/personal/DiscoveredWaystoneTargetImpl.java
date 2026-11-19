@@ -15,8 +15,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -164,14 +164,14 @@ public class DiscoveredWaystoneTargetImpl implements DiscoveredWaystoneTarget {
     }
 
     @Override
-    public TeleportResult teleport(ServerPlayer player, @Nullable DiscoveredWaystoneTarget from, Identifier source, boolean allowDangerous){
+    public TeleportResult teleport(ServerPlayer player, @Nullable DiscoveredWaystoneTarget from, ResourceLocation source, boolean allowDangerous){
         this.manager.checkDiscovered(this);
         this.manager.checkDiscovered(from);
         ServerLevel targetLevel = player.level().getServer().getLevel(this.dimension());
         if(targetLevel == null){
             return new TeleportResultImpl.Error(TextComponents.translation(
                 "travelerswaystones.teleport.error.missing_level",
-                TextComponents.string(this.dimension().identifier().toString()).color(ChatFormatting.GOLD).get()
+                TextComponents.string(this.dimension().location().toString()).color(ChatFormatting.GOLD).get()
             ).color(ChatFormatting.RED).get());
         }
         // Find suitable location

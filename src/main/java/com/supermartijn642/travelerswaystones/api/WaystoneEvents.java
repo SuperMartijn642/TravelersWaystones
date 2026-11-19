@@ -7,8 +7,8 @@ import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWayst
 import com.supermartijn642.travelerswaystones.content.WaystoneEventsImpl;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -39,7 +39,7 @@ public final class WaystoneEvents {
      * This event is only fired on the server.
      */
     public static final class AllowClaim {
-        public static void addListener(Identifier identifier, Function<Context,Result> listener){
+        public static void addListener(ResourceLocation identifier, Function<Context,Result> listener){
             WaystoneEventsImpl.AllowClaim.addListener(identifier, listener);
         }
 
@@ -93,7 +93,7 @@ public final class WaystoneEvents {
      * This event is only fired on the server.
      */
     public static final class Claim {
-        public static void addListener(Identifier identifier, Consumer<Context> listener){
+        public static void addListener(ResourceLocation identifier, Consumer<Context> listener){
             WaystoneEventsImpl.Claim.addListener(identifier, listener);
         }
 
@@ -122,7 +122,7 @@ public final class WaystoneEvents {
      * This event is only fired on the server.
      */
     public static final class Remove {
-        public static void addListener(Identifier identifier, Consumer<Context> listener){
+        public static void addListener(ResourceLocation identifier, Consumer<Context> listener){
             WaystoneEventsImpl.Remove.addListener(identifier, listener);
         }
 
@@ -142,7 +142,7 @@ public final class WaystoneEvents {
      * This event is only fired on the server.
      */
     public static final class AllowMove {
-        public static void addListener(Identifier identifier, Function<Context,Result> listener){
+        public static void addListener(ResourceLocation identifier, Function<Context,Result> listener){
             WaystoneEventsImpl.AllowMove.addListener(identifier, listener);
         }
 
@@ -197,7 +197,7 @@ public final class WaystoneEvents {
      * This event is only fired on the server.
      */
     public static final class Move {
-        public static void addListener(Identifier identifier, Consumer<Context> listener){
+        public static void addListener(ResourceLocation identifier, Consumer<Context> listener){
             WaystoneEventsImpl.Move.addListener(identifier, listener);
         }
 
@@ -246,7 +246,7 @@ public final class WaystoneEvents {
      * This event is fired on the server and on the clients of players that have discovered the target.
      */
     public static final class UpdateLocation {
-        public static void addListener(Identifier identifier, Consumer<Context> listener){
+        public static void addListener(ResourceLocation identifier, Consumer<Context> listener){
             WaystoneEventsImpl.UpdateLocation.addListener(identifier, listener);
         }
 
@@ -292,7 +292,7 @@ public final class WaystoneEvents {
      * This event is only fired on the server.
      */
     public static final class AllowDiscover {
-        public static void addListener(Identifier identifier, Function<Context,Result> listener){
+        public static void addListener(ResourceLocation identifier, Function<Context,Result> listener){
             WaystoneEventsImpl.AllowDiscover.addListener(identifier, listener);
         }
 
@@ -336,7 +336,7 @@ public final class WaystoneEvents {
      * This event is fired on the server and on the client for the player that discovered the target.
      */
     public static final class Discover {
-        public static void addListener(Identifier identifier, Consumer<Context> listener){
+        public static void addListener(ResourceLocation identifier, Consumer<Context> listener){
             WaystoneEventsImpl.Discover.addListener(identifier, listener);
         }
 
@@ -370,7 +370,7 @@ public final class WaystoneEvents {
      * This event is fired on the server and on the client for the player that undiscovered the target.
      */
     public static final class Undiscover {
-        public static void addListener(Identifier identifier, Consumer<Context> listener){
+        public static void addListener(ResourceLocation identifier, Consumer<Context> listener){
             WaystoneEventsImpl.Undiscover.addListener(identifier, listener);
         }
 
@@ -402,12 +402,12 @@ public final class WaystoneEvents {
      * Invoked when a player tries to teleport to a target to determine whether the player is allowed to.
      * If any listener returns {@link Result.Deny}, then that is the result. Otherwise, the result is {@link Result.Allow}.
      * <p>
-     * Every teleport fires this event, also teleports started by other mods through {@link DiscoveredWaystoneTarget#teleport(ServerPlayer, DiscoveredWaystoneTarget, Identifier, boolean)}.
+     * Every teleport fires this event, also teleports started by other mods through {@link DiscoveredWaystoneTarget#teleport(ServerPlayer, DiscoveredWaystoneTarget, ResourceLocation, boolean)}.
      * <p>
      * This event is only fired on the server.
      */
     public static final class AllowTeleport {
-        public static void addListener(Identifier identifier, Function<Context,Result> listener){
+        public static void addListener(ResourceLocation identifier, Function<Context,Result> listener){
             WaystoneEventsImpl.AllowTeleport.addListener(identifier, listener);
         }
 
@@ -447,7 +447,7 @@ public final class WaystoneEvents {
              * What started the teleport, {@link DiscoveredWaystoneTarget#SOURCE_WAYSTONE} or {@link DiscoveredWaystoneTarget#SOURCE_PENDANT} for teleports from Traveler's Waystones itself.
              * Other mods use their own identifiers.
              */
-            Identifier source();
+            ResourceLocation source();
         }
 
         @ApiStatus.NonExtendable
@@ -477,7 +477,7 @@ public final class WaystoneEvents {
      * This event is only fired on the server.
      */
     public static final class Teleport {
-        public static void addListener(Identifier identifier, Consumer<Context> listener){
+        public static void addListener(ResourceLocation identifier, Consumer<Context> listener){
             WaystoneEventsImpl.Teleport.addListener(identifier, listener);
         }
 
@@ -517,7 +517,7 @@ public final class WaystoneEvents {
              * What started the teleport.
              * @see AllowTeleport.Context#source()
              */
-            Identifier source();
+            ResourceLocation source();
         }
     }
 
@@ -527,7 +527,7 @@ public final class WaystoneEvents {
      * This event is fired on the server and on the clients of players that have discovered the target.
      */
     public static final class Rename {
-        public static void addListener(Identifier identifier, Consumer<Context> listener){
+        public static void addListener(ResourceLocation identifier, Consumer<Context> listener){
             WaystoneEventsImpl.Rename.addListener(identifier, listener);
         }
 
@@ -561,7 +561,7 @@ public final class WaystoneEvents {
      * This event is only fired on the client.
      */
     public static final class Sync {
-        public static void addListener(Identifier identifier, Consumer<Context> listener){
+        public static void addListener(ResourceLocation identifier, Consumer<Context> listener){
             WaystoneEventsImpl.Sync.addListener(identifier, listener);
         }
 

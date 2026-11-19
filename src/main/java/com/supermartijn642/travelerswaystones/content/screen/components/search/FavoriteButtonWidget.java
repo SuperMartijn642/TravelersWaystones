@@ -7,13 +7,13 @@ import com.supermartijn642.core.gui.widget.premade.AbstractButtonWidget;
 import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.BooleanSupplier;
 
 public class FavoriteButtonWidget extends AbstractButtonWidget {
 
-    public static final Identifier STAR = TravelersWaystones.identifier("gui/star_icon");
+    public static final ResourceLocation STAR = TravelersWaystones.identifier("gui/star_icon");
 
     private final BooleanSupplier on;
     private boolean enabled = true;

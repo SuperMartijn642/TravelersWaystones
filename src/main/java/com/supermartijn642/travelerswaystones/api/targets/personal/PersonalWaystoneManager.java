@@ -4,8 +4,8 @@ import com.supermartijn642.travelerswaystones.api.WaystoneEvents;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import com.supermartijn642.travelerswaystones.content.targets.personal.PersonalWaystoneManagerImpl;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
@@ -73,7 +73,7 @@ public interface PersonalWaystoneManager {
      * When the player has not discovered any targets, a message is shown instead of the screen.
      * @param from target that the player teleports from, or null when not teleporting from a waystone
      * @throws IllegalArgumentException if {@code from} was not discovered by the player
-     * @see #openTrustedTeleportScreen(Identifier)
+     * @see #openTrustedTeleportScreen(ResourceLocation)
      */
     default void openTeleportScreen(@Nullable DiscoveredWaystoneTarget from){
         this.openTeleportScreen(from, null);
@@ -98,7 +98,7 @@ public interface PersonalWaystoneManager {
      * @param source what opened the screen, used as the source of the teleport
      * @throws IllegalStateException if called on the client
      */
-    default void openTrustedTeleportScreen(Identifier source){
+    default void openTrustedTeleportScreen(ResourceLocation source){
         this.openTrustedTeleportScreen(source, null);
     }
 
@@ -108,9 +108,9 @@ public interface PersonalWaystoneManager {
      * @param selected target to select, or null to select the first entry
      * @throws IllegalArgumentException if {@code selected} was not discovered by the player
      * @throws IllegalStateException    if called on the client
-     * @see #openTrustedTeleportScreen(Identifier)
+     * @see #openTrustedTeleportScreen(ResourceLocation)
      */
-    void openTrustedTeleportScreen(Identifier source, @Nullable DiscoveredWaystoneTarget selected);
+    void openTrustedTeleportScreen(ResourceLocation source, @Nullable DiscoveredWaystoneTarget selected);
 
     /**
      * All targets discovered by the player.

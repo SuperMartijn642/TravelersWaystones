@@ -58,7 +58,7 @@ public class ScanParticle extends SingleQuadParticle {
     }
 
     private boolean isAreaVisible(){
-        return ClientUtils.getMinecraft().levelRenderer.isSectionCompiledAndVisible(BlockPos.containing(this.x, this.y, this.z));
+        return ClientUtils.getMinecraft().levelRenderer.isSectionCompiled(BlockPos.containing(this.x, this.y, this.z));
     }
 
     @Override
