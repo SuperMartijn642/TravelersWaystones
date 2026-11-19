@@ -343,9 +343,9 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
         if(this.isClient)
             throw new AssertionError();
         this.clear();
-        ListTag targets = input.getListOrEmpty("targets");
+        ListTag targets = input.getList("targets", Tag.TAG_COMPOUND);
         int index = 0;
-        int[] recents = input.getIntArray("recents").orElse(new int[0]);
+        int[] recents = input.getIntArray("recents");
         for(int i = 0; i < recents.length && i < MAX_RECENTS; i++)
             this.recents.add(null);
         for(Tag child : targets){

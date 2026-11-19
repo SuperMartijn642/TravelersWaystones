@@ -43,14 +43,14 @@ public class DiscoveredWaystoneTargetImpl implements DiscoveredWaystoneTarget {
 
     @Nullable
     public static DiscoveredWaystoneTarget read(CompoundTag input){
-        int id = input.getInt("id").orElseThrow();
+        int id = input.getInt("id");
         WaystoneTarget target = GlobalWaystoneManager.getTargetForId(id);
         if(target == null) // Target was removed
             return null;
         DiscoveredWaystoneTargetImpl discoveredTarget = new DiscoveredWaystoneTargetImpl(target);
-        if(input.getBooleanOr("favorite", false))
+        if(input.getBoolean("favorite"))
             discoveredTarget.favorite = true;
-        if(input.getBooleanOr("suppressDangerous", false))
+        if(input.getBoolean("suppressDangerous"))
             discoveredTarget.suppressDangerousWarning = true;
         return discoveredTarget;
     }

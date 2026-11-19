@@ -6,17 +6,19 @@ import com.supermartijn642.travelerswaystones.api.WaystoneType;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
 import com.supermartijn642.travelerswaystones.content.targets.personal.PersonalWaystoneManagerImpl;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.model.BlockModelPart;
-import net.minecraft.client.renderer.block.model.BlockStateModel;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.DelegateBakedModel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.extensions.IForgeBlockStateModel;
+import net.minecraftforge.client.extensions.IForgeBakedModel;
 import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.client.model.data.ModelProperty;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +27,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.function.BiFunction;
 
-public class WaystoneBlockStateModel implements BlockStateModel {
+public class WaystoneBlockStateModel extends DelegateBakedModel {
 
     private static final ThreadLocal<Boolean> BYPASS = new ThreadLocal<>();
 
@@ -45,12 +47,10 @@ public class WaystoneBlockStateModel implements BlockStateModel {
         return manager.getTargetAt(dimension, type.getTargetPos(state, pos)) != null;
     }
 
-    private static final ModelProperty<Pair<BlockStateModel,ModelData>> PROPER_MODEL = new ModelProperty<>();
+    private static final ModelProperty<Pair<BakedModel,ModelData>> PROPER_MODEL = new ModelProperty<>();
 
-    private final BlockStateModel original;
-
-    public WaystoneBlockStateModel(BlockStateModel original){
-        this.original = original;
+    public WaystoneBlockStateModel(BakedModel original){
+        super(original);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class WaystoneBlockStateModel implements BlockStateModel {
             return ModelData.EMPTY;
         if(state.getBlock() instanceof WaystoneBlock)
             state = state.setValue(WaystoneBlock.DISCOVERED, isDiscovered(level, pos, state));
-        BlockStateModel model = ClientUtils.getMinecraft().getModelManager().getBlockModelShaper().getBlockModel(state);
+        BakedModel model = ClientUtils.getMinecraft().getModelManager().getBlockModelShaper().getBlockModel(state);
         BYPASS.set(true);
         try{
             return ModelData.builder()
@@ -70,11 +70,11 @@ public class WaystoneBlockStateModel implements BlockStateModel {
         }
     }
 
-    private <T> T forProperModel(ModelData modelData, BiFunction<BlockStateModel,ModelData,T> function){
+    private <T> T forProperModel(ModelData modelData, BiFunction<BakedModel,ModelData,T> function){
         if(BYPASS.get() != null)
-            return function.apply(this.original, ModelData.EMPTY);
-        Pair<BlockStateModel,ModelData> properModel = modelData.get(PROPER_MODEL);
-        BlockStateModel model = this;
+            return function.apply(this.parent, ModelData.EMPTY);
+        Pair<BakedModel,ModelData> properModel = modelData.get(PROPER_MODEL);
+        BakedModel model = this;
         if(properModel != null){
             model = properModel.left();
             modelData = properModel.right();
@@ -88,31 +88,18 @@ public class WaystoneBlockStateModel implements BlockStateModel {
     }
 
     @Override
-    public void collectParts(RandomSource random, List<BlockModelPart> output){
-        this.original.collectParts(random, output);
-    }
-
-    @Override
-    public void collectParts(RandomSource random, List<BlockModelPart> output, ModelData data, @Nullable RenderType renderType){
-        this.forProperModel(
+    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, RandomSource random, ModelData data, @Nullable RenderType renderType){
+        return this.forProperModel(
             data,
-            (model, properData) -> {
-                model.collectParts(random, output, properData, renderType);
-                return null;
-            }
+            (model, properData) -> model.getQuads(state, side, random, properData, renderType)
         );
     }
 
     @Override
-    public TextureAtlasSprite particleIcon(){
-        return this.original.particleIcon();
-    }
-
-    @Override
-    public TextureAtlasSprite particleIcon(@NotNull ModelData data){
+    public TextureAtlasSprite getParticleIcon(@NotNull ModelData data){
         return this.forProperModel(
             data,
-            IForgeBlockStateModel::particleIcon
+            IForgeBakedModel::getParticleIcon
         );
     }
 }

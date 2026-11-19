@@ -5,14 +5,13 @@ import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWayst
 import com.supermartijn642.travelerswaystones.content.targets.personal.PersonalWaystoneManagerImpl;
 import com.supermartijn642.travelerswaystones.extension.TravelersWaystonesPlayer;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.Optional;
 
 @Mixin(Player.class)
 public class PlayerMixin implements TravelersWaystonesPlayer {
@@ -50,10 +49,9 @@ public class PlayerMixin implements TravelersWaystonesPlayer {
     )
     private void readWaystones(CompoundTag compound, CallbackInfo ci){
         try{
-            Optional<CompoundTag> child = compound.getCompound(TravelersWaystones.MODID);
-            if(child.isPresent()){
+            if(compound.contains(TravelersWaystones.MODID, Tag.TAG_COMPOUND)){
                 this.travelerswaystones_getWaystoneManager(true);
-                this.waystoneManager.read(child.get());
+                this.waystoneManager.read(compound.getCompound(TravelersWaystones.MODID));
             }
         }catch(Exception e){
             //noinspection DataFlowIssue
