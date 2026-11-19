@@ -5,7 +5,6 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.Nullable;
 
 public class ScanParticleProvider implements ParticleProvider<ScanParticleType.Options> {
@@ -17,8 +16,8 @@ public class ScanParticleProvider implements ParticleProvider<ScanParticleType.O
     }
 
     @Override
-    public @Nullable Particle createParticle(ScanParticleType.Options options, ClientLevel level, double x, double y, double z, double xAux, double yAux, double zAux, RandomSource random){
+    public @Nullable Particle createParticle(ScanParticleType.Options options, ClientLevel level, double x, double y, double z, double xAux, double yAux, double zAux){
         int delay = options.getType() == TravelersWaystones.teleportParticle && options.height() > 0 ? 6 : 0;
-        return new ScanParticle(level, x, y, z, this.spriteSet.first(), options.width(), options.height(), delay);
+        return new ScanParticle(level, x, y, z, this.spriteSet.get(0, 1), options.width(), options.height(), delay);
     }
 }

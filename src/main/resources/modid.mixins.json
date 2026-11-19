@@ -14,12 +14,12 @@
   ],
   "client": [
     "ClientChunkCacheMixin",
-    "ClientLevelMixin",
     "ClientPacketListenerMixin",
     "GuiMixin",
     "KeyboardHandlerMixin",
     "LevelRendererMixin",
     "MinecraftMixin",
+    "ParticleEngineMixin",
     "RenderTypeMixin"
   ],
   "server": [

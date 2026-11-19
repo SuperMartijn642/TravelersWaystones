@@ -1,9 +1,9 @@
 package com.supermartijn642.travelerswaystones.content.screen.components;
 
-import com.mojang.blaze3d.platform.cursor.CursorType;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.TextComponents;
+import com.supermartijn642.core.gui.CursorType;
 import com.supermartijn642.core.gui.CursorTypes;
 import com.supermartijn642.core.gui.GuiGraphicsHelper;
 import com.supermartijn642.core.gui.widget.BaseWidget;
@@ -12,7 +12,6 @@ import com.supermartijn642.core.gui.widget.WidgetRenderContext;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
 import net.fabricmc.fabric.api.renderer.v1.render.FabricBlockModelRenderer;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderLayerHelper;
-import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.BlockStateModel;
@@ -121,8 +120,8 @@ public class WaystonePreviewWidget extends BaseWidget {
     }
 
     @Override
-    public boolean mousePressed(int mouseX, int mouseY, MouseButtonInfo info, boolean isDoubleClick, boolean hasBeenHandled){
-        hasBeenHandled |= super.mousePressed(mouseX, mouseY, info, isDoubleClick, hasBeenHandled);
+    public boolean mousePressed(int mouseX, int mouseY, int button, boolean hasBeenHandled){
+        hasBeenHandled |= super.mousePressed(mouseX, mouseY, button, hasBeenHandled);
         if(!hasBeenHandled && mouseX >= this.x && mouseX < this.x + this.width && mouseY >= this.y && mouseY < this.y + this.height){
             this.dragging = true;
             this.mouseStartX = mouseX;
@@ -132,9 +131,9 @@ public class WaystonePreviewWidget extends BaseWidget {
     }
 
     @Override
-    public boolean mouseReleased(int mouseX, int mouseY, MouseButtonInfo info, boolean hasBeenHandled){
+    public boolean mouseReleased(int mouseX, int mouseY, int button, boolean hasBeenHandled){
         this.dragging = false;
-        return super.mouseReleased(mouseX, mouseY, info, hasBeenHandled);
+        return super.mouseReleased(mouseX, mouseY, button, hasBeenHandled);
     }
 
     public static void renderBlock(PoseStack poseStack, MultiBufferSource bufferSource, BlockState state, BlockPos pos){

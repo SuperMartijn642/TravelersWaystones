@@ -6,7 +6,6 @@ import com.supermartijn642.core.gui.widget.WidgetRenderContext;
 import com.supermartijn642.core.gui.widget.premade.TextFieldWidget;
 import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
-import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ARGB;
@@ -82,9 +81,9 @@ public class EditNameTextField extends TextFieldWidget {
     }
 
     @Override
-    public boolean mousePressed(int mouseX, int mouseY, MouseButtonInfo info, boolean isDoubleClick, boolean hasBeenHandled){
+    public boolean mousePressed(int mouseX, int mouseY, int button, boolean hasBeenHandled){
         if(hasBeenHandled && this.isFocused())
             return false;
-        return super.mousePressed(mouseX, mouseY, info, isDoubleClick, hasBeenHandled);
+        return super.mousePressed(mouseX, mouseY, button, hasBeenHandled);
     }
 }

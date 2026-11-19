@@ -1,18 +1,18 @@
 package com.supermartijn642.travelerswaystones.content.particle;
 
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.supermartijn642.core.ClientUtils;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.state.QuadParticleRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import org.joml.Quaternionf;
 
-public class ScanParticle extends SingleQuadParticle {
+public class ScanParticle extends TextureSheetParticle {
 
     private static final double SPEED = 0.2;
     private static final int MAX_WAIT_TIME = 100;
@@ -23,7 +23,8 @@ public class ScanParticle extends SingleQuadParticle {
     private int delay, waitTime;
 
     ScanParticle(ClientLevel level, double x, double y, double z, TextureAtlasSprite sprite, double width, double height, int delay){
-        super(level, x, y - Math.signum(height) * width / 2, z, sprite);
+        super(level, x, y - Math.signum(height) * width / 2, z);
+        this.setSprite(sprite);
         this.width = width;
         this.height = height;
         this.hasPhysics = false;
@@ -67,7 +68,7 @@ public class ScanParticle extends SingleQuadParticle {
     }
 
     @Override
-    public void extract(QuadParticleRenderState renderState, Camera camera, float partialTicks){
+    public void render(VertexConsumer vertexConsumer, Camera camera, float partialTicks){
         float age = Math.max(0, this.age - 1 + partialTicks);
         if(age < this.warmupTime)
             this.alpha = Math.clamp(age / this.warmupTime, 0, 1);
@@ -75,13 +76,13 @@ public class ScanParticle extends SingleQuadParticle {
             this.alpha = Math.clamp(1 - (age - (this.lifetime - this.degradeTime)) / this.degradeTime, 0, 1);
         else
             this.alpha = 1;
-        this.extract(renderState, camera, partialTicks, Direction.NORTH);
-        this.extract(renderState, camera, partialTicks, Direction.EAST);
-        this.extract(renderState, camera, partialTicks, Direction.SOUTH);
-        this.extract(renderState, camera, partialTicks, Direction.WEST);
+        this.render(vertexConsumer, camera, partialTicks, Direction.NORTH);
+        this.render(vertexConsumer, camera, partialTicks, Direction.EAST);
+        this.render(vertexConsumer, camera, partialTicks, Direction.SOUTH);
+        this.render(vertexConsumer, camera, partialTicks, Direction.WEST);
     }
 
-    public void extract(QuadParticleRenderState renderState, Camera camera, float partialTicks, Direction side){
+    public void render(VertexConsumer vertexConsumer, Camera camera, float partialTicks, Direction side){
         double oldOldX = this.xo, oldOldZ = this.zo;
         double oldX = this.x, oldZ = this.z;
         this.xo += side.getStepX() * this.width / 2;
@@ -95,9 +96,9 @@ public class ScanParticle extends SingleQuadParticle {
             else
                 this.rotation.rotateZ(org.joml.Math.PI_f);
         }
-        this.extractRotatedQuad(renderState, camera, this.rotation, partialTicks);
+        this.renderRotatedQuad(vertexConsumer, camera, this.rotation, partialTicks);
         this.rotation.rotateY(org.joml.Math.PI_f);
-        this.extractRotatedQuad(renderState, camera, this.rotation, partialTicks);
+        this.renderRotatedQuad(vertexConsumer, camera, this.rotation, partialTicks);
         this.xo = oldOldX;
         this.zo = oldOldZ;
         this.x = oldX;
@@ -105,12 +106,7 @@ public class ScanParticle extends SingleQuadParticle {
     }
 
     @Override
-    public ParticleRenderType getGroup(){
-        return ParticleRenderType.SINGLE_QUADS;
-    }
-
-    @Override
-    protected Layer getLayer(){
-        return Layer.TRANSLUCENT;
+    public ParticleRenderType getRenderType(){
+        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 }
