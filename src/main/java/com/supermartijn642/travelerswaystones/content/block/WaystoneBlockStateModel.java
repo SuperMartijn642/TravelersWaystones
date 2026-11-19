@@ -4,9 +4,9 @@ import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.travelerswaystones.api.WaystoneType;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
 import com.supermartijn642.travelerswaystones.content.targets.personal.PersonalWaystoneManagerImpl;
+import net.fabricmc.fabric.api.renderer.v1.model.ForwardingBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.DelegateBakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
-public class WaystoneBlockStateModel extends DelegateBakedModel {
+public class WaystoneBlockStateModel extends ForwardingBakedModel {
 
     private static final ThreadLocal<Boolean> BYPASS = new ThreadLocal<>();
 
@@ -39,12 +39,12 @@ public class WaystoneBlockStateModel extends DelegateBakedModel {
     }
 
     public WaystoneBlockStateModel(BakedModel original){
-        super(original);
+        this.wrapped = original;
     }
 
     private <T> T forProperModel(BlockAndTintGetter level, BlockPos pos, BlockState state, BiFunction<BakedModel,BlockState,T> function){
         if(BYPASS.get() != null)
-            return function.apply(this.parent, state);
+            return function.apply(this.wrapped, state);
         if(state.getBlock() instanceof WaystoneBlock)
             state = state.setValue(WaystoneBlock.DISCOVERED, isDiscovered(level, pos, state));
         BakedModel model = ClientUtils.getMinecraft().getModelManager().getBlockModelShaper().getBlockModel(state);

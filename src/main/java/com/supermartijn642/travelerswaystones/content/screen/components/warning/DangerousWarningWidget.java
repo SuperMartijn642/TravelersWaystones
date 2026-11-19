@@ -71,7 +71,7 @@ public class DangerousWarningWidget extends BaseWidget {
 
     @Override
     public void renderBackground(WidgetRenderContext context, int mouseX, int mouseY){
-        ScreenUtils.drawGuiSprite(BACKGROUND, context.poseStack(), this.x, this.y, this.width, this.backgroundHeight);
+        GuiSprites.draw(context.poseStack(), BACKGROUND, this.x, this.y, this.width, this.backgroundHeight);
         super.renderBackground(context, mouseX, mouseY);
     }
 

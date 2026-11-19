@@ -6,8 +6,12 @@
     "SSS"
   ],
   "key": {
-    "S": "minecraft:crying_obsidian",
-    "D": "travelerswaystones:dimensional_pearl"
+    "S": {
+      "item": "minecraft:crying_obsidian"
+    },
+    "D": {
+      "item": "travelerswaystones:dimensional_pearl"
+    }
   },
   "result": {
     "id": "travelerswaystones:crying_obsidian_waystone"

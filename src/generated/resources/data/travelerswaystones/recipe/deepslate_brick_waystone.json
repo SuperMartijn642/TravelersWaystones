@@ -6,8 +6,12 @@
     "SSS"
   ],
   "key": {
-    "S": "minecraft:deepslate_bricks",
-    "D": "travelerswaystones:dimensional_pearl"
+    "S": {
+      "item": "minecraft:deepslate_bricks"
+    },
+    "D": {
+      "item": "travelerswaystones:dimensional_pearl"
+    }
   },
   "result": {
     "id": "travelerswaystones:deepslate_brick_waystone"

@@ -14,6 +14,8 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.saveddata.SavedData;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -43,17 +45,21 @@ public class WaystoneManagerSavedData extends SavedData {
     }
 
     @Override
-    public CompoundTag save(HolderLookup.Provider provider){
+    public void save(File file, HolderLookup.Provider provider){
         JsonElement json = GlobalWaystoneManagerImpl.serialize(this.registryAccess);
         CompoundTag tag = new CompoundTag();
         tag.put("data", JsonOps.INSTANCE.convertTo(NbtOps.INSTANCE, json));
         NbtUtils.addCurrentDataVersion(tag);
-        return tag;
+        try{
+            NbtIo.writeCompressed(tag, file.toPath());
+        }catch(IOException e){
+            TravelersWaystones.LOGGER.error("Encountered an exception whilst saving waystones to '{}'!", file, e);
+        }
     }
 
     @Override
     public CompoundTag save(CompoundTag tag, HolderLookup.Provider provider){
-        // Not used, see #save(HolderLookup.Provider)
+        // Not used, see #save(File, HolderLookup.Provider)
         return tag;
     }
 

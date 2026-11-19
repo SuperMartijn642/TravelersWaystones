@@ -1,5 +1,6 @@
 package com.supermartijn642.travelerswaystones.mixin;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.supermartijn642.travelerswaystones.content.moving.WaystoneMovingHandlerClient;
 import net.minecraft.client.Camera;
@@ -14,10 +15,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class LevelRendererMixin {
 
     @Inject(
-        method = "renderBlockEntities",
-        at = @At("HEAD")
+        method = "renderLevel",
+        at = @At(
+            value = "INVOKE_STRING",
+            target = "Lnet/minecraft/util/profiling/ProfilerFiller;popPush(Ljava/lang/String;)V",
+            args = "ldc=blockentities"
+        )
     )
-    private void renderBlockEntities(PoseStack poseStack, MultiBufferSource.BufferSource bufferSource, MultiBufferSource.BufferSource bufferSource2, Camera camera, float partialTicks, CallbackInfo ci){
+    private void renderBlockEntities(CallbackInfo ci, @Local(argsOnly = true) Camera camera, @Local PoseStack poseStack, @Local MultiBufferSource.BufferSource bufferSource){
         WaystoneMovingHandlerClient.extractPreview();
         WaystoneMovingHandlerClient.renderPreview(poseStack, bufferSource, camera.getPosition());
     }

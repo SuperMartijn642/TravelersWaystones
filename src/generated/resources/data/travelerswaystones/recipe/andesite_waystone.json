@@ -6,8 +6,12 @@
     "SSS"
   ],
   "key": {
-    "S": "minecraft:andesite",
-    "D": "travelerswaystones:dimensional_pearl"
+    "S": {
+      "item": "minecraft:andesite"
+    },
+    "D": {
+      "item": "travelerswaystones:dimensional_pearl"
+    }
   },
   "result": {
     "id": "travelerswaystones:andesite_waystone"

@@ -14,7 +14,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.DismountHelper;
 import net.minecraft.world.level.Level;
@@ -56,7 +56,7 @@ public class WaystoneTypeImpl {
         TELEPORT_POSITION_CHECK_ORDER = List.copyOf(positions);
     }
 
-    public static InteractionResult interact(Player player, Level level, BlockPos pos){
+    public static ItemInteractionResult interact(Player player, Level level, BlockPos pos){
         BlockState state = level.getBlockState(pos);
         WaystoneType type = WaystoneType.get(state.getBlock());
         if(type == null)
@@ -66,7 +66,7 @@ public class WaystoneTypeImpl {
         DiscoveredWaystoneTarget discoveredTarget = manager.getTargetAt(level, basePos);
         if(discoveredTarget == null){
             if(player.level() != level)
-                return InteractionResult.CONSUME;
+                return ItemInteractionResult.CONSUME;
             if(!level.isClientSide()){
                 WaystoneTarget target = GlobalWaystoneManager.getTargetAt(level, basePos);
                 if(target == null){
@@ -84,7 +84,7 @@ public class WaystoneTypeImpl {
             }
         }else if(level.isClientSide())
             manager.openTeleportScreen(discoveredTarget);
-        return InteractionResult.SUCCESS;
+        return ItemInteractionResult.SUCCESS;
     }
 
     public static boolean isBreakProtected(Player player, Level level, BlockPos pos, BlockState state){
