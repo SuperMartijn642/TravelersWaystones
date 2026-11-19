@@ -1,7 +1,7 @@
 package com.supermartijn642.travelerswaystones.content.screen.components.search;
 
 import com.supermartijn642.core.ClientUtils;
-import com.supermartijn642.core.gui.GuiGraphicsHelper;
+import com.supermartijn642.core.gui.ScreenUtils;
 import com.supermartijn642.core.gui.widget.BaseWidget;
 import com.supermartijn642.core.gui.widget.WidgetRenderContext;
 import com.supermartijn642.core.gui.widget.premade.ScissorWidget;
@@ -20,7 +20,7 @@ import java.util.*;
 public class SearchWidget extends BaseWidget {
 
     public static final ResourceLocation BACKGROUND = TravelersWaystones.identifier("gui/search_background");
-    public static final ResourceLocation SCROLLER = TravelersWaystones.identifier("gui/scroller");
+    public static final ResourceLocation SCROLLER = TravelersWaystones.identifier("textures/gui/scroller.png");
     private static final int MIN_HEIGHT = 92, MAX_HEIGHT = 220;
     private static final float SCROLL_SPEED = 5;
 
@@ -252,7 +252,7 @@ public class SearchWidget extends BaseWidget {
     }
 
     @Override
-    public void renderBackground(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
+    public void renderBackground(WidgetRenderContext context, int mouseX, int mouseY){
         // Update scrolling
         if(this.scrollOffset != this.scrollTarget){
             if(Math.abs(this.scrollOffset - this.scrollTarget) <= SCROLL_SPEED)
@@ -262,8 +262,8 @@ public class SearchWidget extends BaseWidget {
             this.updateContentPositions();
         }
 
-        graphics.submitSprite(BACKGROUND, this.x, this.y, this.width, this.height);
-        super.renderBackground(context, graphics, mouseX, mouseY);
+        ScreenUtils.drawGuiSprite(BACKGROUND, context.poseStack(), this.x, this.y, this.width, this.height);
+        super.renderBackground(context, mouseX, mouseY);
     }
 
     @Override

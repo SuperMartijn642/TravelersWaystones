@@ -14,10 +14,6 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "travelerswaystones:gui/scroller"
-    },
-    {
-      "type": "minecraft:single",
       "resource": "travelerswaystones:gui/category"
     },
     {

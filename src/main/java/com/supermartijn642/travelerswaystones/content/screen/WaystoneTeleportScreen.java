@@ -1,7 +1,6 @@
 package com.supermartijn642.travelerswaystones.content.screen;
 
 import com.supermartijn642.core.TextComponents;
-import com.supermartijn642.core.gui.GuiGraphicsHelper;
 import com.supermartijn642.core.gui.WidgetScreen;
 import com.supermartijn642.core.gui.widget.BaseWidget;
 import com.supermartijn642.core.gui.widget.WidgetRenderContext;
@@ -97,19 +96,19 @@ public class WaystoneTeleportScreen extends BaseWidget {
     }
 
     @Override
-    public void renderBackground(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
+    public void renderBackground(WidgetRenderContext context, int mouseX, int mouseY){
         DiscoveredWaystoneTarget target = this.searchWidget.getSelectedTarget();
         this.teleportButton.setActive(target != null && target != this.current);
-        super.renderBackground(context, graphics, mouseX, mouseY);
+        super.renderBackground(context, mouseX, mouseY);
     }
 
     @Override
-    public void render(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
-        super.render(context, graphics, mouseX, mouseY);
+    public void render(WidgetRenderContext context, int mouseX, int mouseY){
+        super.render(context, mouseX, mouseY);
     }
 
     @Override
-    public void renderForeground(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
-        super.renderForeground(context, graphics, mouseX, mouseY);
+    public void renderForeground(WidgetRenderContext context, int mouseX, int mouseY){
+        super.renderForeground(context, mouseX, mouseY);
     }
 }

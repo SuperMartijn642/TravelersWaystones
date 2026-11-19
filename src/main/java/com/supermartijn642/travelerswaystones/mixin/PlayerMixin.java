@@ -4,9 +4,8 @@ import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
 import com.supermartijn642.travelerswaystones.content.targets.personal.PersonalWaystoneManagerImpl;
 import com.supermartijn642.travelerswaystones.extension.TravelersWaystonesPlayer;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -37,18 +36,21 @@ public class PlayerMixin implements TravelersWaystonesPlayer {
         at = @At("TAIL"),
         method = "addAdditionalSaveData"
     )
-    private void writeWaystones(ValueOutput output, CallbackInfo ci){
-        if(this.waystoneManager != null && !this.waystoneManager.all().isEmpty())
-            this.waystoneManager.write(output.child(TravelersWaystones.MODID));
+    private void writeWaystones(CompoundTag compound, CallbackInfo ci){
+        if(this.waystoneManager != null && !this.waystoneManager.all().isEmpty()){
+            CompoundTag child = new CompoundTag();
+            this.waystoneManager.write(child);
+            compound.put(TravelersWaystones.MODID, child);
+        }
     }
 
     @Inject(
         at = @At("TAIL"),
         method = "readAdditionalSaveData"
     )
-    private void readWaystones(ValueInput input, CallbackInfo ci){
+    private void readWaystones(CompoundTag compound, CallbackInfo ci){
         try{
-            Optional<ValueInput> child = input.child(TravelersWaystones.MODID);
+            Optional<CompoundTag> child = compound.getCompound(TravelersWaystones.MODID);
             if(child.isPresent()){
                 this.travelerswaystones_getWaystoneManager(true);
                 this.waystoneManager.read(child.get());

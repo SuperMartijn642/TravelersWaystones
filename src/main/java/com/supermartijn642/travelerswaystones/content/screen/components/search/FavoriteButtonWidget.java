@@ -1,10 +1,10 @@
 package com.supermartijn642.travelerswaystones.content.screen.components.search;
 
 import com.supermartijn642.core.TextComponents;
-import com.supermartijn642.core.gui.GuiGraphicsHelper;
 import com.supermartijn642.core.gui.widget.WidgetRenderContext;
 import com.supermartijn642.core.gui.widget.premade.AbstractButtonWidget;
 import com.supermartijn642.travelerswaystones.TravelersWaystones;
+import com.supermartijn642.travelerswaystones.util.GuiSprites;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -57,11 +57,11 @@ public class FavoriteButtonWidget extends AbstractButtonWidget {
     }
 
     @Override
-    public void renderBackground(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
-        super.renderBackground(context, graphics, mouseX, mouseY);
+    public void renderBackground(WidgetRenderContext context, int mouseX, int mouseY){
+        super.renderBackground(context, mouseX, mouseY);
         if(!this.enabled)
             return;
-        graphics.submitSprite(STAR, this.x, this.y, this.width, this.height, p -> p.uv(this.on.getAsBoolean() ? 0 : 0.5f, this.isFocused() ? 0.5f : 0, 0.5f, 0.5f));
+        GuiSprites.draw(context.poseStack(), STAR, this.x, this.y, this.width, this.height, this.on.getAsBoolean() ? 0 : 0.5f, this.isFocused() ? 0.5f : 0, 0.5f, 0.5f);
     }
 
     @Override

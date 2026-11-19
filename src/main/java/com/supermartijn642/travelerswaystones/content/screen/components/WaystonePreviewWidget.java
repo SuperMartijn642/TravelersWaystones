@@ -5,10 +5,10 @@ import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.core.gui.CursorType;
 import com.supermartijn642.core.gui.CursorTypes;
-import com.supermartijn642.core.gui.GuiGraphicsHelper;
 import com.supermartijn642.core.gui.widget.BaseWidget;
 import com.supermartijn642.core.gui.widget.Widget;
 import com.supermartijn642.core.gui.widget.WidgetRenderContext;
+import com.supermartijn642.core.render.RenderUtils;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
 import net.fabricmc.fabric.api.renderer.v1.render.FabricBlockModelRenderer;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderLayerHelper;
@@ -62,7 +62,7 @@ public class WaystonePreviewWidget extends BaseWidget {
     }
 
     @Override
-    public void render(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
+    public void render(WidgetRenderContext context, int mouseX, int mouseY){
         // Update rotation
         if(this.dragging){
             this.yaw += (mouseX - this.mouseStartX) / 20f;
@@ -99,24 +99,25 @@ public class WaystonePreviewWidget extends BaseWidget {
         float horizontalSpan = (float)Math.sqrt(finalBounds.getXsize() * finalBounds.getXsize() + finalBounds.getZsize() * finalBounds.getZsize());
         float verticalSpan = (float)Math.sqrt(finalBounds.getXsize() * finalBounds.getXsize() + finalBounds.getYsize() * finalBounds.getYsize() + finalBounds.getZsize() * finalBounds.getZsize());
         float scale = Math.min(this.width / horizontalSpan, this.height / verticalSpan) * 0.9f;
-        graphics.submitCustomRendering(this.x, this.y, this.width, this.height, (poseStack, bufferSource) -> {
+        PoseStack poseStack = context.poseStack();
+        MultiBufferSource.BufferSource bufferSource = RenderUtils.getMainBufferSource();
+        poseStack.pushPose();
+        poseStack.translate(this.x + this.width / 2f, this.y + this.height / 2f, 150);
+        poseStack.scale(scale, -scale, scale);
+        poseStack.mulPose(new Quaternionf().rotateX(this.pitch));
+        poseStack.mulPose(new Quaternionf().rotateY(this.yaw));
+        Vec3 center = finalBounds.getCenter();
+        poseStack.translate(-center.x, -center.y, -center.z);
+        for(int i = 0; i < blocks; i++){
+            BlockPos.MutableBlockPos pos = this.blockPositions.get(i);
             poseStack.pushPose();
-            poseStack.translate(this.width / 2f, this.height / 2f, 0);
-            poseStack.scale(scale, -scale, -scale);
-            poseStack.mulPose(new Quaternionf().rotateX(this.pitch));
-            poseStack.mulPose(new Quaternionf().rotateY(this.yaw));
-            Vec3 center = finalBounds.getCenter();
-            poseStack.translate(-center.x, -center.y, -center.z);
-            for(int i = 0; i < blocks; i++){
-                BlockPos.MutableBlockPos pos = this.blockPositions.get(i);
-                poseStack.pushPose();
-                poseStack.translate(pos.getX(), pos.getY(), pos.getZ());
-                renderBlock(poseStack, bufferSource, this.blockStates.get(i), pos);
-                poseStack.popPose();
-            }
+            poseStack.translate(pos.getX(), pos.getY(), pos.getZ());
+            renderBlock(poseStack, bufferSource, this.blockStates.get(i), pos);
             poseStack.popPose();
-        });
-        super.render(context, graphics, mouseX, mouseY);
+        }
+        poseStack.popPose();
+        bufferSource.endBatch();
+        super.render(context, mouseX, mouseY);
     }
 
     @Override

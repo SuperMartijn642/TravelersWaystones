@@ -3,7 +3,6 @@ package com.supermartijn642.travelerswaystones.content.moving;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.TextComponents;
-import com.supermartijn642.core.gui.GuiGraphicsHelper;
 import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import com.supermartijn642.travelerswaystones.content.packets.MoveWaystonePacket;
@@ -24,6 +23,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.TriState;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -48,7 +48,7 @@ public class WaystoneMovingHandlerClient {
         true,
         RenderPipelines.ITEM_ENTITY_TRANSLUCENT_CULL,
         RenderType.CompositeState.builder()
-            .setTextureState(new RenderStateShard.TextureStateShard(TextureAtlas.LOCATION_BLOCKS, false))
+            .setTextureState(new RenderStateShard.TextureStateShard(TextureAtlas.LOCATION_BLOCKS, TriState.FALSE, false))
             .setOutputState(RenderStateShard.ITEM_ENTITY_TARGET)
             .setLightmapState(RenderStateShard.LIGHTMAP)
             .setOverlayState(RenderStateShard.OVERLAY)
@@ -64,7 +64,7 @@ public class WaystoneMovingHandlerClient {
         true,
         RenderPipelines.ITEM_ENTITY_TRANSLUCENT_CULL,
         RenderType.CompositeState.builder()
-            .setTextureState(new RenderStateShard.TextureStateShard(TextureAtlas.LOCATION_BLOCKS, false))
+            .setTextureState(new RenderStateShard.TextureStateShard(TextureAtlas.LOCATION_BLOCKS, TriState.FALSE, false))
             .setOutputState(RenderStateShard.ITEM_ENTITY_TARGET)
             .setLightmapState(RenderStateShard.LIGHTMAP)
             .setOverlayState(RenderStateShard.OVERLAY)
@@ -144,17 +144,16 @@ public class WaystoneMovingHandlerClient {
     public static void renderOverlay(GuiGraphics guiGraphics){
         if(!isMoving())
             return;
-        GuiGraphicsHelper graphics = GuiGraphicsHelper.of(guiGraphics);
-        graphics.nextStratum();
         Options options = ClientUtils.getMinecraft().options;
-        graphics.submitText(
+        guiGraphics.drawCenteredString(
+            ClientUtils.getFontRenderer(),
             TextComponents.translation(
                 "travelerswaystones.moving.hint",
                 TextComponents.fromTextComponent(options.keyUse.getTranslatedKeyMessage()).color(ChatFormatting.GOLD).get(),
                 TextComponents.fromTextComponent(options.keyAttack.getTranslatedKeyMessage()).color(ChatFormatting.GOLD).get()
             ).color(ChatFormatting.WHITE).get(),
-            guiGraphics.guiWidth() / 2, guiGraphics.guiHeight() - 78,
-            p -> p.center().shadow()
+            guiGraphics.guiWidth() / 2, guiGraphics.guiHeight() - 83,
+            -1
         );
     }
 

@@ -1,16 +1,17 @@
 package com.supermartijn642.travelerswaystones.content.screen.components.search;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.TextComponents;
-import com.supermartijn642.core.gui.GuiGraphicsHelper;
+import com.supermartijn642.core.gui.ScreenUtils;
 import com.supermartijn642.core.gui.widget.WidgetRenderContext;
 import com.supermartijn642.core.gui.widget.premade.AbstractButtonWidget;
 import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
 import com.supermartijn642.travelerswaystones.content.screen.components.InfoCardWidget;
+import com.supermartijn642.travelerswaystones.util.GuiSprites;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import org.joml.Matrix3x2fStack;
 
 public class TargetEntryWidget extends AbstractButtonWidget {
 
@@ -89,36 +90,36 @@ public class TargetEntryWidget extends AbstractButtonWidget {
     }
 
     @Override
-    public void renderBackground(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
+    public void renderBackground(WidgetRenderContext context, int mouseX, int mouseY){
         if(!this.isEnabled()){
             this.favoriteButton.setEnabled(false);
             return;
         }
         this.favoriteButton.setEnabled(this.target.isFavorite() || (mouseX >= this.x && mouseX < this.x + this.width && mouseY >= this.y && mouseY < this.y + this.height));
         boolean isHovered = this.isFocused() && this.focusedWidget == null;
-        graphics.submitSprite(BACKGROUND, this.x, this.y, this.width, this.height, p -> p.uv(0, (isHovered ? this.isSelected ? 3 : 1 : this.isSelected ? 2 : 0) / 4f, 1, 1 / 4f));
-        super.renderBackground(context, graphics, mouseX, mouseY);
+        GuiSprites.draw(context.poseStack(), BACKGROUND, this.x, this.y, this.width, this.height, 0, (isHovered ? this.isSelected ? 3 : 1 : this.isSelected ? 2 : 0) / 4f, 1, 1 / 4f);
+        super.renderBackground(context, mouseX, mouseY);
     }
 
     @Override
-    public void render(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
+    public void render(WidgetRenderContext context, int mouseX, int mouseY){
         if(!this.isEnabled())
             return;
-        super.render(context, graphics, mouseX, mouseY);
-        Matrix3x2fStack poseStack = graphics.poseStack();
+        super.render(context, mouseX, mouseY);
+        PoseStack poseStack = context.poseStack();
         switch(this.icon){
-            case OWNER -> graphics.submitPlayerHead(this.target.owner(), this.x + 4, this.y + 2, 8, 8, true);
+            case OWNER -> ScreenUtils.drawPlayerHead(this.target.owner(), poseStack, this.x + 4, this.y + 2, 8, 8, true);
             case DIMENSION -> {
-                poseStack.pushMatrix();
-                poseStack.translate(0.5f, 0);
-                InfoCardWidget.renderDimensionIcon(graphics, this.x + 4, this.y + 2, this.target.dimension());
-                poseStack.popMatrix();
+                poseStack.pushPose();
+                poseStack.translate(0.5f, 0, 0);
+                InfoCardWidget.renderDimensionIcon(poseStack, this.x + 4, this.y + 2, this.target.dimension());
+                poseStack.popPose();
             }
         }
-        poseStack.pushMatrix();
-        poseStack.translate(0, 0.5f);
-        graphics.submitText(TextComponents.string(this.target.name()).get(), this.x + 14, this.y + 2, p -> p.color(200, 200, 200));
-        poseStack.popMatrix();
+        poseStack.pushPose();
+        poseStack.translate(0, 0.5f, 0);
+        ScreenUtils.drawString(poseStack, TextComponents.string(this.target.name()).get(), this.x + 14, this.y + 2, 0xc8c8c8);
+        poseStack.popPose();
     }
 
     @Override

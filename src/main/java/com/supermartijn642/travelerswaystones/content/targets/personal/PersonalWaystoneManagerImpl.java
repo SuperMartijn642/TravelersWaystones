@@ -20,6 +20,9 @@ import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -28,8 +31,6 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
@@ -314,15 +315,17 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
         this.byDimension.values().forEach(DimensionalImpl::clear);
     }
 
-    public void write(ValueOutput output){
+    public void write(CompoundTag output){
         if(this.isClient)
             throw new AssertionError();
-        ValueOutput.ValueOutputList targets = output.childrenList("targets");
+        ListTag targets = new ListTag();
         int index = 0;
         int[] recents = new int[this.recents.size()];
         Arrays.fill(recents, -1);
         for(DiscoveredWaystoneTarget target : this.all){
-            DiscoveredWaystoneTargetImpl.write(target, targets.addChild());
+            CompoundTag child = new CompoundTag();
+            DiscoveredWaystoneTargetImpl.write(target, child);
+            targets.add(child);
             int recentIndex = this.recents.indexOf(target);
             if(recentIndex != -1)
                 recents[recentIndex] = index;
@@ -332,21 +335,22 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
             if(i == -1)
                 throw new IllegalStateException("A recents entry was missing!");
         }
+        output.put("targets", targets);
         output.putIntArray("recents", recents);
     }
 
-    public void read(ValueInput input){
+    public void read(CompoundTag input){
         if(this.isClient)
             throw new AssertionError();
         this.clear();
-        ValueInput.ValueInputList targets = input.childrenListOrEmpty("targets");
+        ListTag targets = input.getListOrEmpty("targets");
         int index = 0;
         int[] recents = input.getIntArray("recents").orElse(new int[0]);
         for(int i = 0; i < recents.length && i < MAX_RECENTS; i++)
             this.recents.add(null);
-        for(ValueInput child : targets){
+        for(Tag child : targets){
             int targetIndex = index++;
-            DiscoveredWaystoneTarget target = DiscoveredWaystoneTargetImpl.read(child);
+            DiscoveredWaystoneTarget target = DiscoveredWaystoneTargetImpl.read((CompoundTag)child);
             if(target == null) // Target was removed
                 continue;
             if(!target.target().discoverers().contains(this.player.getUUID())) // Global manager is always correct
