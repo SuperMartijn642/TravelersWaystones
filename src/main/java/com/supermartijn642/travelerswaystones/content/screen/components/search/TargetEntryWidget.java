@@ -58,6 +58,10 @@ public class TargetEntryWidget extends AbstractButtonWidget {
         this.isSelected = selected;
     }
 
+    private boolean isVisible(){
+        return this.isEnabled() && this.searchWidget.isInView(this.y, this.height);
+    }
+
     @Override
     public Component getNarrationMessage(){
         return TextComponents.translation("travelerswaystones.screen.teleport.target_entry.narrate", this.target.name()).get();
@@ -95,6 +99,8 @@ public class TargetEntryWidget extends AbstractButtonWidget {
             this.favoriteButton.setEnabled(false);
             return;
         }
+        if(!this.searchWidget.isInView(this.y, this.height))
+            return;
         this.favoriteButton.setEnabled(this.target.isFavorite() || (mouseX >= this.x && mouseX < this.x + this.width && mouseY >= this.y && mouseY < this.y + this.height));
         boolean isHovered = this.isFocused() && this.focusedWidget == null;
         GuiSprites.draw(context.poseStack(), BACKGROUND, this.x, this.y, this.width, this.height, 0, (isHovered ? this.isSelected ? 3 : 1 : this.isSelected ? 2 : 0) / 4f, 1, 1 / 4f);
@@ -103,7 +109,7 @@ public class TargetEntryWidget extends AbstractButtonWidget {
 
     @Override
     public void render(WidgetRenderContext context, int mouseX, int mouseY){
-        if(!this.isEnabled())
+        if(!this.isVisible())
             return;
         super.render(context, mouseX, mouseY);
         PoseStack poseStack = context.poseStack();
@@ -120,6 +126,24 @@ public class TargetEntryWidget extends AbstractButtonWidget {
         poseStack.translate(0, 0.5f, 0);
         ScreenUtils.drawString(poseStack, TextComponents.string(this.target.name()).get(), this.x + 14, this.y + 2, 0xc8c8c8);
         poseStack.popPose();
+    }
+
+    @Override
+    public void renderForeground(WidgetRenderContext context, int mouseX, int mouseY){
+        if(this.isVisible())
+            super.renderForeground(context, mouseX, mouseY);
+    }
+
+    @Override
+    public void renderOverlay(WidgetRenderContext context, int mouseX, int mouseY){
+        if(this.isVisible())
+            super.renderOverlay(context, mouseX, mouseY);
+    }
+
+    @Override
+    public void renderTooltips(WidgetRenderContext context, int mouseX, int mouseY){
+        if(this.isVisible())
+            super.renderTooltips(context, mouseX, mouseY);
     }
 
     @Override
