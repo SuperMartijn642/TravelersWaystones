@@ -291,7 +291,7 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
     private DimensionalImpl forDimensionImpl(ResourceKey<Level> level){
         // As mods may hold on to the returned instance, we can't return an empty dummy as it may become outdated
         // This may lead to issues if some mod spams this for non-existent levels, but that would be that mod's fault
-        return this.byDimension.computeIfAbsent(level, _ -> new DimensionalImpl());
+        return this.byDimension.computeIfAbsent(level, o -> new DimensionalImpl());
     }
 
     public Map<UUID,Set<DiscoveredWaystoneTarget>> byOwner(){

@@ -23,7 +23,7 @@
   "travelerswaystones.block.red_sandstone_waystone": "Red Sandstone Waystone",
   "travelerswaystones.block.sandstone_waystone": "Sandstone Waystone",
   "travelerswaystones.block.stone_waystone": "Stone Waystone",
-  "travelerswaystones.block.tuff_waystone": "Tuff Waystone",
+  "travelerswaystones.block.tuff_brick_waystone": "Tuff Brick Waystone",
   "travelerswaystones.break.warning": "Breaking a waystone will remove the target for all players. The owner can move the waystone up to %s blocks from within its gui without others needing to re-discover it",
   "travelerswaystones.break.warning.owner": "Breaking a waystone will remove the target for all players. You can move the waystone up to %s blocks from within its gui without others needing to re-discover it",
   "travelerswaystones.break.warning.bypass": "If you do wish to break the waystone, you can do so by holding %s",

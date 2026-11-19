@@ -17,8 +17,8 @@ import com.supermartijn642.travelerswaystones.content.screen.components.warning.
 import com.supermartijn642.travelerswaystones.util.TwoBlockItemModel;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
-import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -34,15 +34,17 @@ public class TravelersWaystonesClient implements ClientModInitializer {
     @Override
     public void onInitializeClient(){
         ClientRegistrationHandler handler = ClientRegistrationHandler.get(TravelersWaystones.MODID);
-        for(WaystoneMaterial material : WaystoneMaterial.values())
-            handler.registerBlockStateModelOverwrite(material::block, WaystoneBlockStateModel::new);
+        for(WaystoneMaterial material : WaystoneMaterial.values()){
+            handler.registerBlockModelTranslucentRenderType(material::block);
+            handler.registerBlockModelOverwrite(material::block, WaystoneBlockStateModel::new);
+        }
         handler.registerItemModelType("two_block", TwoBlockItemModel.CODEC);
-        ParticleProviderRegistry.getInstance().register(TravelersWaystones.discoverParticle, ScanParticleProvider::new);
-        ParticleProviderRegistry.getInstance().register(TravelersWaystones.teleportParticle, ScanParticleProvider::new);
+        ParticleFactoryRegistry.getInstance().register(TravelersWaystones.discoverParticle, ScanParticleProvider::new);
+        ParticleFactoryRegistry.getInstance().register(TravelersWaystones.teleportParticle, ScanParticleProvider::new);
 
         PENDANT_KEYBIND = new KeyMapping("travelerswaystones.keys.pendant", GLFW.GLFW_KEY_K, KeyMapping.Category.register(TravelersWaystones.identifier("keys")));
-        KeyMappingHelper.registerKeyMapping(PENDANT_KEYBIND);
-        ClientTickEvents.END_CLIENT_TICK.register(_ -> {
+        KeyBindingHelper.registerKeyBinding(PENDANT_KEYBIND);
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if(PENDANT_KEYBIND.consumeClick()){
                 Player player = ClientUtils.getPlayer();
                 if(ClientUtils.getWorld() == null || player == null
@@ -53,7 +55,7 @@ public class TravelersWaystonesClient implements ClientModInitializer {
                     return;
                 PersonalWaystoneManager manager = PersonalWaystoneManager.get(player);
                 if(manager.all().isEmpty())
-                    player.sendOverlayMessage(TextComponents.translation("travelerswaystones.pendant.no_targets").get());
+                    player.displayClientMessage(TextComponents.translation("travelerswaystones.pendant.no_targets").get(), true);
                 else
                     openTeleportScreen(null, null, false);
             }
@@ -79,7 +81,7 @@ public class TravelersWaystonesClient implements ClientModInitializer {
         Player player = ClientUtils.getPlayer();
         PersonalWaystoneManager manager = PersonalWaystoneManager.get(player);
         if(manager.all().isEmpty()){
-            player.sendOverlayMessage(TextComponents.translation("travelerswaystones.pendant.no_targets").get());
+            player.displayClientMessage(TextComponents.translation("travelerswaystones.pendant.no_targets").get(), true);
             return;
         }
         ClientUtils.displayScreen(WaystoneTeleportScreen.create(current, selected, trusted, manager));

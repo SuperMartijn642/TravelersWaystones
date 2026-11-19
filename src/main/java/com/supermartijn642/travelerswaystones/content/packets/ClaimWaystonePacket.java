@@ -64,6 +64,6 @@ public class ClaimWaystonePacket implements BasePacket {
         if(result instanceof GlobalWaystoneManager.ClaimResult.Success success)
             PersonalWaystoneManager.get(player).discover(success.target());
         else if(result instanceof GlobalWaystoneManager.ClaimResult.Denied denied)
-            player.sendOverlayMessage(TextComponents.fromTextComponent(denied.reasonOrDefault()).color(ChatFormatting.RED).get());
+            player.displayClientMessage(TextComponents.fromTextComponent(denied.reasonOrDefault()).color(ChatFormatting.RED).get(), true);
     }
 }

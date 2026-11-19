@@ -13,7 +13,7 @@ public class WaystoneManagerSavedData extends SavedData {
     public static Codec<WaystoneManagerSavedData> codec(MinecraftServer server){
         RegistryAccess registryAccess = server.registryAccess();
         return CodecHelper.jsonSerializerToCodec(
-            _ -> GlobalWaystoneManagerImpl.serialize(registryAccess),
+            o -> GlobalWaystoneManagerImpl.serialize(registryAccess),
             json -> {
                 GlobalWaystoneManagerImpl.deserialize(json, registryAccess);
                 return new WaystoneManagerSavedData();

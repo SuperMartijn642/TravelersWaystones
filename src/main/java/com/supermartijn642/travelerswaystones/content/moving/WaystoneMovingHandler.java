@@ -34,7 +34,7 @@ public class WaystoneMovingHandler {
             Component reason = deny.reason() == null ?
                 TextComponents.translation("travelerswaystones.moving.denied").color(ChatFormatting.RED).get() :
                 TextComponents.fromTextComponent(deny.reason()).color(ChatFormatting.RED).get();
-            player.sendOverlayMessage(TextComponents.fromTextComponent(reason).color(ChatFormatting.RED).get());
+            player.displayClientMessage(TextComponents.fromTextComponent(reason).color(ChatFormatting.RED).get(), true);
             return;
         }
 
@@ -98,13 +98,13 @@ public class WaystoneMovingHandler {
             0, 0, 0,
             0
         );
-        player.sendOverlayMessage(TextComponents.translation(
+        player.displayClientMessage(TextComponents.translation(
             "travelerswaystones.moving.success",
             TextComponents.string(target.name()).color(ChatFormatting.WHITE).get(),
             TextComponents.number(target.pos().getX()).color(ChatFormatting.GOLD).get(),
             TextComponents.number(target.pos().getY()).color(ChatFormatting.GOLD).get(),
             TextComponents.number(target.pos().getZ()).color(ChatFormatting.GOLD).get()
-        ).color(ChatFormatting.GRAY).get());
+        ).color(ChatFormatting.GRAY).get(), true);
     }
 
     static boolean isWithinMovingDistance(WaystoneTarget target, Map<BlockPos,BlockState> placement){

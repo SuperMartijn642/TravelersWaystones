@@ -5,10 +5,10 @@
       "id": "travelerswaystones:andesite_waystone"
     },
     "title": {
-      "translate": "travelerswaystones.advancement.recipes/andesite_waystone.title"
+      "translate": "travelerswaystones.advancement.recipes/misc/andesite_waystone.title"
     },
     "description": {
-      "translate": "travelerswaystones.advancement.recipes/andesite_waystone.description"
+      "translate": "travelerswaystones.advancement.recipes/misc/andesite_waystone.description"
     },
     "frame": "task",
     "show_toast": false,

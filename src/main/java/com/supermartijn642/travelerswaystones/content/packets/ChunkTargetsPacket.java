@@ -26,7 +26,7 @@ public class ChunkTargetsPacket implements BasePacket {
 
     @Override
     public void write(FriendlyByteBuf buffer){
-        buffer.writeLong(this.chunk.pack());
+        buffer.writeLong(this.chunk.toLong());
         buffer.writeVarInt(this.positions.size());
         for(BlockPos pos : this.positions)
             buffer.writeBlockPos(pos);
@@ -34,7 +34,7 @@ public class ChunkTargetsPacket implements BasePacket {
 
     @Override
     public void read(FriendlyByteBuf buffer){
-        this.chunk = ChunkPos.unpack(buffer.readLong());
+        this.chunk = new ChunkPos(buffer.readLong());
         int size = buffer.readVarInt();
         this.positions = new ArrayList<>(Math.min(size, 256));
         for(int i = 0; i < size; i++)

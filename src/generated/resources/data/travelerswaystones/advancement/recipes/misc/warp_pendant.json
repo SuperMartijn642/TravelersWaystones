@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "id": "travelerswaystones:dimensional_pearl"
+      "id": "travelerswaystones:warp_pendant"
     },
     "title": {
-      "translate": "travelerswaystones.advancement.recipes/dimensional_pearl.title"
+      "translate": "travelerswaystones.advancement.recipes/misc/warp_pendant.title"
     },
     "description": {
-      "translate": "travelerswaystones.advancement.recipes/dimensional_pearl.description"
+      "translate": "travelerswaystones.advancement.recipes/misc/warp_pendant.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "travelerswaystones:dimensional_pearl"
+        "recipe": "travelerswaystones:warp_pendant"
       }
     },
     "recipe_condition": {
@@ -27,7 +27,7 @@
       "conditions": {
         "items": [
           {
-            "items": "#c:ender_pearls"
+            "items": "travelerswaystones:dimensional_pearl"
           }
         ]
       }
@@ -41,7 +41,7 @@
   ],
   "rewards": {
     "recipes": [
-      "travelerswaystones:dimensional_pearl"
+      "travelerswaystones:warp_pendant"
     ]
   }
 }

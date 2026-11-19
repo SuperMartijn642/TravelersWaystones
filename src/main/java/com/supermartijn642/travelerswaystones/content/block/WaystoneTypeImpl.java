@@ -72,12 +72,12 @@ public class WaystoneTypeImpl {
                 if(target == null){
                     GlobalWaystoneManager.ClaimScreenResult result = GlobalWaystoneManager.displayClaimScreen((ServerPlayer)player, (ServerLevel)level, basePos, false, null);
                     if(result instanceof GlobalWaystoneManager.ClaimScreenResult.Denied denied)
-                        player.sendOverlayMessage(TextComponents.fromTextComponent(denied.reasonOrDefault()).color(ChatFormatting.RED).get());
+                        player.displayClientMessage(TextComponents.fromTextComponent(denied.reasonOrDefault()).color(ChatFormatting.RED).get(), true);
                 }else{
                     WaystoneEvents.AllowDiscover.Result allowDiscover = WaystoneEventsImpl.AllowDiscover.invoke((ServerPlayer)player, target);
                     if(allowDiscover instanceof WaystoneEvents.AllowDiscover.Result.Deny deny){
                         Component reason = deny.reason() == null ? TextComponents.translation("travelerswaystones.discover.denied").get() : deny.reason();
-                        player.sendOverlayMessage(TextComponents.fromTextComponent(reason).color(ChatFormatting.RED).get());
+                        player.displayClientMessage(TextComponents.fromTextComponent(reason).color(ChatFormatting.RED).get(), true);
                     }else
                         manager.discover(target);
                 }

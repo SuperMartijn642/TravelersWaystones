@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "id": "travelerswaystones:diorite_waystone"
+      "id": "travelerswaystones:mud_brick_waystone"
     },
     "title": {
-      "translate": "travelerswaystones.advancement.recipes/diorite_waystone.title"
+      "translate": "travelerswaystones.advancement.recipes/misc/mud_brick_waystone.title"
     },
     "description": {
-      "translate": "travelerswaystones.advancement.recipes/diorite_waystone.description"
+      "translate": "travelerswaystones.advancement.recipes/misc/mud_brick_waystone.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "travelerswaystones:diorite_waystone"
+        "recipe": "travelerswaystones:mud_brick_waystone"
       }
     },
     "recipe_condition": {
@@ -41,7 +41,7 @@
   ],
   "rewards": {
     "recipes": [
-      "travelerswaystones:diorite_waystone"
+      "travelerswaystones:mud_brick_waystone"
     ]
   }
 }

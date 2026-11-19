@@ -10,18 +10,16 @@ import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
 import com.supermartijn642.travelerswaystones.content.moving.WaystoneMovingHandlerClient;
-import net.minecraft.client.renderer.block.BlockModelRenderState;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Matrix3x2fStack;
 import org.joml.Quaternionf;
 
@@ -209,21 +207,20 @@ public class InfoCardWidget extends BaseWidget {
             graphics.submitSprite(DIMENSION_ICON, x, y, 8, 8);
             return;
         }
-        BlockModelRenderState blockRenderState = new BlockModelRenderState();
-        WaystonePreviewWidget.updateBlockRenderState(blockRenderState, block.defaultBlockState(), BlockPos.ZERO);
+        BlockState state = block.defaultBlockState();
         Matrix3x2fStack poseStack2d = graphics.poseStack();
         poseStack2d.pushMatrix();
         poseStack2d.translate(0.5f, 0);
         int size = 10;
         float scale = size / (float)Math.sqrt(3);
-        graphics.submitFeatures(x - 2, y - 1, size, size, (poseStack, output) -> {
+        graphics.submitCustomRendering(x - 2, y - 1, size, size, (poseStack, bufferSource) -> {
             poseStack.pushPose();
             poseStack.translate(size / 2f, size / 2f, 0);
             poseStack.scale(scale, -scale, -scale);
             poseStack.mulPose(new Quaternionf().rotateX((float)Math.toRadians(30)));
             poseStack.mulPose(new Quaternionf().rotateY((float)Math.toRadians(45)));
             poseStack.translate(-0.5f, -0.5f, -0.5f);
-            blockRenderState.submit(poseStack, output, LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0);
+            WaystonePreviewWidget.renderBlock(poseStack, bufferSource, state, BlockPos.ZERO);
             poseStack.popPose();
         });
         poseStack2d.popMatrix();

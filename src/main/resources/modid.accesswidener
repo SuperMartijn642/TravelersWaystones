@@ -1,10 +1,8 @@
-classTweaker v1 official
+classTweaker v1 named
 
-# BlockModelRenderState
-accessible field net/minecraft/client/renderer/block/BlockModelRenderState renderType Lnet/minecraft/client/renderer/rendertype/RenderType;
-# CuboidItemModelWrapper
-accessible method net/minecraft/client/renderer/item/CuboidItemModelWrapper <init> (Ljava/util/List;Lnet/minecraft/client/resources/model/geometry/QuadCollection;Lnet/minecraft/client/renderer/item/ModelRenderProperties;Lorg/joml/Matrix4fc;)V
-accessible method net/minecraft/client/renderer/item/CuboidItemModelWrapper validateAtlasUsage (Ljava/util/List;)V
+# BlockModelWrapper
+accessible method net/minecraft/client/renderer/item/BlockModelWrapper <init> (Ljava/util/List;Ljava/util/List;Lnet/minecraft/client/renderer/item/ModelRenderProperties;Ljava/util/function/Function;)V
+accessible method net/minecraft/client/renderer/item/BlockModelWrapper detectRenderType (Ljava/util/List;)Ljava/util/function/Function;
 # Minecraft
 accessible field net/minecraft/client/Minecraft rightClickDelay I
 # RenderSetup

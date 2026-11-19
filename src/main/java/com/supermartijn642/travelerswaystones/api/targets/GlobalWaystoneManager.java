@@ -225,12 +225,14 @@ public final class GlobalWaystoneManager {
         Map<ChunkPos,Set<WaystoneTarget>> byChunk();
     }
 
-    /// Result for {@link #displayClaimScreen(ServerPlayer, ServerLevel, BlockPos, boolean, Component)}.
-    /// Will be one of the following:
-    ///  - {@link Success} if the screen is shown to the player
-    ///  - {@link Denied} if claiming a target is denied by the {@link WaystoneEvents.AllowClaim} event
-    /// @see Success
-    /// @see Denied
+    /**
+     * Result for {@link #displayClaimScreen(ServerPlayer, ServerLevel, BlockPos, boolean, Component)}.
+     * Will be one of the following:<br>
+     * - {@link Success} if the screen is shown to the player<br>
+     * - {@link Denied} if claiming a target is denied by the {@link WaystoneEvents.AllowClaim} event
+     * @see Success
+     * @see Denied
+     */
     @ApiStatus.NonExtendable
     public sealed interface ClaimScreenResult {
         /**
@@ -258,12 +260,14 @@ public final class GlobalWaystoneManager {
         }
     }
 
-    /// Result for {@link #claim(ServerPlayer, ServerLevel, BlockPos, String)}.
-    /// Will be one of the following:
-    ///  - {@link Success} if the target is claimed
-    ///  - {@link Denied} if claiming a target is denied by the {@link WaystoneEvents.AllowClaim} event
-    /// @see Success
-    /// @see Denied
+    /**
+     * Result for {@link #claim(ServerPlayer, ServerLevel, BlockPos, String)}.
+     * Will be one of the following:<br>
+     * - {@link Success} if the target is claimed<br>
+     * - {@link Denied} if claiming a target is denied by the {@link WaystoneEvents.AllowClaim} event
+     * @see Success
+     * @see Denied
+     */
     @ApiStatus.NonExtendable
     public sealed interface ClaimResult {
         /**

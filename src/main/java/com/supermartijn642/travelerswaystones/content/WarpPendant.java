@@ -32,7 +32,7 @@ public class WarpPendant extends BaseItem {
     public ItemUseResult interact(ItemStack stack, Player player, InteractionHand hand, Level level){
         PersonalWaystoneManager manager = PersonalWaystoneManager.get(player);
         if(manager.all().isEmpty())
-            player.sendOverlayMessage(TextComponents.translation("travelerswaystones.pendant.no_targets").get());
+            player.displayClientMessage(TextComponents.translation("travelerswaystones.pendant.no_targets").get(), true);
         else if(level.isClientSide())
             TravelersWaystonesClient.openTeleportScreen(null, null, false);
         return ItemUseResult.success(stack);

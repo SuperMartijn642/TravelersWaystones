@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "id": "travelerswaystones:crying_obsidian_waystone"
+      "id": "travelerswaystones:cobblestone_waystone"
     },
     "title": {
-      "translate": "travelerswaystones.advancement.recipes/crying_obsidian_waystone.title"
+      "translate": "travelerswaystones.advancement.recipes/misc/cobblestone_waystone.title"
     },
     "description": {
-      "translate": "travelerswaystones.advancement.recipes/crying_obsidian_waystone.description"
+      "translate": "travelerswaystones.advancement.recipes/misc/cobblestone_waystone.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "travelerswaystones:crying_obsidian_waystone"
+        "recipe": "travelerswaystones:cobblestone_waystone"
       }
     },
     "recipe_condition": {
@@ -41,7 +41,7 @@
   ],
   "rewards": {
     "recipes": [
-      "travelerswaystones:crying_obsidian_waystone"
+      "travelerswaystones:cobblestone_waystone"
     ]
   }
 }

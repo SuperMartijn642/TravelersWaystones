@@ -119,7 +119,7 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
         this.dimension = dimension;
         this.biome = biome;
         this.pos = pos;
-        this.chunkPos = ChunkPos.containing(pos);
+        this.chunkPos = new ChunkPos(pos);
         this.block = block;
     }
 
@@ -130,7 +130,7 @@ public final class WaystoneTargetImpl implements WaystoneTarget {
     public void setBiomePosAndBlock(ResourceKey<Biome> biome, BlockPos pos, BlockState block){
         this.biome = biome;
         this.pos = pos;
-        this.chunkPos = ChunkPos.containing(pos);
+        this.chunkPos = new ChunkPos(pos);
         this.block = block;
     }
 

@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "id": "travelerswaystones:granite_waystone"
+      "id": "travelerswaystones:purpur_waystone"
     },
     "title": {
-      "translate": "travelerswaystones.advancement.recipes/granite_waystone.title"
+      "translate": "travelerswaystones.advancement.recipes/misc/purpur_waystone.title"
     },
     "description": {
-      "translate": "travelerswaystones.advancement.recipes/granite_waystone.description"
+      "translate": "travelerswaystones.advancement.recipes/misc/purpur_waystone.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "travelerswaystones:granite_waystone"
+        "recipe": "travelerswaystones:purpur_waystone"
       }
     },
     "recipe_condition": {
@@ -41,7 +41,7 @@
   ],
   "rewards": {
     "recipes": [
-      "travelerswaystones:granite_waystone"
+      "travelerswaystones:purpur_waystone"
     ]
   }
 }

@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "id": "travelerswaystones:stone_waystone"
+      "id": "travelerswaystones:obsidian_waystone"
     },
     "title": {
-      "translate": "travelerswaystones.advancement.recipes/stone_waystone.title"
+      "translate": "travelerswaystones.advancement.recipes/misc/obsidian_waystone.title"
     },
     "description": {
-      "translate": "travelerswaystones.advancement.recipes/stone_waystone.description"
+      "translate": "travelerswaystones.advancement.recipes/misc/obsidian_waystone.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "travelerswaystones:stone_waystone"
+        "recipe": "travelerswaystones:obsidian_waystone"
       }
     },
     "recipe_condition": {
@@ -41,7 +41,7 @@
   ],
   "rewards": {
     "recipes": [
-      "travelerswaystones:stone_waystone"
+      "travelerswaystones:obsidian_waystone"
     ]
   }
 }
