@@ -10,14 +10,14 @@ import com.supermartijn642.core.util.playerprofile.PlayerProfileCache;
 import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix3x2fStack;
 
 import java.util.*;
 
 public abstract class CategoryWidget extends AbstractButtonWidget {
 
-    public static final Identifier BACKGROUND = TravelersWaystones.identifier("gui/category");
+    public static final ResourceLocation BACKGROUND = TravelersWaystones.identifier("gui/category");
 
     protected final SearchWidget searchWidget;
     protected final List<TargetEntryWidget> entries = new ArrayList<>();
@@ -311,7 +311,7 @@ public abstract class CategoryWidget extends AbstractButtonWidget {
 
     public static class Recents extends CategoryWidget {
 
-        public static final Identifier ICON = TravelersWaystones.identifier("gui/recents_icon");
+        public static final ResourceLocation ICON = TravelersWaystones.identifier("gui/recents_icon");
         private static boolean manuallyExpanded = true;
 
         public Recents(int x, int y, Collection<DiscoveredWaystoneTarget> targets, SearchWidget searchWidget){

@@ -8,14 +8,14 @@ import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ARGB;
 
 import java.util.function.Consumer;
 
 public class EditNameTextField extends TextFieldWidget {
 
-    public static final Identifier BACKGROUND = TravelersWaystones.identifier("gui/name_field");
+    public static final ResourceLocation BACKGROUND = TravelersWaystones.identifier("gui/name_field");
 
     private final int properWidth, properHeight;
     private final Consumer<String> confirmListener;

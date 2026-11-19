@@ -8,14 +8,14 @@ import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import com.supermartijn642.travelerswaystones.content.moving.WaystoneMovingHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix3x2fStack;
 
 import java.util.function.Consumer;
 
 public class RelocateButton extends AbstractButtonWidget {
 
-    public static final Identifier RELOCATE_ICON = TravelersWaystones.identifier("gui/relocate_icon");
+    public static final ResourceLocation RELOCATE_ICON = TravelersWaystones.identifier("gui/relocate_icon");
 
     public RelocateButton(int x, int y, Runnable onPress){
         super(x, y, 8, 9, onPress);

@@ -14,14 +14,13 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.RenderStateShard;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.block.model.BlockStateModel;
-import net.minecraft.client.renderer.rendertype.OutputTarget;
-import net.minecraft.client.renderer.rendertype.RenderSetup;
-import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.BlockPos;
@@ -41,34 +40,36 @@ import java.util.Map;
 public class WaystoneMovingHandlerClient {
 
     /**
-     * Copy of {@link Sheets#translucentBlockItemSheet()}
+     * Copy of {@link Sheets#translucentItemSheet()}
      */
     private static final RenderType VALID_RENDER_TYPE = RenderType.create(
         "travelerswaystones_valid_placement",
-        RenderSetup.builder(RenderPipelines.ITEM_ENTITY_TRANSLUCENT_CULL)
-            .withTexture("Sampler0", TextureAtlas.LOCATION_BLOCKS)
-            .setOutputTarget(OutputTarget.ITEM_ENTITY_TARGET)
-            .useLightmap()
-            .useOverlay()
-            .affectsCrumbling()
-            .sortOnUpload()
-            .setOutline(RenderSetup.OutlineProperty.AFFECTS_OUTLINE)
-            .createRenderSetup()
+        1536,
+        true,
+        true,
+        RenderPipelines.ITEM_ENTITY_TRANSLUCENT_CULL,
+        RenderType.CompositeState.builder()
+            .setTextureState(new RenderStateShard.TextureStateShard(TextureAtlas.LOCATION_BLOCKS, false))
+            .setOutputState(RenderStateShard.ITEM_ENTITY_TARGET)
+            .setLightmapState(RenderStateShard.LIGHTMAP)
+            .setOverlayState(RenderStateShard.OVERLAY)
+            .createCompositeState(true)
     );
     /**
-     * Copy of {@link Sheets#translucentBlockItemSheet()}
+     * Copy of {@link Sheets#translucentItemSheet()}
      */
     private static final RenderType INVALID_RENDER_TYPE = RenderType.create(
         "travelerswaystones_invalid_placement",
-        RenderSetup.builder(RenderPipelines.ITEM_ENTITY_TRANSLUCENT_CULL)
-            .withTexture("Sampler0", TextureAtlas.LOCATION_BLOCKS)
-            .setOutputTarget(OutputTarget.ITEM_ENTITY_TARGET)
-            .useLightmap()
-            .useOverlay()
-            .affectsCrumbling()
-            .sortOnUpload()
-            .setOutline(RenderSetup.OutlineProperty.AFFECTS_OUTLINE)
-            .createRenderSetup()
+        1536,
+        true,
+        true,
+        RenderPipelines.ITEM_ENTITY_TRANSLUCENT_CULL,
+        RenderType.CompositeState.builder()
+            .setTextureState(new RenderStateShard.TextureStateShard(TextureAtlas.LOCATION_BLOCKS, false))
+            .setOutputState(RenderStateShard.ITEM_ENTITY_TARGET)
+            .setLightmapState(RenderStateShard.LIGHTMAP)
+            .setOverlayState(RenderStateShard.OVERLAY)
+            .createCompositeState(true)
     );
 
     static{

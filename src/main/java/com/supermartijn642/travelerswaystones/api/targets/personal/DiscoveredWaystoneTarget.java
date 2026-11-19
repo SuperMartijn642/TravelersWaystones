@@ -5,8 +5,8 @@ import com.supermartijn642.travelerswaystones.api.WaystoneType;
 import com.supermartijn642.travelerswaystones.api.targets.WaystoneTarget;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -29,13 +29,13 @@ public interface DiscoveredWaystoneTarget {
      * Teleport source for teleports from a waystone.
      * @see WaystoneEvents.AllowTeleport.Context#source()
      */
-    Identifier SOURCE_WAYSTONE = Identifier.fromNamespaceAndPath("travelerswaystones", "waystone");
+    ResourceLocation SOURCE_WAYSTONE = ResourceLocation.fromNamespaceAndPath("travelerswaystones", "waystone");
 
     /**
      * Teleport source for teleports with a warp pendant.
      * @see WaystoneEvents.AllowTeleport.Context#source()
      */
-    Identifier SOURCE_PENDANT = Identifier.fromNamespaceAndPath("travelerswaystones", "pendant");
+    ResourceLocation SOURCE_PENDANT = ResourceLocation.fromNamespaceAndPath("travelerswaystones", "pendant");
 
     /**
      * Global target that is discovered.
@@ -126,10 +126,10 @@ public interface DiscoveredWaystoneTarget {
      * @throws IllegalArgumentException if this target or {@code from} was not discovered by the player
      * @see TeleportResult
      */
-    TeleportResult teleport(ServerPlayer player, @Nullable DiscoveredWaystoneTarget from, Identifier source, boolean allowDangerous);
+    TeleportResult teleport(ServerPlayer player, @Nullable DiscoveredWaystoneTarget from, ResourceLocation source, boolean allowDangerous);
 
     /**
-     * Result for {@link #teleport(ServerPlayer, DiscoveredWaystoneTarget, Identifier, boolean)}.
+     * Result for {@link #teleport(ServerPlayer, DiscoveredWaystoneTarget, ResourceLocation, boolean)}.
      * Will be one of the following:<br>
      * - {@link Success} if the player is teleported successfully<br>
      * - {@link Dangerous} if the destination is dangerous and the {@code allowDangerous} argument was {@code false}<br>

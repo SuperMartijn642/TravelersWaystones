@@ -14,7 +14,7 @@ import net.minecraft.client.resources.model.BlockModelRotation;
 import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.client.resources.model.ResolvedModel;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.model.ComposedModelState;
 import org.joml.Vector3f;
 
@@ -27,15 +27,15 @@ import java.util.Optional;
 public class TwoBlockItemModel implements ItemModel.Unbaked {
 
     public static final MapCodec<TwoBlockItemModel> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
-        Identifier.CODEC.fieldOf("top").forGetter(m -> m.top),
-        Identifier.CODEC.fieldOf("bottom").forGetter(m -> m.bottom),
+        ResourceLocation.CODEC.fieldOf("top").forGetter(m -> m.top),
+        ResourceLocation.CODEC.fieldOf("bottom").forGetter(m -> m.bottom),
         Codec.FLOAT.optionalFieldOf("scale").xmap(o -> o.orElse(0.8f), s -> s == 0.8f ? Optional.empty() : Optional.of(s)).forGetter(m -> m.scale)
     ).apply(i, TwoBlockItemModel::new));
 
-    private final Identifier top, bottom;
+    private final ResourceLocation top, bottom;
     private final float scale;
 
-    public TwoBlockItemModel(Identifier top, Identifier bottom, float scale){
+    public TwoBlockItemModel(ResourceLocation top, ResourceLocation bottom, float scale){
         this.top = top;
         this.bottom = bottom;
         this.scale = scale;
@@ -51,14 +51,14 @@ public class TwoBlockItemModel implements ItemModel.Unbaked {
         ));
     }
 
-    private static ItemModel bakeBlockStateModel(Identifier identifier, ItemModel.BakingContext context, Transformation transformation){
+    private static ItemModel bakeBlockStateModel(ResourceLocation identifier, ItemModel.BakingContext context, Transformation transformation){
         ModelBaker baker = context.blockModelBaker();
         ResolvedModel resolvedModel = baker.getModel(identifier);
         TextureSlots textureSlots = resolvedModel.getTopTextureSlots();
-        ModelState modelTransform = new ComposedModelState(BlockModelRotation.IDENTITY, transformation);
+        ModelState modelTransform = new ComposedModelState(BlockModelRotation.X0_Y0, transformation);
         List<BakedQuad> quads = resolvedModel.bakeTopGeometry(textureSlots, baker, modelTransform).getAll();
         ModelRenderProperties properties = ModelRenderProperties.fromResolvedModel(baker, resolvedModel, textureSlots);
-        return new BlockModelWrapper(List.of(), quads, properties, BlockModelWrapper.detectRenderType(quads));
+        return new BlockModelWrapper(List.of(), quads, properties);
     }
 
     @Override

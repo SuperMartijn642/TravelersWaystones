@@ -6,13 +6,13 @@ import com.supermartijn642.core.gui.widget.WidgetRenderContext;
 import com.supermartijn642.core.gui.widget.premade.AbstractButtonWidget;
 import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Consumer;
 
 public class CancelButton extends AbstractButtonWidget {
 
-    public static final Identifier BACKGROUND = TravelersWaystones.identifier("gui/cancel_button");
+    public static final ResourceLocation BACKGROUND = TravelersWaystones.identifier("gui/cancel_button");
 
     public CancelButton(int x, int y, Runnable onPress){
         super(x, y, 19, 19, onPress);

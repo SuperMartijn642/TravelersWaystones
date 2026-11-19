@@ -10,13 +10,13 @@ import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWaystoneTarget;
 import com.supermartijn642.travelerswaystones.content.packets.TeleportPacket;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
 public class DangerousWarningWidget extends BaseWidget {
 
-    public static final Identifier DANGEROUS_ICON = TravelersWaystones.identifier("gui/dangerous_icon");
-    public static final Identifier BACKGROUND = TravelersWaystones.identifier("gui/warning_background");
+    public static final ResourceLocation DANGEROUS_ICON = TravelersWaystones.identifier("gui/dangerous_icon");
+    public static final ResourceLocation BACKGROUND = TravelersWaystones.identifier("gui/warning_background");
 
     private final @Nullable DiscoveredWaystoneTarget current;
     private final boolean trusted;

@@ -20,8 +20,8 @@ import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
@@ -57,7 +57,7 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
     private final PartitionedSet<UUID,DiscoveredWaystoneTarget> byOwner = new PartitionedSet<>(DiscoveredWaystoneTarget::owner);
     private final Map<ResourceKey<Level>,DimensionalImpl> byDimension = new Object2ReferenceOpenHashMap<>();
     private final Map<ResourceKey<Level>,Dimensional> byDimensionView = Collections.unmodifiableMap(this.byDimension);
-    private @Nullable Identifier trustedTeleportSource;
+    private @Nullable ResourceLocation trustedTeleportSource;
 
     public PersonalWaystoneManagerImpl(Player player){
         this.player = player;
@@ -104,7 +104,7 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
     }
 
     @Override
-    public void openTrustedTeleportScreen(Identifier source, @Nullable DiscoveredWaystoneTarget selected){
+    public void openTrustedTeleportScreen(ResourceLocation source, @Nullable DiscoveredWaystoneTarget selected){
         if(this.isClient)
             throw new IllegalStateException("Trusted teleport screens can only be opened from the server!");
         this.checkDiscovered(selected);
@@ -118,7 +118,7 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
     }
 
     @Nullable
-    public Identifier getTrustedTeleportSource(){
+    public ResourceLocation getTrustedTeleportSource(){
         return this.trustedTeleportSource;
     }
 

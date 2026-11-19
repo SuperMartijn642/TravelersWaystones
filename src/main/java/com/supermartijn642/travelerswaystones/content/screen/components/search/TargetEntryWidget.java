@@ -10,12 +10,12 @@ import com.supermartijn642.travelerswaystones.api.targets.personal.DiscoveredWay
 import com.supermartijn642.travelerswaystones.content.screen.components.InfoCardWidget;
 import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix3x2fStack;
 
 public class TargetEntryWidget extends AbstractButtonWidget {
 
-    public static final Identifier BACKGROUND = TravelersWaystones.identifier("gui/entry");
+    public static final ResourceLocation BACKGROUND = TravelersWaystones.identifier("gui/entry");
 
     private final DiscoveredWaystoneTarget target;
     private final SearchWidget searchWidget;
