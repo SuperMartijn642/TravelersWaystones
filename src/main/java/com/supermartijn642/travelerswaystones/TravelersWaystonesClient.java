@@ -22,6 +22,7 @@ import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
@@ -37,8 +38,12 @@ public class TravelersWaystonesClient implements ClientModInitializer {
         for(WaystoneMaterial material : WaystoneMaterial.values()){
             handler.registerBlockModelTranslucentRenderType(material::block);
             handler.registerBlockModelOverwrite(material::block, WaystoneBlockStateModel::new);
+            ResourceLocation top = TravelersWaystones.identifier("block/" + material.identifier() + "_waystone_top");
+            ResourceLocation bottom = TravelersWaystones.identifier("block/" + material.identifier() + "_waystone_bottom");
+            handler.registerModel(top);
+            handler.registerModel(bottom);
+            handler.registerItemModelOverwrite(material::item, () -> new TwoBlockItemModel(top, bottom, 0.75f));
         }
-        handler.registerItemModelType("two_block", TwoBlockItemModel.CODEC);
         ParticleFactoryRegistry.getInstance().register(TravelersWaystones.discoverParticle, ScanParticleProvider::new);
         ParticleFactoryRegistry.getInstance().register(TravelersWaystones.teleportParticle, ScanParticleProvider::new);
 

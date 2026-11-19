@@ -5,6 +5,7 @@ import com.supermartijn642.core.generator.ResourceCache;
 import com.supermartijn642.travelerswaystones.TravelersWaystones;
 import com.supermartijn642.travelerswaystones.content.block.WaystoneMaterial;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import net.minecraft.world.item.Items;
 
 public class TravelersWaystonesRecipeGenerator extends RecipeGenerator {
 
@@ -26,7 +27,7 @@ public class TravelersWaystonesRecipeGenerator extends RecipeGenerator {
             .pattern("GSG")
             .pattern(" D ")
             .input('G', ConventionalItemTags.GOLD_INGOTS)
-            .input('S', ConventionalItemTags.NETHER_STARS)
+            .input('S', Items.NETHER_STAR)
             .input('D', TravelersWaystones.dimensionalPearl)
             .unlockedBy(TravelersWaystones.dimensionalPearl);
 

@@ -1,6 +1,4 @@
 classTweaker v1 named
 
-# BlockModelWrapper
-accessible method net/minecraft/client/renderer/item/BlockModelWrapper <init> (Lnet/minecraft/client/resources/model/BakedModel;Ljava/util/List;)V
 # Minecraft
 accessible field net/minecraft/client/Minecraft rightClickDelay I
