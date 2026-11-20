@@ -34,6 +34,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
 
@@ -57,6 +58,7 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
     private final PartitionedSet<UUID,DiscoveredWaystoneTarget> byOwner = new PartitionedSet<>(DiscoveredWaystoneTarget::owner);
     private final Map<ResourceKey<Level>,DimensionalImpl> byDimension = new Object2ReferenceOpenHashMap<>();
     private final Map<ResourceKey<Level>,Dimensional> byDimensionView = Collections.unmodifiableMap(this.byDimension);
+    private final Map<ResourceKey<Level>,Set<BlockPos>> discoveredPositions = new ConcurrentHashMap<>(); // Only used on the client, read from chunk render threads
     private @Nullable Identifier trustedTeleportSource;
 
     public PersonalWaystoneManagerImpl(Player player){
@@ -288,10 +290,20 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
         return targets == null ? null : targets.getTargetAt(pos);
     }
 
+    public boolean isDiscoveredAt(ResourceKey<Level> dimension, BlockPos pos){
+        Set<BlockPos> positions = this.discoveredPositions.get(dimension);
+        return positions != null && positions.contains(pos);
+    }
+
     private DimensionalImpl forDimensionImpl(ResourceKey<Level> level){
         // As mods may hold on to the returned instance, we can't return an empty dummy as it may become outdated
         // This may lead to issues if some mod spams this for non-existent levels, but that would be that mod's fault
-        return this.byDimension.computeIfAbsent(level, _ -> new DimensionalImpl());
+        return this.byDimension.computeIfAbsent(level, _ -> {
+            DimensionalImpl dimensional = new DimensionalImpl(this.isClient);
+            if(this.isClient)
+                this.discoveredPositions.put(level, dimensional.positions);
+            return dimensional;
+        });
     }
 
     public Map<UUID,Set<DiscoveredWaystoneTarget>> byOwner(){
@@ -407,12 +419,19 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
         private final PartitionedSet<UUID,DiscoveredWaystoneTarget> byOwner = new PartitionedSet<>(DiscoveredWaystoneTarget::owner);
         private final PartitionedSet<ChunkPos,DiscoveredWaystoneTarget> byChunk = new PartitionedSet<>(t -> ((WaystoneTargetImpl)t.target()).chunkPos());
         private final IndexedSet<BlockPos,DiscoveredWaystoneTarget> byPos = new IndexedSet<>(DiscoveredWaystoneTarget::pos);
+        private final @Nullable Set<BlockPos> positions;
+
+        private DimensionalImpl(boolean isClient){
+            this.positions = isClient ? ConcurrentHashMap.newKeySet() : null;
+        }
 
         private void add(DiscoveredWaystoneTarget target){
             this.all.add(target);
             this.byOwner.add(target);
             this.byChunk.add(target);
             this.byPos.add(target);
+            if(this.positions != null)
+                this.positions.add(target.pos());
         }
 
         private void remove(DiscoveredWaystoneTarget target){
@@ -420,6 +439,8 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
             this.byOwner.remove(target);
             this.byChunk.remove(target);
             this.byPos.remove(target);
+            if(this.positions != null)
+                this.positions.remove(target.pos());
         }
 
         public void copyFrom(DimensionalImpl other){
@@ -428,6 +449,10 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
             this.byOwner.addAll(other.byOwner);
             this.byChunk.addAll(other.byChunk);
             this.byPos.addAll(other.byPos);
+            if(this.positions != null){
+                for(DiscoveredWaystoneTarget target : other.all)
+                    this.positions.add(target.pos());
+            }
         }
 
         private void clear(){
@@ -435,6 +460,8 @@ public class PersonalWaystoneManagerImpl implements PersonalWaystoneManager {
             this.byOwner.clear();
             this.byChunk.clear();
             this.byPos.clear();
+            if(this.positions != null)
+                this.positions.clear();
         }
 
         @Override
