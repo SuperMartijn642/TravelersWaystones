@@ -1,0 +1,38 @@
+name: API request
+title: "[API] Your title here"
+description: Request an addition to the API
+labels: api request
+body:
+  - type: markdown
+    attributes:
+      value: "**Please check the [wiki](https://github.com/SuperMartijn642/TravelersWaystones/wiki)
+        first to see whether the API already covers what you need.**"
+  - type: textarea
+    id: textarea-0
+    attributes:
+      label: Relevant Minecraft versions and other mods/projects
+      description: Please mention the Minecraft versions and mod loaders you are
+        working with, and the mod or project you want to use the API for. Please
+        also shortly explain what the project does if relevant to the request.
+  - type: textarea
+    id: textarea-1
+    attributes:
+      label: Description of the API addition
+      description: Please describe what you would like to be able to do with the API.
+        It is often clearest if you describe what you are trying to achieve and
+        what is currently missing or not possible.
+    validations:
+      required: true
+  - type: textarea
+    id: textarea-2
+    attributes:
+      label: Suggested API
+      description: If you have an idea of what the API could look like, such as new
+        methods, events or classes, please share it here. Otherwise, you can omit
+        this section.
+  - type: textarea
+    id: textarea-3
+    attributes:
+      label: Additional context
+      description: Please share any other context or code snippets about the request
+        here.
