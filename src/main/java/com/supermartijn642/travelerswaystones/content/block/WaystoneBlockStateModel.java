@@ -2,7 +2,6 @@ package com.supermartijn642.travelerswaystones.content.block;
 
 import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.travelerswaystones.api.WaystoneType;
-import com.supermartijn642.travelerswaystones.api.targets.personal.PersonalWaystoneManager;
 import com.supermartijn642.travelerswaystones.content.targets.personal.PersonalWaystoneManagerImpl;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import net.minecraft.client.resources.model.BakedModel;
@@ -31,11 +30,11 @@ public class WaystoneBlockStateModel extends DelegateBakedModel {
         Player player = ClientUtils.getPlayer();
         if(player == null)
             return false;
-        PersonalWaystoneManager manager = PersonalWaystoneManagerImpl.get(player, false);
+        PersonalWaystoneManagerImpl manager = (PersonalWaystoneManagerImpl)PersonalWaystoneManagerImpl.get(player, false);
         if(manager == null)
             return false;
         ResourceKey<Level> dimension = level instanceof Level ? ((Level)level).dimension() : player.level().dimension();
-        return manager.getTargetAt(dimension, type.getTargetPos(state, pos)) != null;
+        return manager.isDiscoveredAt(dimension, type.getTargetPos(state, pos));
     }
 
     public WaystoneBlockStateModel(BakedModel original){
