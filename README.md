@@ -17,6 +17,8 @@ teleports you to your waystones from anywhere.
 
 <img width="640" src="assets/discovering-and-teleporting.gif" alt="A player discovers a waystone, then opens the teleport screen at another waystone and teleports to it">
 
+![Separator](assets/separator-deepslate-bricks-diamond.webp)
+
 ### Features
 - Waystones in 19 different stone types
 - Claim a waystone by giving it a name, other players discover it by right-clicking it
@@ -28,6 +30,8 @@ teleports you to your waystones from anywhere.
 
 For the full description and recipes, see the <img height="16" src="https://cdn.simpleicons.org/modrinth/00AF5C" alt=""> [Modrinth](https://modrinth.com/mod/travelers-waystones)
 or <img height="16" src="https://cdn.simpleicons.org/curseforge/F16436" alt=""> [CurseForge](https://www.curseforge.com/minecraft/mc-mods/travelers-waystones) page.
+
+![Separator](assets/separator-mud-bricks-diamond.webp)
 
 ### For Developers
 See the [wiki](https://github.com/SuperMartijn642/TravelersWaystones/wiki) for how to add the API as a dependency and for
@@ -42,6 +46,8 @@ examples, such as a map integration. The API is in `com.supermartijn642.traveler
 
 The API is the same on every version, apart from Minecraft's own class renames. Missing something? Feel free to open an
 issue request for it.
+
+![Separator](assets/separator-polished-blackstone-bricks-diamond.webp)
 
 ### Issues and Suggestions
 Found a bug or have a suggestion? Please open an [issue](https://github.com/SuperMartijn642/TravelersWaystones/issues).
