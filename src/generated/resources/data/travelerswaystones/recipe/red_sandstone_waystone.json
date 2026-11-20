@@ -6,7 +6,7 @@
     "SSS"
   ],
   "key": {
-    "S": "minecraft:stone",
+    "S": "minecraft:red_sandstone",
     "D": "travelerswaystones:dimensional_pearl"
   },
   "result": {

@@ -1,7 +1,7 @@
 {
   "parent": "travelerswaystones:block/waystone_top",
   "textures": {
-    "waystone": "travelerswaystones:block/tuff_waystone_top",
+    "waystone": "travelerswaystones:block/tuff_brick_waystone_top",
     "particle": "#waystone"
   }
 }

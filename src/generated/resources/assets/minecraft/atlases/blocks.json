@@ -2,10 +2,6 @@
   "sources": [
     {
       "type": "minecraft:single",
-      "resource": "travelerswaystones:block/tuff_waystone_top"
-    },
-    {
-      "type": "minecraft:single",
       "resource": "travelerswaystones:item/warp_pendant"
     },
     {
@@ -66,10 +62,6 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "travelerswaystones:block/stone_bricks_waystone_bottom"
-    },
-    {
-      "type": "minecraft:single",
       "resource": "travelerswaystones:block/red_nether_brick_waystone_bottom"
     },
     {
@@ -106,15 +98,15 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "travelerswaystones:block/tuff_waystone_bottom"
-    },
-    {
-      "type": "minecraft:single",
       "resource": "travelerswaystones:block/cobblestone_waystone_top"
     },
     {
       "type": "minecraft:single",
       "resource": "travelerswaystones:block/red_sandstone_waystone_bottom"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "travelerswaystones:block/tuff_brick_waystone_bottom"
     },
     {
       "type": "minecraft:single",
@@ -158,7 +150,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "travelerswaystones:block/stone_bricks_waystone_top"
+      "resource": "travelerswaystones:block/tuff_brick_waystone_top"
     },
     {
       "type": "minecraft:single",
