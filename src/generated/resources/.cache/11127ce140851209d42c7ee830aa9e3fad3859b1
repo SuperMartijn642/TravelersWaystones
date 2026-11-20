@@ -1,4 +1,4 @@
-// 1.21.11	2026-11-19T02:49:42.8495522	Core Lib Generators
+// 1.21.11	2026-11-20T16:36:45.3033489	Core Lib Generators
 812e8148cfa43e32d236794d097cbdcbb9343ac5 assets/minecraft/atlases/blocks.json
 f3735c8180832ae96659360ef958a436ff720386 assets/minecraft/atlases/gui.json
 ddf17ccbff063c99965a91385d9689b0eddede7c assets/travelerswaystones/blockstates/andesite_waystone.json
@@ -41,7 +41,7 @@ cc877ac03131ebe42c58832bd9193096e588a492 assets/travelerswaystones/items/sandsto
 d2ac34063a88e6ae563d1c23e3a83290967038a9 assets/travelerswaystones/items/stone_waystone.json
 cdf66e0380cb9662604455a028c8a6a401cea109 assets/travelerswaystones/items/tuff_brick_waystone.json
 5fd1c7dad1113837b472959651d8ca05b9e715bd assets/travelerswaystones/items/warp_pendant.json
-37b36b516b6f7271c977ae2c7157e6b4da3c4fb6 assets/travelerswaystones/lang/en_us.json
+129627de69e43c01a5277070a47199d0644de0e1 assets/travelerswaystones/lang/en_us.json
 87973683b950bf299d4d5fe1f45ab5b1e08532cb assets/travelerswaystones/models/block/andesite_waystone_bottom.json
 68e585bf5c78ac33101dc27fa2da467b4e446a19 assets/travelerswaystones/models/block/andesite_waystone_bottom_off.json
 d3c6083238c19ebb6da1192cb0cc38fc3aff0a1c assets/travelerswaystones/models/block/andesite_waystone_top.json
